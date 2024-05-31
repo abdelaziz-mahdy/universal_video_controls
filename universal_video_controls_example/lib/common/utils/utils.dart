@@ -1,25 +1,22 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:video_player/video_player.dart';
 
-Future<void> showFilePicker(
-    BuildContext context, VideoPlayerController controller) async {
+import 'utils_import.dart';
+
+Future<void> showFilePicker(BuildContext context, void Function(VideoPlayerController) onControllerCreated) async {
   final result = await FilePicker.platform.pickFiles(type: FileType.any);
   if (result?.files.isNotEmpty ?? false) {
     final file = result!.files.first;
     if (file.path != null) {
-      controller = VideoPlayerController.file(File(file.path!))
-        ..initialize().then((_) {
-          controller.play();
-        });
+      final controller = await initializeVideoPlayer(file.path!);
+      onControllerCreated(controller);
+      controller.play();
     }
   }
 }
 
-Future<void> showURIPicker(
-    BuildContext context, VideoPlayerController controller) async {
+Future<void> showURIPicker(BuildContext context, void Function(VideoPlayerController) onControllerCreated) async {
   final key = GlobalKey<FormState>();
   final src = TextEditingController();
   await showModalBottomSheet(
@@ -52,12 +49,11 @@ Future<void> showURIPicker(
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16.0),
                 child: ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
                     if (key.currentState!.validate()) {
-                      controller = VideoPlayerController.network(src.text)
-                        ..initialize().then((_) {
-                          controller.play();
-                        });
+                      final controller = await initializeVideoPlayer(src.text);
+                      onControllerCreated(controller);
+                      controller.play();
                       Navigator.of(context).maybePop();
                     }
                   },

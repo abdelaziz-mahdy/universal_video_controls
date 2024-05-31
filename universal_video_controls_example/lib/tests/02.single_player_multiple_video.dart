@@ -1,66 +1,76 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:video_player/video_player.dart';
 
-import 'package:media_kit/media_kit.dart';
-import 'package:media_kit_video/media_kit_video.dart';
-
-import '../common/globals.dart';
-import '../common/widgets.dart';
 import '../common/sources/sources.dart';
+import '../common/utils/utils.dart';
 
 class SinglePlayerMultipleVideoScreen extends StatefulWidget {
   const SinglePlayerMultipleVideoScreen({Key? key}) : super(key: key);
 
   @override
-  State<SinglePlayerMultipleVideoScreen> createState() =>
-      _SinglePlayerMultipleVideoScreenState();
+  State<SinglePlayerMultipleVideoScreen> createState() => _SinglePlayerMultipleVideoScreenState();
 }
 
-class _SinglePlayerMultipleVideoScreenState
-    extends State<SinglePlayerMultipleVideoScreen> {
-  late final Player player = Player();
-  late final VideoController controller = VideoController(
-    player,
-    configuration: configuration.value,
-  );
+class _SinglePlayerMultipleVideoScreenState extends State<SinglePlayerMultipleVideoScreen> {
+  late VideoPlayerController _controller;
+  bool _isInitialized = false;
 
   @override
   void initState() {
     super.initState();
-    player.open(Media(sources[0]));
-    player.stream.error.listen((error) => debugPrint(error));
+    _initializeVideoPlayer(sources[0]);
+  }
+
+  void _initializeVideoPlayer(String source) {
+    _controller = VideoPlayerController.file(File(source))
+      ..initialize().then((_) {
+        setState(() {
+          _isInitialized = true;
+        });
+      });
+    _controller.addListener(() {
+      if (_controller.value.hasError) {
+        debugPrint(_controller.value.errorDescription);
+      }
+    });
   }
 
   @override
   void dispose() {
-    player.dispose();
+    _controller.dispose();
     super.dispose();
   }
 
   List<Widget> get items => [
-        for (int i = 0; i < sources.length; i++)
-          ListTile(
-            title: Text(
-              'Video $i',
-              style: const TextStyle(
-                fontSize: 14.0,
-              ),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
-            onTap: () {
-              player.open(Media(sources[i]));
-            },
+    for (int i = 0; i < sources.length; i++)
+      ListTile(
+        title: Text(
+          'Video $i',
+          style: const TextStyle(
+            fontSize: 14.0,
           ),
-      ];
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        ),
+        onTap: () {
+          setState(() {
+            _controller.dispose();
+            _isInitialized = false;
+            _initializeVideoPlayer(sources[i]);
+          });
+        },
+      ),
+  ];
 
   @override
   Widget build(BuildContext context) {
-    final horizontal =
-        MediaQuery.of(context).size.width > MediaQuery.of(context).size.height;
+    final horizontal = MediaQuery.of(context).size.width > MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('package:media_kit'),
+        title: const Text('Video Player'),
       ),
       floatingActionButton: Row(
         mainAxisSize: MainAxisSize.min,
@@ -71,11 +81,13 @@ class _SinglePlayerMultipleVideoScreenState
             heroTag: 'file',
             tooltip: 'Open [File]',
             onPressed: () async {
-              final result = await FilePicker.platform.pickFiles(
-                type: FileType.any,
-              );
+              final result = await FilePicker.platform.pickFiles(type: FileType.any);
               if (result?.files.isNotEmpty ?? false) {
-                await player.open(Media(result!.files.first.path!));
+                setState(() {
+                  _controller.dispose();
+                  _isInitialized = false;
+                  _initializeVideoPlayer(result!.files.first.path!);
+                });
               }
             },
             child: const Icon(Icons.file_open),
@@ -84,7 +96,7 @@ class _SinglePlayerMultipleVideoScreenState
           FloatingActionButton(
             heroTag: 'uri',
             tooltip: 'Open [Uri]',
-            onPressed: () => showURIPicker(context, player),
+            onPressed: () => showURIPicker(context, _controller),
             child: const Icon(Icons.link),
           ),
         ],
@@ -105,35 +117,9 @@ class _SinglePlayerMultipleVideoScreenState
                             color: Colors.black,
                             clipBehavior: Clip.antiAlias,
                             margin: const EdgeInsets.all(32.0),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                Expanded(
-                                  child: Row(
-                                    children: [
-                                      Expanded(
-                                        child: Video(controller: controller),
-                                      ),
-                                      Expanded(
-                                        child: Video(controller: controller),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Row(
-                                    children: [
-                                      Expanded(
-                                        child: Video(controller: controller),
-                                      ),
-                                      Expanded(
-                                        child: Video(controller: controller),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
+                            child: _isInitialized
+                                ? VideoPlayer(_controller)
+                                : const Center(child: CircularProgressIndicator()),
                           ),
                         ),
                         const SizedBox(height: 32.0),
@@ -151,52 +137,13 @@ class _SinglePlayerMultipleVideoScreenState
               )
             : ListView(
                 children: [
-                  Container(
-                    color: Colors.black,
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height * 9.0 / 16.0,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Expanded(
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: Video(
-                                  controller: controller,
-                                  controls: NoVideoControls,
-                                ),
-                              ),
-                              Expanded(
-                                child: Video(
-                                  controller: controller,
-                                  controls: NoVideoControls,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Expanded(
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: Video(
-                                  controller: controller,
-                                  controls: NoVideoControls,
-                                ),
-                              ),
-                              Expanded(
-                                child: Video(
-                                  controller: controller,
-                                  controls: NoVideoControls,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                  if (_isInitialized)
+                    AspectRatio(
+                      aspectRatio: _controller.value.aspectRatio,
+                      child: VideoPlayer(_controller),
+                    )
+                  else
+                    const Center(child: CircularProgressIndicator()),
                   ...items,
                 ],
               ),

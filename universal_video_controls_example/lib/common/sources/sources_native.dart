@@ -5,7 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:path_provider/path_provider.dart' as path;
 
 /// List of sample videos available for playback.
-final sources = <String>[];
+final List<String> sources = [];
 
 Future<void> prepareSources() async {
   final uris = [
@@ -40,11 +40,14 @@ Future<void> prepareSources() async {
   }
 }
 
+List<String> getSources() => sources;
+
 String convertBytesToURL(Uint8List bytes) {
-  // N/A
   throw UnimplementedError();
 }
 
 final ValueNotifier<String> progress = ValueNotifier<String>(
   'Downloading sample video 1 of 5...',
 );
+
+ValueNotifier<String> getProgress() => progress;
