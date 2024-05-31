@@ -64,11 +64,11 @@ const kDefaultMaterialVideoControlsThemeDataFullscreen =
   speedUpIndicatorBuilder: null,
   primaryButtonBar: [
     Spacer(flex: 2),
-    MaterialSkipPreviousButton(),
+    // MaterialSkipPreviousButton(),
     Spacer(),
     MaterialPlayOrPauseButton(iconSize: 56.0),
     Spacer(),
-    MaterialSkipNextButton(),
+    // MaterialSkipNextButton(),
     Spacer(flex: 2),
   ],
   topButtonBar: [],
@@ -298,11 +298,11 @@ class MaterialVideoControlsThemeData {
     this.speedUpIndicatorBuilder,
     this.primaryButtonBar = const [
       Spacer(flex: 2),
-      MaterialSkipPreviousButton(),
+      // MaterialSkipPreviousButton(),
       Spacer(),
       MaterialPlayOrPauseButton(iconSize: 48.0),
       Spacer(),
-      MaterialSkipNextButton(),
+      // MaterialSkipNextButton(),
       Spacer(flex: 2),
     ],
     this.topButtonBar = const [],
@@ -506,7 +506,7 @@ class _MaterialVideoControlsState extends State<_MaterialVideoControls> {
   bool showSwipeDuration = false; // Whether to show the seek duration overlay
 
   bool _speedUpIndicator = false;
-  late /* private */ var playlist = player(context).state.playlist;
+  // late /* private */ var playlist = player(context).state.playlist;
   late bool buffering = player(context).state.buffering;
 
   bool _mountSeekBackwardButton = false;
@@ -562,13 +562,13 @@ class _MaterialVideoControlsState extends State<_MaterialVideoControls> {
     if (subscriptions.isEmpty) {
       subscriptions.addAll(
         [
-          player(context).stream.playlist.listen(
-            (event) {
-              setState(() {
-                playlist = event;
-              });
-            },
-          ),
+          // player(context).stream.playlist.listen(
+          //   (event) {
+          //     setState(() {
+          //       playlist = event;
+          //     });
+          //   },
+          // ),
           player(context).stream.buffering.listen(
             (event) {
               setState(() {
@@ -698,8 +698,8 @@ class _MaterialVideoControlsState extends State<_MaterialVideoControls> {
 
   void onHorizontalDragEnd() {
     if (swipeDuration != 0) {
-      Duration newPosition = player(context).state.position +
-          Duration(seconds: swipeDuration);
+      Duration newPosition =
+          player(context).state.position + Duration(seconds: swipeDuration);
       newPosition = newPosition.clamp(
         Duration.zero,
         player(context).state.duration,
@@ -1393,11 +1393,9 @@ class _MaterialVideoControlsState extends State<_MaterialVideoControls> {
                                       setState(() {
                                         _hideSeekBackwardButton = true;
                                       });
-                                      var result = player(context)
-                                              .player
-                                              .state
-                                              .position -
-                                          value;
+                                      var result =
+                                          player(context).state.position -
+                                              value;
                                       result = result.clamp(
                                         Duration.zero,
                                         player(context).state.duration,
@@ -1443,11 +1441,9 @@ class _MaterialVideoControlsState extends State<_MaterialVideoControls> {
                                         _hideSeekForwardButton = true;
                                       });
 
-                                      var result = player(context)
-                                              .player
-                                              .state
-                                              .position +
-                                          value;
+                                      var result =
+                                          player(context).state.position +
+                                              value;
                                       result = result.clamp(
                                         Duration.zero,
                                         player(context).state.duration,
@@ -1795,77 +1791,77 @@ class MaterialPlayOrPauseButtonState extends State<MaterialPlayOrPauseButton>
   }
 }
 
-// BUTTON: SKIP NEXT
+// // BUTTON: SKIP NEXT
 
-/// Material design skip next button.
-class MaterialSkipNextButton extends StatelessWidget {
-  /// Icon for [MaterialSkipNextButton].
-  final Widget? icon;
+// /// Material design skip next button.
+// class MaterialSkipNextButton extends StatelessWidget {
+//   /// Icon for [MaterialSkipNextButton].
+//   final Widget? icon;
 
-  /// Overriden icon size for [MaterialSkipNextButton].
-  final double? iconSize;
+//   /// Overriden icon size for [MaterialSkipNextButton].
+//   final double? iconSize;
 
-  /// Overriden icon color for [MaterialSkipNextButton].
-  final Color? iconColor;
+//   /// Overriden icon color for [MaterialSkipNextButton].
+//   final Color? iconColor;
 
-  const MaterialSkipNextButton({
-    Key? key,
-    this.icon,
-    this.iconSize,
-    this.iconColor,
-  }) : super(key: key);
+//   const MaterialSkipNextButton({
+//     Key? key,
+//     this.icon,
+//     this.iconSize,
+//     this.iconColor,
+//   }) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    if (!_theme(context).automaticallyImplySkipNextButton ||
-        (player(context).state.playlist.medias.length > 1 &&
-            _theme(context).automaticallyImplySkipNextButton)) {
-      return IconButton(
-        onPressed: player(context).next,
-        icon: icon ?? const Icon(Icons.skip_next),
-        iconSize: iconSize ?? _theme(context).buttonBarButtonSize,
-        color: iconColor ?? _theme(context).buttonBarButtonColor,
-      );
-    }
-    return const SizedBox.shrink();
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     if (!_theme(context).automaticallyImplySkipNextButton ||
+//         (player(context).state.playlist.medias.length > 1 &&
+//             _theme(context).automaticallyImplySkipNextButton)) {
+//       return IconButton(
+//         onPressed: player(context).next,
+//         icon: icon ?? const Icon(Icons.skip_next),
+//         iconSize: iconSize ?? _theme(context).buttonBarButtonSize,
+//         color: iconColor ?? _theme(context).buttonBarButtonColor,
+//       );
+//     }
+//     return const SizedBox.shrink();
+//   }
+// }
 
-// BUTTON: SKIP PREVIOUS
+// // BUTTON: SKIP PREVIOUS
 
-/// Material design skip previous button.
-class MaterialSkipPreviousButton extends StatelessWidget {
-  /// Icon for [MaterialSkipPreviousButton].
-  final Widget? icon;
+// /// Material design skip previous button.
+// class MaterialSkipPreviousButton extends StatelessWidget {
+//   /// Icon for [MaterialSkipPreviousButton].
+//   final Widget? icon;
 
-  /// Overriden icon size for [MaterialSkipPreviousButton].
-  final double? iconSize;
+//   /// Overriden icon size for [MaterialSkipPreviousButton].
+//   final double? iconSize;
 
-  /// Overriden icon color for [MaterialSkipPreviousButton].
-  final Color? iconColor;
+//   /// Overriden icon color for [MaterialSkipPreviousButton].
+//   final Color? iconColor;
 
-  const MaterialSkipPreviousButton({
-    Key? key,
-    this.icon,
-    this.iconSize,
-    this.iconColor,
-  }) : super(key: key);
+//   const MaterialSkipPreviousButton({
+//     Key? key,
+//     this.icon,
+//     this.iconSize,
+//     this.iconColor,
+//   }) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    if (!_theme(context).automaticallyImplySkipPreviousButton ||
-        (player(context).state.playlist.medias.length > 1 &&
-            _theme(context).automaticallyImplySkipPreviousButton)) {
-      return IconButton(
-        onPressed: player(context).previous,
-        icon: icon ?? const Icon(Icons.skip_previous),
-        iconSize: iconSize ?? _theme(context).buttonBarButtonSize,
-        color: iconColor ?? _theme(context).buttonBarButtonColor,
-      );
-    }
-    return const SizedBox.shrink();
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     if (!_theme(context).automaticallyImplySkipPreviousButton ||
+//         (player(context).state.playlist.medias.length > 1 &&
+//             _theme(context).automaticallyImplySkipPreviousButton)) {
+//       return IconButton(
+//         onPressed: player(context).previous,
+//         icon: icon ?? const Icon(Icons.skip_previous),
+//         iconSize: iconSize ?? _theme(context).buttonBarButtonSize,
+//         color: iconColor ?? _theme(context).buttonBarButtonColor,
+//       );
+//     }
+//     return const SizedBox.shrink();
+//   }
+// }
 
 // BUTTON: FULL SCREEN
 

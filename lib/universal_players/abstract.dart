@@ -22,24 +22,18 @@ abstract class AbstractPlayer {
 
   /// Current state of the player available as listenable [Stream]s.
   late PlayerStream stream = PlayerStream(
-    playingController.stream.distinct(
-      (previous, current) => previous == current,
-    ),
-    positionController.stream.distinct(
-      (previous, current) => previous == current,
-    ),
-    widthController.stream.distinct(
-      (previous, current) => previous == current,
-    ),
-    heightController.stream.distinct(
-      (previous, current) => previous == current,
-    ),
-    subtitleController.stream.distinct(
-      (previous, current) => ListEquality().equals(previous, current),
-    ),
-    bufferingController.stream.distinct(
-      (previous, current) => previous == current,
-    ),
+    playingController.stream.distinct((previous, current) => previous == current),
+    positionController.stream.distinct((previous, current) => previous == current),
+    widthController.stream.distinct((previous, current) => previous == current),
+    heightController.stream.distinct((previous, current) => previous == current),
+    subtitleController.stream.distinct((previous, current) => ListEquality().equals(previous, current)),
+    bufferingController.stream.distinct((previous, current) => previous == current),
+    bufferController.stream.distinct((previous, current) => previous == current),
+    durationController.stream.distinct((previous, current) => previous == current),
+    // playlistController.stream.distinct((previous, current) => ListEquality().equals(previous, current)),
+    volumeController.stream.distinct((previous, current) => previous == current),
+    rateController.stream.distinct((previous, current) => previous == current),
+    completedController.stream.distinct((previous, current) => previous == current),
   );
 
   @mustCallSuper
@@ -52,6 +46,12 @@ abstract class AbstractPlayer {
         heightController.close(),
         subtitleController.close(),
         bufferingController.close(),
+        bufferController.close(),
+        durationController.close(),
+        // playlistController.close(),
+        volumeController.close(),
+        rateController.close(),
+        completedController.close(),
       ],
     );
   }
@@ -60,8 +60,36 @@ abstract class AbstractPlayer {
     throw UnimplementedError('[AbstractPlayer.play] is not implemented');
   }
 
+  Future<void> playOrPause() {
+    throw UnimplementedError('[AbstractPlayer.playOrPause] is not implemented');
+  }
+
   Future<void> pause() {
     throw UnimplementedError('[AbstractPlayer.pause] is not implemented');
+  }
+
+  Future<void> seek(Duration duration) {
+    throw UnimplementedError('[AbstractPlayer.seek] is not implemented');
+  }
+
+  Future<void> setVolume(double volume) {
+    throw UnimplementedError('[AbstractPlayer.setVolume] is not implemented');
+  }
+
+  Future<void> next() {
+    throw UnimplementedError('[AbstractPlayer.next] is not implemented');
+  }
+
+  Future<void> previous() {
+    throw UnimplementedError('[AbstractPlayer.previous] is not implemented');
+  }
+
+  Future<void> setRate(double rate) {
+    throw UnimplementedError('[AbstractPlayer.setRate] is not implemented');
+  }
+
+  bool isPlaylist() {
+    throw UnimplementedError('[AbstractPlayer.isPlaylist] is not implemented');
   }
 
   @protected
@@ -81,6 +109,24 @@ abstract class AbstractPlayer {
 
   @protected
   final StreamController<bool> bufferingController = StreamController<bool>.broadcast();
+
+  @protected
+  final StreamController<Duration> bufferController = StreamController<Duration>.broadcast();
+
+  @protected
+  final StreamController<Duration> durationController = StreamController<Duration>.broadcast();
+
+  // @protected
+  // final StreamController<List<Media>> playlistController = StreamController<List<Media>>.broadcast();
+
+  @protected
+  final StreamController<double> volumeController = StreamController<double>.broadcast();
+
+  @protected
+  final StreamController<double> rateController = StreamController<double>.broadcast();
+
+  @protected
+  final StreamController<bool> completedController = StreamController<bool>.broadcast();
 
   /// [Completer] to wait for initialization of this instance.
   final Completer<void> completer = Completer<void>();
@@ -119,6 +165,24 @@ class PlayerState {
   /// Whether buffering or not.
   final bool buffering;
 
+  /// Current buffer duration.
+  final Duration buffer;
+
+  /// Duration of the media.
+  final Duration duration;
+
+  // /// Current playlist.
+  // final List<Media> playlist;
+
+  /// Current volume.
+  final double volume;
+
+  /// Current playback rate.
+  final double rate;
+
+  /// Whether playback is completed or not.
+  final bool completed;
+
   /// {@macro player_state}
   const PlayerState({
     this.playing = false,
@@ -127,6 +191,12 @@ class PlayerState {
     this.height,
     this.subtitle = const ['', ''],
     this.buffering = false,
+    this.buffer = Duration.zero,
+    this.duration = Duration.zero,
+    // this.playlist = const [],
+    this.volume = 1.0,
+    this.rate = 1.0,
+    this.completed = false,
   });
 
   PlayerState copyWith({
@@ -136,6 +206,12 @@ class PlayerState {
     int? height,
     List<String>? subtitle,
     bool? buffering,
+    Duration? buffer,
+    Duration? duration,
+    // List<Media>? playlist,
+    double? volume,
+    double? rate,
+    bool? completed,
   }) {
     return PlayerState(
       playing: playing ?? this.playing,
@@ -144,6 +220,12 @@ class PlayerState {
       height: height ?? this.height,
       subtitle: subtitle ?? this.subtitle,
       buffering: buffering ?? this.buffering,
+      buffer: buffer ?? this.buffer,
+      duration: duration ?? this.duration,
+      // playlist: playlist ?? this.playlist,
+      volume: volume ?? this.volume,
+      rate: rate ?? this.rate,
+      completed: completed ?? this.completed,
     );
   }
 
@@ -154,7 +236,13 @@ class PlayerState {
       'width: $width, '
       'height: $height, '
       'subtitle: $subtitle, '
-      'buffering: $buffering'
+      'buffering: $buffering, '
+      'buffer: $buffer, '
+      'duration: $duration, '
+      // 'playlist: $playlist, '
+      'volume: $volume, '
+      'rate: $rate, '
+      'completed: $completed'
       ')';
 }
 
@@ -185,6 +273,24 @@ class PlayerStream {
   /// Whether buffering or not.
   final Stream<bool> buffering;
 
+  /// Current buffer duration.
+  final Stream<Duration> buffer;
+
+  /// Duration of the media.
+  final Stream<Duration> duration;
+
+  // /// Current playlist.
+  // final Stream<List<Media>> playlist;
+
+  /// Current volume.
+  final Stream<double> volume;
+
+  /// Current playback rate.
+  final Stream<double> rate;
+
+  /// Whether playback is completed or not.
+  final Stream<bool> completed;
+
   /// {@macro player_stream}
   const PlayerStream(
     this.playing,
@@ -193,5 +299,11 @@ class PlayerStream {
     this.height,
     this.subtitle,
     this.buffering,
+    this.buffer,
+    this.duration,
+    // this.playlist,
+    this.volume,
+    this.rate,
+    this.completed,
   );
 }

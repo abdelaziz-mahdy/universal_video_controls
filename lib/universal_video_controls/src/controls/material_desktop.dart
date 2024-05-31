@@ -198,9 +198,9 @@ class MaterialDesktopVideoControlsThemeData {
     this.topButtonBar = const [],
     this.topButtonBarMargin = const EdgeInsets.symmetric(horizontal: 16.0),
     this.bottomButtonBar = const [
-      MaterialDesktopSkipPreviousButton(),
+      // MaterialDesktopSkipPreviousButton(),
       MaterialDesktopPlayOrPauseButton(),
-      MaterialDesktopSkipNextButton(),
+      // MaterialDesktopSkipNextButton(),
       MaterialDesktopVolumeButton(),
       MaterialDesktopPositionIndicator(),
       Spacer(),
@@ -379,7 +379,7 @@ class _MaterialDesktopVideoControlsState
 
   Timer? _timer;
 
-  late /* private */ var playlist = player(context).state.playlist;
+  // late /* private */ var playlist = player(context).state.playlist;
   late bool buffering = player(context).state.buffering;
 
   DateTime last = DateTime.now();
@@ -406,13 +406,13 @@ class _MaterialDesktopVideoControlsState
     if (subscriptions.isEmpty) {
       subscriptions.addAll(
         [
-          player(context).stream.playlist.listen(
-            (event) {
-              setState(() {
-                playlist = event;
-              });
-            },
-          ),
+          // player(context).stream.playlist.listen(
+          //   (event) {
+          //     setState(() {
+          //       playlist = event;
+          //     });
+          //   },
+          // ),
           player(context).stream.buffering.listen(
             (event) {
               setState(() {
@@ -587,14 +587,12 @@ class _MaterialDesktopVideoControlsState
                           final volume =
                               player(context).state.volume - 5.0;
                           player(context)
-                              .player
                               .setVolume(volume.clamp(0.0, 100.0));
                         }
                         if (e.delta.dy < 0) {
                           final volume =
                               player(context).state.volume + 5.0;
                           player(context)
-                              .player
                               .setVolume(volume.clamp(0.0, 100.0));
                         }
                       }
@@ -635,14 +633,12 @@ class _MaterialDesktopVideoControlsState
                           final volume =
                               player(context).state.volume - 5.0;
                           player(context)
-                              .player
                               .setVolume(volume.clamp(0.0, 100.0));
                         }
                         if (e.delta.dy < 0) {
                           final volume =
                               player(context).state.volume + 5.0;
                           player(context)
-                              .player
                               .setVolume(volume.clamp(0.0, 100.0));
                         }
                       }
@@ -1179,77 +1175,77 @@ class MaterialDesktopPlayOrPauseButtonState
   }
 }
 
-// BUTTON: SKIP NEXT
+// // BUTTON: SKIP NEXT
 
-/// MaterialDesktop design skip next button.
-class MaterialDesktopSkipNextButton extends StatelessWidget {
-  /// Icon for [MaterialDesktopSkipNextButton].
-  final Widget? icon;
+// /// MaterialDesktop design skip next button.
+// class MaterialDesktopSkipNextButton extends StatelessWidget {
+//   /// Icon for [MaterialDesktopSkipNextButton].
+//   final Widget? icon;
 
-  /// Overriden icon size for [MaterialDesktopSkipNextButton].
-  final double? iconSize;
+//   /// Overriden icon size for [MaterialDesktopSkipNextButton].
+//   final double? iconSize;
 
-  /// Overriden icon color for [MaterialDesktopSkipNextButton].
-  final Color? iconColor;
+//   /// Overriden icon color for [MaterialDesktopSkipNextButton].
+//   final Color? iconColor;
 
-  const MaterialDesktopSkipNextButton({
-    Key? key,
-    this.icon,
-    this.iconSize,
-    this.iconColor,
-  }) : super(key: key);
+//   const MaterialDesktopSkipNextButton({
+//     Key? key,
+//     this.icon,
+//     this.iconSize,
+//     this.iconColor,
+//   }) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    if (!_theme(context).automaticallyImplySkipNextButton ||
-        (player(context).state.playlist.medias.length > 1 &&
-            _theme(context).automaticallyImplySkipNextButton)) {
-      return IconButton(
-        onPressed: player(context).next,
-        icon: icon ?? const Icon(Icons.skip_next),
-        iconSize: iconSize ?? _theme(context).buttonBarButtonSize,
-        color: iconColor ?? _theme(context).buttonBarButtonColor,
-      );
-    }
-    return const SizedBox.shrink();
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     if (!_theme(context).automaticallyImplySkipNextButton ||
+//         (player(context).state.playlist.medias.length > 1 &&
+//             _theme(context).automaticallyImplySkipNextButton)) {
+//       return IconButton(
+//         onPressed: player(context).next,
+//         icon: icon ?? const Icon(Icons.skip_next),
+//         iconSize: iconSize ?? _theme(context).buttonBarButtonSize,
+//         color: iconColor ?? _theme(context).buttonBarButtonColor,
+//       );
+//     }
+//     return const SizedBox.shrink();
+//   }
+// }
 
-// BUTTON: SKIP PREVIOUS
+// // BUTTON: SKIP PREVIOUS
 
-/// MaterialDesktop design skip previous button.
-class MaterialDesktopSkipPreviousButton extends StatelessWidget {
-  /// Icon for [MaterialDesktopSkipPreviousButton].
-  final Widget? icon;
+// /// MaterialDesktop design skip previous button.
+// class MaterialDesktopSkipPreviousButton extends StatelessWidget {
+//   /// Icon for [MaterialDesktopSkipPreviousButton].
+//   final Widget? icon;
 
-  /// Overriden icon size for [MaterialDesktopSkipPreviousButton].
-  final double? iconSize;
+//   /// Overriden icon size for [MaterialDesktopSkipPreviousButton].
+//   final double? iconSize;
 
-  /// Overriden icon color for [MaterialDesktopSkipPreviousButton].
-  final Color? iconColor;
+//   /// Overriden icon color for [MaterialDesktopSkipPreviousButton].
+//   final Color? iconColor;
 
-  const MaterialDesktopSkipPreviousButton({
-    Key? key,
-    this.icon,
-    this.iconSize,
-    this.iconColor,
-  }) : super(key: key);
+//   const MaterialDesktopSkipPreviousButton({
+//     Key? key,
+//     this.icon,
+//     this.iconSize,
+//     this.iconColor,
+//   }) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    if (!_theme(context).automaticallyImplySkipPreviousButton ||
-        (player(context).state.playlist.medias.length > 1 &&
-            _theme(context).automaticallyImplySkipPreviousButton)) {
-      return IconButton(
-        onPressed: player(context).previous,
-        icon: icon ?? const Icon(Icons.skip_previous),
-        iconSize: iconSize ?? _theme(context).buttonBarButtonSize,
-        color: iconColor ?? _theme(context).buttonBarButtonColor,
-      );
-    }
-    return const SizedBox.shrink();
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     if (!_theme(context).automaticallyImplySkipPreviousButton ||
+//         (player(context).state.playlist.medias.length > 1 &&
+//             _theme(context).automaticallyImplySkipPreviousButton)) {
+//       return IconButton(
+//         onPressed: player(context).previous,
+//         icon: icon ?? const Icon(Icons.skip_previous),
+//         iconSize: iconSize ?? _theme(context).buttonBarButtonSize,
+//         color: iconColor ?? _theme(context).buttonBarButtonColor,
+//       );
+//     }
+//     return const SizedBox.shrink();
+//   }
+// }
 
 // BUTTON: FULL SCREEN
 
