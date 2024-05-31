@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:universal_video_controls/universal_video_controls.dart';
 import 'package:universal_video_controls_video_player/universal_video_controls_video_player.dart';
@@ -26,7 +28,7 @@ class _SinglePlayerSingleVideoScreenState
   }
 
   void _initializeVideoPlayer(String source) {
-    _controller = VideoPlayerController.network(source)
+    _controller = VideoPlayerController.file(File(source))
       ..initialize().then((_) {
         setState(() {
           _isInitialized = true;
@@ -115,7 +117,10 @@ class _SinglePlayerSingleVideoScreenState
                                   ? AspectRatio(
                                       aspectRatio:
                                           _controller.value.aspectRatio,
-                                      child: VideoPlayer(_controller),
+                                      child: Video(
+                                        player: VideoPlayerControlsWrapper(
+                                            _controller),
+                                      ),
                                     )
                                   : const Center(
                                       child: CircularProgressIndicator(),
