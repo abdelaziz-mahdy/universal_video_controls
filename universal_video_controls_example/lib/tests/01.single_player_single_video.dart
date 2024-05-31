@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:universal_video_controls/universal_video_controls.dart';
-import 'package:universal_video_controls_fvp/fvp.dart';
+import 'package:universal_video_controls_video_player/universal_video_controls_video_player.dart';
+import 'package:video_player/video_player.dart';
 
-import '../common/globals.dart';
-import '../common/widgets.dart';
 import '../common/sources/sources.dart';
+import '../common/utils.dart';
 
 class SinglePlayerSingleVideoScreen extends StatefulWidget {
   const SinglePlayerSingleVideoScreen({Key? key}) : super(key: key);
@@ -16,21 +16,32 @@ class SinglePlayerSingleVideoScreen extends StatefulWidget {
 
 class _SinglePlayerSingleVideoScreenState
     extends State<SinglePlayerSingleVideoScreen> {
-      
-  late final Player player = Player(
-    
-  );
+  late VideoPlayerController _controller;
+  bool _isInitialized = false;
 
   @override
   void initState() {
     super.initState();
-    player.open(Media(sources[0]));
-    player.stream.error.listen((error) => debugPrint(error));
+    _initializeVideoPlayer(sources[0]);
+  }
+
+  void _initializeVideoPlayer(String source) {
+    _controller = VideoPlayerController.network(source)
+      ..initialize().then((_) {
+        setState(() {
+          _isInitialized = true;
+        });
+      });
+    _controller.addListener(() {
+      if (_controller.value.hasError) {
+        debugPrint(_controller.value.errorDescription);
+      }
+    });
   }
 
   @override
   void dispose() {
-    player.dispose();
+    _controller.dispose();
     super.dispose();
   }
 
@@ -46,7 +57,11 @@ class _SinglePlayerSingleVideoScreenState
               overflow: TextOverflow.ellipsis,
             ),
             onTap: () {
-              player.open(Media(sources[i]));
+              setState(() {
+                _controller.dispose();
+                _isInitialized = false;
+                _initializeVideoPlayer(sources[i]);
+              });
             },
           ),
       ];
@@ -57,7 +72,7 @@ class _SinglePlayerSingleVideoScreenState
         MediaQuery.of(context).size.width > MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('package:media_kit'),
+        title: const Text('Video Player'),
       ),
       floatingActionButton: Row(
         mainAxisSize: MainAxisSize.min,
@@ -67,14 +82,14 @@ class _SinglePlayerSingleVideoScreenState
           FloatingActionButton(
             heroTag: 'file',
             tooltip: 'Open [File]',
-            onPressed: () => showFilePicker(context, player),
+            onPressed: () => showFilePicker(context, _controller),
             child: const Icon(Icons.file_open),
           ),
           const SizedBox(width: 16.0),
           FloatingActionButton(
             heroTag: 'uri',
             tooltip: 'Open [Uri]',
-            onPressed: () => showURIPicker(context, player),
+            onPressed: () => showURIPicker(context, _controller),
             child: const Icon(Icons.link),
           ),
         ],
@@ -96,9 +111,15 @@ class _SinglePlayerSingleVideoScreenState
                               elevation: 8.0,
                               clipBehavior: Clip.antiAlias,
                               margin: const EdgeInsets.all(32.0),
-                              child: Video(
-                                controller: controller,
-                              ),
+                              child: _isInitialized
+                                  ? AspectRatio(
+                                      aspectRatio:
+                                          _controller.value.aspectRatio,
+                                      child: VideoPlayer(_controller),
+                                    )
+                                  : const Center(
+                                      child: CircularProgressIndicator(),
+                                    ),
                             ),
                           ),
                           const SizedBox(height: 32.0),
@@ -117,11 +138,17 @@ class _SinglePlayerSingleVideoScreenState
               )
             : ListView(
                 children: [
-                  Video(
-                    player: ,
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.width * 9.0 / 16.0,
-                  ),
+                  if (_isInitialized)
+                    AspectRatio(
+                      aspectRatio: _controller.value.aspectRatio,
+                      child: Video(
+                        player: VideoPlayerControlsWrapper(_controller),
+                      ),
+                    )
+                  else
+                    const Center(
+                      child: CircularProgressIndicator(),
+                    ),
                   ...items,
                 ],
               ),

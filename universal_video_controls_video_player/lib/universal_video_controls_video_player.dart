@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 import 'package:universal_video_controls/universal_players/abstract.dart';
 
-class VideoPlayerControllerAdapter extends AbstractPlayer {
+class VideoPlayerControlsWrapper extends AbstractPlayer {
   final VideoPlayerController controller;
   bool disposed = false;
 
-  VideoPlayerControllerAdapter(this.controller) {
+  VideoPlayerControlsWrapper(this.controller) {
     _initialize();
   }
 

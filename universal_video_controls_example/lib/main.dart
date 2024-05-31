@@ -15,7 +15,6 @@ import 'tests/09.seamless.dart';
 import 'tests/10.programmatic_fullscreen.dart';
 import 'tests/11.video_view_parameters.dart';
 
-import 'common/globals.dart';
 import 'common/sources/sources.dart';
 
 Future<void> main() async {
