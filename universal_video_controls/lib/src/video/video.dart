@@ -7,11 +7,11 @@ import 'dart:io';
 import 'dart:async';
 import 'package:flutter/widgets.dart';
 import 'package:flutter/services.dart';
+import 'package:universal_video_controls/universal_video_controls/src/controls/methods/video_state.dart';
 
 import '../subtitle/subtitle_view.dart';
 import '../../universal_players/abstract.dart';
-import '../../universal_video_controls.dart'
-    as universal_video_controls;
+import '../../universal_video_controls.dart' as universal_video_controls;
 
 import '../utils/wakelock.dart';
 import '../video_view_parameters.dart';
@@ -321,62 +321,7 @@ class VideoState extends State<Video> with WidgetsBindingObserver {
                   child: FittedBox(
                     fit: videoViewParameters.fit,
                     alignment: videoViewParameters.alignment,
-                    //TODO: REPLACE USING PLAYER WIDGET
-                    child: ValueListenableBuilder<PlatformVideoController?>(
-                      valueListenable: widget.player.notifier,
-                      builder: (context, notifier, _) => notifier == null
-                          ? const SizedBox.shrink()
-                          : ValueListenableBuilder<int?>(
-                              valueListenable: notifier.id,
-                              builder: (context, id, _) {
-                                return ValueListenableBuilder<Rect?>(
-                                  valueListenable: notifier.rect,
-                                  builder: (context, rect, _) {
-                                    if (id != null &&
-                                        rect != null &&
-                                        _visible) {
-                                      return SizedBox(
-                                        // Apply aspect ratio if provided.
-                                        width:
-                                            videoViewParameters.aspectRatio ==
-                                                    null
-                                                ? rect.width
-                                                : rect.height *
-                                                    videoViewParameters
-                                                        .aspectRatio!,
-                                        height: rect.height,
-                                        child: Stack(
-                                          children: [
-                                            const SizedBox(),
-                                            Positioned.fill(
-                                              child: Texture(
-                                                textureId: id,
-                                                filterQuality:
-                                                    videoViewParameters
-                                                        .filterQuality,
-                                              ),
-                                            ),
-                                            // Keep the |Texture| hidden before the first frame renders. In native implementation, if no default frame size is passed (through VideoController), a starting 1 pixel sized texture/surface is created to initialize the render context & check for H/W support.
-                                            // This is then resized based on the video dimensions & accordingly texture ID, texture, EGLDisplay, EGLSurface etc. (depending upon platform) are also changed. Just don't show that 1 pixel texture to the UI.
-                                            // NOTE: Unmounting |Texture| causes the |MarkTextureFrameAvailable| to not do anything on GNU/Linux.
-                                            if (rect.width <= 1.0 &&
-                                                rect.height <= 1.0)
-                                              Positioned.fill(
-                                                child: Container(
-                                                  color:
-                                                      videoViewParameters.fill,
-                                                ),
-                                              ),
-                                          ],
-                                        ),
-                                      );
-                                    }
-                                    return const SizedBox.shrink();
-                                  },
-                                );
-                              },
-                            ),
-                    ),
+                    child: player(context).videoWidget(),
                   ),
                 ),
                 if (videoViewParameters.subtitleViewConfiguration.visible)

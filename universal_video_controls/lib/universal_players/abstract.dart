@@ -86,13 +86,13 @@ abstract class AbstractPlayer {
     throw UnimplementedError('[AbstractPlayer.setVolume] is not implemented');
   }
 
-  Future<void> next() {
-    throw UnimplementedError('[AbstractPlayer.next] is not implemented');
-  }
+  // Future<void> next() {
+  //   throw UnimplementedError('[AbstractPlayer.next] is not implemented');
+  // }
 
-  Future<void> previous() {
-    throw UnimplementedError('[AbstractPlayer.previous] is not implemented');
-  }
+  // Future<void> previous() {
+  //   throw UnimplementedError('[AbstractPlayer.previous] is not implemented');
+  // }
 
   Future<void> setRate(double rate) {
     throw UnimplementedError('[AbstractPlayer.setRate] is not implemented');

@@ -531,10 +531,10 @@ class _MaterialDesktopVideoControlsState
                   player(context).pause(),
               const SingleActivator(LogicalKeyboardKey.mediaPlayPause): () =>
                   player(context).playOrPause(),
-              const SingleActivator(LogicalKeyboardKey.mediaTrackNext): () =>
-                  player(context).next(),
-              const SingleActivator(LogicalKeyboardKey.mediaTrackPrevious):
-                  () => player(context).previous(),
+              // const SingleActivator(LogicalKeyboardKey.mediaTrackNext): () =>
+              //     player(context).next(),
+              // const SingleActivator(LogicalKeyboardKey.mediaTrackPrevious):
+              //     () => player(context).previous(),
               const SingleActivator(LogicalKeyboardKey.space): () =>
                   player(context).playOrPause(),
               const SingleActivator(LogicalKeyboardKey.keyJ): () {

@@ -2,15 +2,16 @@ import 'dart:async';
 import 'dart:typed_data';
 import 'dart:ui';
 
+import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:fvp/mdk.dart';
 import 'package:universal_video_controls/universal_players/abstract.dart';
 
-class FVPPlayer implements AbstractPlayer {
+class FVPPlayer extends AbstractPlayer {
   final Player player;
   bool disposed = false;
 
-  FVPPlayer(this.player){
+  FVPPlayer(this.player) {
     _initialize();
   }
 
@@ -132,88 +133,25 @@ class FVPPlayer implements AbstractPlayer {
   }
 
   @override
-  PlayerState state;
-
-  @override
-  PlayerStream stream;
-
-  @override
-  // TODO: implement bufferController
-  StreamController<Duration> get bufferController => throw UnimplementedError();
-
-  @override
-  // TODO: implement bufferingController
-  StreamController<bool> get bufferingController => throw UnimplementedError();
-
-  @override
-  // TODO: implement completedController
-  StreamController<bool> get completedController => throw UnimplementedError();
-
-  @override
-  // TODO: implement completer
-  Completer<void> get completer => throw UnimplementedError();
-
-  @override
-  // TODO: implement durationController
-  StreamController<Duration> get durationController => throw UnimplementedError();
-
-  @override
-  // TODO: implement heightController
-  StreamController<int?> get heightController => throw UnimplementedError();
-
-  @override
-  Future<void> next() {
-    // TODO: implement next
-    throw UnimplementedError();
-  }
-
-  @override
   Future<void> playOrPause() {
-    // TODO: implement playOrPause
-    throw UnimplementedError();
+    if (disposed) throw AssertionError('[Player] has been disposed');
+    if (state.playing) {
+      player.state = PlaybackState.paused;
+    } else {
+      player.state = PlaybackState.playing;
+    }
+    return Future.value();
   }
 
-  @override
-  // TODO: implement playingController
-  StreamController<bool> get playingController => throw UnimplementedError();
-
-  @override
-  // TODO: implement positionController
-  StreamController<Duration> get positionController => throw UnimplementedError();
-
-  @override
-  Future<void> previous() {
-    // TODO: implement previous
-    throw UnimplementedError();
-  }
-
-  @override
-  // TODO: implement rateController
-  StreamController<double> get rateController => throw UnimplementedError();
-
-  @override
-  // TODO: implement release
-  List<Future<void> Function()> get release => throw UnimplementedError();
-
-  @override
-  // TODO: implement subtitleController
-  StreamController<List<String>> get subtitleController => throw UnimplementedError();
+  // @override
+  // Future<void> previous() {
+  //   // TODO: implement previous
+  //   throw UnimplementedError();
+  // }
 
   @override
   Widget videoWidget() {
-    // TODO: implement videoWidget
-    throw UnimplementedError();
+    if (disposed) throw AssertionError('[Player] has been disposed');
+    return Texture(textureId: player.textureId.value!);
   }
-
-  @override
-  // TODO: implement volumeController
-  StreamController<double> get volumeController => throw UnimplementedError();
-
-  @override
-  // TODO: implement waitForPlayerInitialization
-  Future<void> get waitForPlayerInitialization => throw UnimplementedError();
-
-  @override
-  // TODO: implement widthController
-  StreamController<int?> get widthController => throw UnimplementedError();
 }
