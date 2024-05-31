@@ -506,8 +506,8 @@ class _MaterialVideoControlsState extends State<_MaterialVideoControls> {
   bool showSwipeDuration = false; // Whether to show the seek duration overlay
 
   bool _speedUpIndicator = false;
-  late /* private */ var playlist = controller(context).player.state.playlist;
-  late bool buffering = controller(context).player.state.buffering;
+  late /* private */ var playlist = player(context).state.playlist;
+  late bool buffering = player(context).state.buffering;
 
   bool _mountSeekBackwardButton = false;
   bool _mountSeekForwardButton = false;
@@ -539,14 +539,14 @@ class _MaterialVideoControlsState extends State<_MaterialVideoControls> {
     setState(() {
       _speedUpIndicator = true;
     });
-    controller(context).player.setRate(_theme(context).speedUpFactor);
+    player(context).setRate(_theme(context).speedUpFactor);
   }
 
   void _handleLongPressEnd(LongPressEndDetails details) {
     setState(() {
       _speedUpIndicator = false;
     });
-    controller(context).player.setRate(1.0);
+    player(context).setRate(1.0);
   }
 
   @override
@@ -562,14 +562,14 @@ class _MaterialVideoControlsState extends State<_MaterialVideoControls> {
     if (subscriptions.isEmpty) {
       subscriptions.addAll(
         [
-          controller(context).player.stream.playlist.listen(
+          player(context).stream.playlist.listen(
             (event) {
               setState(() {
                 playlist = event;
               });
             },
           ),
-          controller(context).player.stream.buffering.listen(
+          player(context).stream.buffering.listen(
             (event) {
               setState(() {
                 buffering = event;
@@ -679,8 +679,8 @@ class _MaterialVideoControlsState extends State<_MaterialVideoControls> {
     }
 
     final diff = _dragInitialDelta.dx - details.localPosition.dx;
-    final duration = controller(context).player.state.duration.inSeconds;
-    final position = controller(context).player.state.position.inSeconds;
+    final duration = player(context).state.duration.inSeconds;
+    final position = player(context).state.position.inSeconds;
 
     final seconds =
         -(diff * duration / _theme(context).horizontalGestureSensitivity)
@@ -698,13 +698,13 @@ class _MaterialVideoControlsState extends State<_MaterialVideoControls> {
 
   void onHorizontalDragEnd() {
     if (swipeDuration != 0) {
-      Duration newPosition = controller(context).player.state.position +
+      Duration newPosition = player(context).state.position +
           Duration(seconds: swipeDuration);
       newPosition = newPosition.clamp(
         Duration.zero,
-        controller(context).player.state.duration,
+        player(context).state.duration,
       );
-      controller(context).player.seek(newPosition);
+      player(context).seek(newPosition);
     }
 
     setState(() {
@@ -1393,19 +1393,16 @@ class _MaterialVideoControlsState extends State<_MaterialVideoControls> {
                                       setState(() {
                                         _hideSeekBackwardButton = true;
                                       });
-                                      var result = controller(context)
+                                      var result = player(context)
                                               .player
                                               .state
                                               .position -
                                           value;
                                       result = result.clamp(
                                         Duration.zero,
-                                        controller(context)
-                                            .player
-                                            .state
-                                            .duration,
+                                        player(context).state.duration,
                                       );
-                                      controller(context).player.seek(result);
+                                      player(context).seek(result);
                                     },
                                   ),
                                 )
@@ -1446,19 +1443,16 @@ class _MaterialVideoControlsState extends State<_MaterialVideoControls> {
                                         _hideSeekForwardButton = true;
                                       });
 
-                                      var result = controller(context)
+                                      var result = player(context)
                                               .player
                                               .state
                                               .position +
                                           value;
                                       result = result.clamp(
                                         Duration.zero,
-                                        controller(context)
-                                            .player
-                                            .state
-                                            .duration,
+                                        player(context).state.duration,
                                       );
-                                      controller(context).player.seek(result);
+                                      player(context).seek(result);
                                     },
                                   ),
                                 )
@@ -1501,10 +1495,10 @@ class MaterialSeekBarState extends State<MaterialSeekBar> {
   bool tapped = false;
   double slider = 0.0;
 
-  late bool playing = controller(context).player.state.playing;
-  late Duration position = controller(context).player.state.position;
-  late Duration duration = controller(context).player.state.duration;
-  late Duration buffer = controller(context).player.state.buffer;
+  late bool playing = player(context).state.playing;
+  late Duration position = player(context).state.position;
+  late Duration duration = player(context).state.duration;
+  late Duration buffer = player(context).state.buffer;
 
   final List<StreamSubscription> subscriptions = [];
 
@@ -1518,7 +1512,7 @@ class MaterialSeekBarState extends State<MaterialSeekBar> {
   void listener() {
     setState(() {
       final delta = widget.delta?.value ?? Duration.zero;
-      position = controller(context).player.state.position + delta;
+      position = player(context).state.position + delta;
     });
   }
 
@@ -1534,29 +1528,29 @@ class MaterialSeekBarState extends State<MaterialSeekBar> {
     if (subscriptions.isEmpty && widget.delta == null) {
       subscriptions.addAll(
         [
-          controller(context).player.stream.playing.listen((event) {
+          player(context).stream.playing.listen((event) {
             setState(() {
               playing = event;
             });
           }),
-          controller(context).player.stream.completed.listen((event) {
+          player(context).stream.completed.listen((event) {
             setState(() {
               position = Duration.zero;
             });
           }),
-          controller(context).player.stream.position.listen((event) {
+          player(context).stream.position.listen((event) {
             setState(() {
               if (!tapped) {
                 position = event;
               }
             });
           }),
-          controller(context).player.stream.duration.listen((event) {
+          player(context).stream.duration.listen((event) {
             setState(() {
               duration = event;
             });
           }),
-          controller(context).player.stream.buffer.listen((event) {
+          player(context).stream.buffer.listen((event) {
             setState(() {
               buffer = event;
             });
@@ -1595,7 +1589,7 @@ class MaterialSeekBarState extends State<MaterialSeekBar> {
     setState(() {
       tapped = false;
     });
-    controller(context).player.seek(duration * slider);
+    player(context).seek(duration * slider);
     setState(() {
       // Explicitly set the position to prevent the slider from jumping.
       position = duration * slider;
@@ -1751,7 +1745,7 @@ class MaterialPlayOrPauseButtonState extends State<MaterialPlayOrPauseButton>
     with SingleTickerProviderStateMixin {
   late final animation = AnimationController(
     vsync: this,
-    value: controller(context).player.state.playing ? 1 : 0,
+    value: player(context).state.playing ? 1 : 0,
     duration: const Duration(milliseconds: 200),
   );
 
@@ -1767,7 +1761,7 @@ class MaterialPlayOrPauseButtonState extends State<MaterialPlayOrPauseButton>
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    subscription ??= controller(context).player.stream.playing.listen((event) {
+    subscription ??= player(context).stream.playing.listen((event) {
       if (event) {
         animation.forward();
       } else {
@@ -1786,7 +1780,7 @@ class MaterialPlayOrPauseButtonState extends State<MaterialPlayOrPauseButton>
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      onPressed: controller(context).player.playOrPause,
+      onPressed: player(context).playOrPause,
       iconSize: widget.iconSize ?? _theme(context).buttonBarButtonSize,
       color: widget.iconColor ?? _theme(context).buttonBarButtonColor,
       icon: IgnorePointer(
@@ -1824,10 +1818,10 @@ class MaterialSkipNextButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (!_theme(context).automaticallyImplySkipNextButton ||
-        (controller(context).player.state.playlist.medias.length > 1 &&
+        (player(context).state.playlist.medias.length > 1 &&
             _theme(context).automaticallyImplySkipNextButton)) {
       return IconButton(
-        onPressed: controller(context).player.next,
+        onPressed: player(context).next,
         icon: icon ?? const Icon(Icons.skip_next),
         iconSize: iconSize ?? _theme(context).buttonBarButtonSize,
         color: iconColor ?? _theme(context).buttonBarButtonColor,
@@ -1860,10 +1854,10 @@ class MaterialSkipPreviousButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (!_theme(context).automaticallyImplySkipPreviousButton ||
-        (controller(context).player.state.playlist.medias.length > 1 &&
+        (player(context).state.playlist.medias.length > 1 &&
             _theme(context).automaticallyImplySkipPreviousButton)) {
       return IconButton(
-        onPressed: controller(context).player.previous,
+        onPressed: player(context).previous,
         icon: icon ?? const Icon(Icons.skip_previous),
         iconSize: iconSize ?? _theme(context).buttonBarButtonSize,
         color: iconColor ?? _theme(context).buttonBarButtonColor,
@@ -1957,8 +1951,8 @@ class MaterialPositionIndicator extends StatefulWidget {
 }
 
 class MaterialPositionIndicatorState extends State<MaterialPositionIndicator> {
-  late Duration position = controller(context).player.state.position;
-  late Duration duration = controller(context).player.state.duration;
+  late Duration position = player(context).state.position;
+  late Duration duration = player(context).state.duration;
 
   final List<StreamSubscription> subscriptions = [];
 
@@ -1975,12 +1969,12 @@ class MaterialPositionIndicatorState extends State<MaterialPositionIndicator> {
     if (subscriptions.isEmpty) {
       subscriptions.addAll(
         [
-          controller(context).player.stream.position.listen((event) {
+          player(context).stream.position.listen((event) {
             setState(() {
               position = event;
             });
           }),
-          controller(context).player.stream.duration.listen((event) {
+          player(context).stream.duration.listen((event) {
             setState(() {
               duration = event;
             });

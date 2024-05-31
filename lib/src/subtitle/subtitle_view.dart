@@ -7,7 +7,7 @@ import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
 
-import 'package:universal_video_controls/src/video_controller/video_controller.dart';
+import 'package:universal_video_controls/universal_players/abstract.dart';
 
 /// {@template subtitle_view}
 /// SubtitleView
@@ -15,8 +15,8 @@ import 'package:universal_video_controls/src/video_controller/video_controller.d
 ///
 /// [SubtitleView] widget is used to display the subtitles on top of the [Video].
 class SubtitleView extends StatefulWidget {
-  /// The [VideoController] reference to control this [SubtitleView] output.
-  final VideoController controller;
+  /// The [AbstractPlayer] reference to control this [SubtitleView] output.
+  final AbstractPlayer player;
 
   /// The configuration to be used for the subtitles.
   final SubtitleViewConfiguration configuration;
@@ -24,7 +24,7 @@ class SubtitleView extends StatefulWidget {
   /// {@macro subtitle_view}
   const SubtitleView({
     Key? key,
-    required this.controller,
+    required this.player,
     required this.configuration,
   }) : super(key: key);
 
@@ -33,7 +33,7 @@ class SubtitleView extends StatefulWidget {
 }
 
 class SubtitleViewState extends State<SubtitleView> {
-  late List<String> subtitle = widget.controller.player.state.subtitle;
+  late List<String> subtitle = widget.player.state.subtitle;
   late TextStyle style = widget.configuration.style;
   late TextAlign textAlign = widget.configuration.textAlign;
   late EdgeInsets padding = widget.configuration.padding;
@@ -49,7 +49,7 @@ class SubtitleViewState extends State<SubtitleView> {
 
   @override
   void initState() {
-    subscription = widget.controller.player.stream.subtitle.listen((value) {
+    subscription = widget.player.stream.subtitle.listen((value) {
       setState(() {
         subtitle = value;
       });

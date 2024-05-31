@@ -4,6 +4,7 @@
 /// All rights reserved.
 /// Use of this source code is governed by MIT license that can be found in the LICENSE file.
 import 'package:flutter/widgets.dart';
+import 'package:universal_video_controls/universal_players/abstract.dart';
 import 'package:universal_video_controls/universal_video_controls.dart';
 
 /// Returns the [VideoState] associated with the [Video] present in the current [BuildContext].
@@ -19,9 +20,9 @@ ValueNotifier<VideoViewParameters> videoViewParametersNotifier(
         BuildContext context) =>
     VideoStateInheritedWidget.of(context).videoViewParametersNotifier;
 
-/// Returns the [VideoController] associated with the [Video] present in the current [BuildContext].
-VideoController controller(BuildContext context) =>
-    VideoStateInheritedWidget.of(context).state.widget.controller;
+/// Returns the [AbstractPlayer] associated with the [Video] present in the current [BuildContext].
+AbstractPlayer player(BuildContext context) =>
+    VideoStateInheritedWidget.of(context).state.widget.player;
 
 /// Returns the callback which must be invoked when the video enters fullscreen mode.
 Future<void> Function()? onEnterFullscreen(BuildContext context) =>
