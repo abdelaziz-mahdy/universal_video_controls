@@ -1,116 +1,111 @@
 import 'package:flutter/material.dart';
+import 'package:video_player/video_player.dart';
 
-import 'package:media_kit/media_kit.dart';
-import 'package:media_kit_video/media_kit_video.dart';
-
-import '../common/globals.dart';
 import '../common/sources/sources.dart';
+import '../common/utils/utils.dart';
+import '../common/utils/utils_import.dart';
 
 class MultiplePlayerMultipleVideoScreen extends StatefulWidget {
   const MultiplePlayerMultipleVideoScreen({Key? key}) : super(key: key);
 
   @override
-  State<MultiplePlayerMultipleVideoScreen> createState() =>
-      _MultiplePlayerMultipleVideoScreenState();
+  State<MultiplePlayerMultipleVideoScreen> createState() => _MultiplePlayerMultipleVideoScreenState();
 }
 
-class _MultiplePlayerMultipleVideoScreenState
-    extends State<MultiplePlayerMultipleVideoScreen> {
-  late final List<Player> players = [
-    Player(),
-    Player(),
-  ];
-  late final List<VideoController> controllers = [
-    VideoController(
-      players[0],
-      configuration: configuration.value,
-    ),
-    VideoController(
-      players[1],
-      configuration: configuration.value,
-    ),
-  ];
+class _MultiplePlayerMultipleVideoScreenState extends State<MultiplePlayerMultipleVideoScreen> {
+  final List<VideoPlayerController> _controllers = [];
+  bool _isInitialized = false;
 
   @override
   void initState() {
     super.initState();
-    for (final player in players) {
-      player.open(Media(sources[0]));
-      player.stream.error.listen((error) => debugPrint(error));
+    prepareSources().then((_) {
+      _initializeVideoPlayers();
+    });
+  }
+
+  void _initializeVideoPlayers() async {
+    for (var source in getSources()) {
+      final controller = await initializeVideoPlayer(source);
+      _controllers.add(controller);
     }
+    setState(() {
+      _isInitialized = true;
+    });
   }
 
   @override
   void dispose() {
-    for (final player in players) {
-      player.dispose();
+    for (var controller in _controllers) {
+      controller.dispose();
     }
     super.dispose();
   }
 
-  List<Widget> getAssetsListForIndex(BuildContext context, int i) => [
-        for (int j = 0; j < sources.length; j++)
-          ListTile(
-            title: Text(
-              'Video $j',
-              style: const TextStyle(
-                fontSize: 14.0,
-              ),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
-            onTap: () {
-              players[i].open(Media(sources[j]));
-            },
+  List<Widget> get items => [
+    for (int i = 0; i < getSources().length; i++)
+      ListTile(
+        title: Text(
+          'Video $i',
+          style: const TextStyle(
+            fontSize: 14.0,
           ),
-      ];
-
-  Widget getVideoForIndex(BuildContext context, int i) =>
-      MediaQuery.of(context).size.width > MediaQuery.of(context).size.height
-          ? Card(
-              elevation: 8.0,
-              clipBehavior: Clip.antiAlias,
-              margin: const EdgeInsets.all(32.0),
-              child: Video(controller: controllers[i]),
-            )
-          : Video(
-              controller: controllers[i],
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.width * 9.0 / 16.0,
-            );
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        ),
+        onTap: () {
+          setState(() {
+            for (var controller in _controllers) {
+              controller.dispose();
+            }
+            _controllers.clear();
+            _initializeVideoPlayers();
+          });
+        },
+      ),
+  ];
 
   @override
   Widget build(BuildContext context) {
+    final horizontal = MediaQuery.of(context).size.width > MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('package:media_kit'),
+        title: const Text('Video Player'),
       ),
-      body:
-          MediaQuery.of(context).size.width > MediaQuery.of(context).size.height
-              ? Row(
-                  children: [
-                    for (int i = 0; i < 2; i++)
-                      Expanded(
-                        child: ListView(
-                          children: [
-                            AspectRatio(
-                              aspectRatio: 16.0 / 12.0,
-                              child: getVideoForIndex(context, i),
-                            ),
-                            ...getAssetsListForIndex(context, i),
-                          ],
-                        ),
+      body: SizedBox.expand(
+        child: horizontal
+            ? Row(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  for (var controller in _controllers)
+                    Expanded(
+                      flex: 1,
+                      child: Container(
+                        alignment: Alignment.center,
+                        child: _isInitialized
+                            ? AspectRatio(
+                                aspectRatio: controller.value.aspectRatio,
+                                child: VideoPlayer(controller),
+                              )
+                            : const Center(child: CircularProgressIndicator()),
                       ),
-                  ],
-                )
-              : ListView(
-                  children: [
-                    for (int i = 0; i < 2; i++) ...[
-                      getVideoForIndex(context, i),
-                      ...getAssetsListForIndex(context, i),
-                    ]
-                  ],
-                ),
+                    ),
+                ],
+              )
+            : ListView(
+                children: [
+                  for (var controller in _controllers)
+                    if (_isInitialized)
+                      AspectRatio(
+                        aspectRatio: controller.value.aspectRatio,
+                        child: VideoPlayer(controller),
+                      )
+                    else
+                      const Center(child: CircularProgressIndicator()),
+                  ...items,
+                ],
+              ),
+      ),
     );
   }
 }

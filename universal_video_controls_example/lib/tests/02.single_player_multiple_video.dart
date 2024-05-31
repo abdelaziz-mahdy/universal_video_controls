@@ -1,11 +1,9 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:video_player/video_player.dart';
 
 import '../common/sources/sources.dart';
 import '../common/utils/utils.dart';
+import '../common/utils/utils_import.dart';
 
 class SinglePlayerMultipleVideoScreen extends StatefulWidget {
   const SinglePlayerMultipleVideoScreen({Key? key}) : super(key: key);
@@ -21,16 +19,16 @@ class _SinglePlayerMultipleVideoScreenState extends State<SinglePlayerMultipleVi
   @override
   void initState() {
     super.initState();
-    _initializeVideoPlayer(sources[0]);
+    prepareSources().then((_) {
+      _initializeVideoPlayer(getSources()[0]);
+    });
   }
 
-  void _initializeVideoPlayer(String source) {
-    _controller = VideoPlayerController.file(File(source))
-      ..initialize().then((_) {
-        setState(() {
-          _isInitialized = true;
-        });
-      });
+  void _initializeVideoPlayer(String source) async {
+    _controller = await initializeVideoPlayer(source);
+    setState(() {
+      _isInitialized = true;
+    });
     _controller.addListener(() {
       if (_controller.value.hasError) {
         debugPrint(_controller.value.errorDescription);
@@ -45,7 +43,7 @@ class _SinglePlayerMultipleVideoScreenState extends State<SinglePlayerMultipleVi
   }
 
   List<Widget> get items => [
-    for (int i = 0; i < sources.length; i++)
+    for (int i = 0; i < getSources().length; i++)
       ListTile(
         title: Text(
           'Video $i',
@@ -59,7 +57,7 @@ class _SinglePlayerMultipleVideoScreenState extends State<SinglePlayerMultipleVi
           setState(() {
             _controller.dispose();
             _isInitialized = false;
-            _initializeVideoPlayer(sources[i]);
+            _initializeVideoPlayer(getSources()[i]);
           });
         },
       ),
@@ -80,23 +78,28 @@ class _SinglePlayerMultipleVideoScreenState extends State<SinglePlayerMultipleVi
           FloatingActionButton(
             heroTag: 'file',
             tooltip: 'Open [File]',
-            onPressed: () async {
-              final result = await FilePicker.platform.pickFiles(type: FileType.any);
-              if (result?.files.isNotEmpty ?? false) {
-                setState(() {
-                  _controller.dispose();
-                  _isInitialized = false;
-                  _initializeVideoPlayer(result!.files.first.path!);
-                });
-              }
-            },
+            onPressed: () => showFilePicker(context, (controller) {
+              setState(() {
+                _controller.dispose();
+                _isInitialized = false;
+                _controller = controller;
+                _isInitialized = true;
+              });
+            }),
             child: const Icon(Icons.file_open),
           ),
           const SizedBox(width: 16.0),
           FloatingActionButton(
             heroTag: 'uri',
             tooltip: 'Open [Uri]',
-            onPressed: () => showURIPicker(context, _controller),
+            onPressed: () => showURIPicker(context, (controller) {
+              setState(() {
+                _controller.dispose();
+                _isInitialized = false;
+                _controller = controller;
+                _isInitialized = true;
+              });
+            }),
             child: const Icon(Icons.link),
           ),
         ],

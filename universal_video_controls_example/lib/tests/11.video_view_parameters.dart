@@ -1,139 +1,135 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
+import 'package:video_player/video_player.dart';
 
-import 'package:media_kit/media_kit.dart';
-import 'package:media_kit_video/media_kit_video.dart';
-
-import '../common/globals.dart';
-import '../common/widgets.dart';
 import '../common/sources/sources.dart';
+import '../common/utils/utils.dart';
 
 class VideoViewParametersScreen extends StatefulWidget {
   const VideoViewParametersScreen({Key? key}) : super(key: key);
 
   @override
-  State<VideoViewParametersScreen> createState() =>
-      _VideoViewParametersScreenState();
+  State<VideoViewParametersScreen> createState() => _VideoViewParametersScreenState();
 }
 
 class _VideoViewParametersScreenState extends State<VideoViewParametersScreen> {
-  late final Player player = Player();
-  late final VideoController controller = VideoController(
-    player,
-    configuration: configuration.value,
-  );
-
-  // A [GlobalKey<VideoState>] is required to access the programmatic video view parameters interface.
-  late final GlobalKey<VideoState> key = GlobalKey<VideoState>();
-
+  late VideoPlayerController _controller;
+  late GlobalKey<VideoPlayerState> key;
+  bool _isInitialized = false;
   BoxFit fit = BoxFit.contain;
-
   int fitTick = 0;
   int fontSizeTick = 0;
   Timer? fitTimer;
   Timer? fontSizeTimer;
+
   @override
   void initState() {
     super.initState();
-    player.open(Media(sources[0]));
-    player.stream.error.listen((error) => debugPrint(error));
+    key = GlobalKey<VideoPlayerState>();
+    prepareSources().then((_) {
+      _initializeVideoPlayer(getSources()[0]);
+    });
+  }
+
+  void _initializeVideoPlayer(String source) async {
+    _controller = await initializeVideoPlayer(source);
+    setState(() {
+      _isInitialized = true;
+    });
+    _controller.addListener(() {
+      if (_controller.value.hasError) {
+        debugPrint(_controller.value.errorDescription);
+      }
+    });
   }
 
   @override
   void dispose() {
-    player.dispose();
-
+    _controller.dispose();
     fitTimer?.cancel();
     fontSizeTimer?.cancel();
     super.dispose();
   }
 
   List<Widget> get items => [
-        const SizedBox(height: 16.0),
-        Center(
-          child: ElevatedButton(
-            onPressed: () {
-              if (fitTimer == null) {
-                fitTimer = Timer.periodic(
-                  const Duration(seconds: 1),
-                  (timer) {
-                    if (timer.tick % 3 == 0 /* Every 3 seconds. */) {
-                      fit =
-                          fit == BoxFit.contain ? BoxFit.none : BoxFit.contain;
-                      key.currentState?.update(
-                        fit: fit,
-                      );
-                    }
-                    if (mounted) {
-                      setState(() {
-                        fitTick = timer.tick;
-                      });
-                    }
-                  },
-                );
-              } else {
-                fitTimer?.cancel();
-                fitTimer = null;
-              }
-              setState(() {});
-            },
-            child: Text(
-              fitTimer == null
-                  ? 'Cycle BoxFit'
-                  : 'BoxFit: $fit (${3 - fitTick % 3})',
-            ),
-          ),
+    const SizedBox(height: 16.0),
+    Center(
+      child: ElevatedButton(
+        onPressed: () {
+          if (fitTimer == null) {
+            fitTimer = Timer.periodic(
+              const Duration(seconds: 1),
+              (timer) {
+                if (timer.tick % 3 == 0) {
+                  fit = fit == BoxFit.contain ? BoxFit.none : BoxFit.contain;
+                  key.currentState?.update(
+                    fit: fit,
+                  );
+                }
+                if (mounted) {
+                  setState(() {
+                    fitTick = timer.tick;
+                  });
+                }
+              },
+            );
+          } else {
+            fitTimer?.cancel();
+            fitTimer = null;
+          }
+          setState(() {});
+        },
+        child: Text(
+          fitTimer == null ? 'Cycle BoxFit' : 'BoxFit: $fit (${3 - fitTick % 3})',
         ),
-        const SizedBox(height: 16.0),
-        Center(
-          child: ElevatedButton(
-            onPressed: () {
-              if (fontSizeTimer == null) {
-                fontSizeTimer = Timer.periodic(
-                  const Duration(seconds: 1),
-                  (timer) {
-                    if (timer.tick % 3 == 0 /* Every 3 seconds. */) {
-                      key.currentState?.update(
-                        subtitleViewConfiguration: SubtitleViewConfiguration(
-                            style: TextStyle(
-                          // font size increases every 3 seconds
-                          fontSize: fontSizeFromTick(timer.tick),
-                        )),
-                      );
-                    }
-                    if (mounted) {
-                      setState(() {
-                        fontSizeTick = timer.tick;
-                      });
-                    }
-                  },
-                );
-              } else {
-                fontSizeTimer?.cancel();
-                fontSizeTimer = null;
-              }
-              setState(() {});
-            },
-            child: Text(
-              fontSizeTimer == null
-                  ? 'Cycle Font'
-                  : 'Font: ${fontSizeFromTick(fontSizeTick)}',
-            ),
-          ),
+      ),
+    ),
+    const SizedBox(height: 16.0),
+    Center(
+      child: ElevatedButton(
+        onPressed: () {
+          if (fontSizeTimer == null) {
+            fontSizeTimer = Timer.periodic(
+              const Duration(seconds: 1),
+              (timer) {
+                if (timer.tick % 3 == 0) {
+                  key.currentState?.update(
+                    subtitleViewConfiguration: SubtitleViewConfiguration(
+                      style: TextStyle(
+                        fontSize: fontSizeFromTick(timer.tick),
+                      ),
+                    ),
+                  );
+                }
+                if (mounted) {
+                  setState(() {
+                    fontSizeTick = timer.tick;
+                  });
+                }
+              },
+            );
+          } else {
+            fontSizeTimer?.cancel();
+            fontSizeTimer = null;
+          }
+          setState(() {});
+        },
+        child: Text(
+          fontSizeTimer == null ? 'Cycle Font' : 'Font: ${fontSizeFromTick(fontSizeTick)}',
         ),
-      ];
+      ),
+    ),
+  ];
 
   double fontSizeFromTick(int tick) =>
       20.0 + (tick % 6 < 3 ? tick % 6 : 6 - tick % 6) * 10.0;
 
   @override
   Widget build(BuildContext context) {
-    final horizontal =
-        MediaQuery.of(context).size.width > MediaQuery.of(context).size.height;
+    final horizontal = MediaQuery.of(context).size.width > MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('package:media_kit'),
+        title: const Text('Video Player'),
       ),
       floatingActionButton: Row(
         mainAxisSize: MainAxisSize.min,
@@ -143,14 +139,28 @@ class _VideoViewParametersScreenState extends State<VideoViewParametersScreen> {
           FloatingActionButton(
             heroTag: 'file',
             tooltip: 'Open [File]',
-            onPressed: () => showFilePicker(context, player),
+            onPressed: () => showFilePicker(context, (controller) {
+              setState(() {
+                _controller.dispose();
+                _isInitialized = false;
+                _controller = controller;
+                _isInitialized = true;
+              });
+            }),
             child: const Icon(Icons.file_open),
           ),
           const SizedBox(width: 16.0),
           FloatingActionButton(
             heroTag: 'uri',
             tooltip: 'Open [Uri]',
-            onPressed: () => showURIPicker(context, player),
+            onPressed: () => showURIPicker(context, (controller) {
+              setState(() {
+                _controller.dispose();
+                _isInitialized = false;
+                _controller = controller;
+                _isInitialized = true;
+              });
+            }),
             child: const Icon(Icons.link),
           ),
         ],
@@ -172,10 +182,10 @@ class _VideoViewParametersScreenState extends State<VideoViewParametersScreen> {
                               elevation: 8.0,
                               clipBehavior: Clip.antiAlias,
                               margin: const EdgeInsets.all(32.0),
-                              child: Video(
+                              child: VideoPlayer(
                                 key: key,
                                 fit: fit,
-                                controller: controller,
+                                controller: _controller,
                               ),
                             ),
                           ),
@@ -195,10 +205,10 @@ class _VideoViewParametersScreenState extends State<VideoViewParametersScreen> {
               )
             : ListView(
                 children: [
-                  Video(
+                  VideoPlayer(
                     key: key,
                     fit: fit,
-                    controller: controller,
+                    controller: _controller,
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.width * 9.0 / 16.0,
                   ),

@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:media_kit/media_kit.dart';
-import 'package:media_kit_video/media_kit_video.dart';
+import 'package:video_player/video_player.dart';
 
-import '../common/globals.dart';
 import '../common/sources/sources.dart';
+import '../common/utils/utils.dart';
 
 class VideoControllerSetSizeScreen extends StatefulWidget {
   const VideoControllerSetSizeScreen({Key? key}) : super(key: key);
@@ -15,24 +14,32 @@ class VideoControllerSetSizeScreen extends StatefulWidget {
 
 class _VideoControllerSetSizeScreenState
     extends State<VideoControllerSetSizeScreen> {
-  late final Player player = Player();
-  late final VideoController controller = VideoController(
-    player,
-    configuration: configuration.value,
-  );
+  late VideoPlayerController _controller;
+  bool _isInitialized = false;
 
   @override
   void initState() {
     super.initState();
-    player.setAudioTrack(AudioTrack.no());
-    player.setPlaylistMode(PlaylistMode.loop);
-    player.open(Media(sources[0]));
-    player.stream.error.listen((error) => debugPrint(error));
+    prepareSources().then((_) {
+      _initializeVideoPlayer(getSources()[0]);
+    });
+  }
+
+  void _initializeVideoPlayer(String source) async {
+    _controller = await initializeVideoPlayer(source);
+    setState(() {
+      _isInitialized = true;
+    });
+    _controller.addListener(() {
+      if (_controller.value.hasError) {
+        debugPrint(_controller.value.errorDescription);
+      }
+    });
   }
 
   @override
   void dispose() {
-    player.dispose();
+    _controller.dispose();
     super.dispose();
   }
 
@@ -40,13 +47,13 @@ class _VideoControllerSetSizeScreenState
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('package:media_kit'),
+        title: const Text('Video Player'),
       ),
       body: Stack(
         alignment: Alignment.bottomRight,
         children: [
-          Video(
-            controller: controller,
+          VideoPlayer(
+            _controller,
             controls: NoVideoControls,
           ),
           Card(
@@ -58,7 +65,7 @@ class _VideoControllerSetSizeScreenState
               child: ListView(
                 children: [
                   ListTile(
-                    onTap: () => controller.setSize(
+                    onTap: () => _controller.setSize(
                       width: 16 / 9 * 2160 ~/ 1,
                       height: 2160,
                     ),
@@ -70,7 +77,7 @@ class _VideoControllerSetSizeScreenState
                     ),
                   ),
                   ListTile(
-                    onTap: () => controller.setSize(
+                    onTap: () => _controller.setSize(
                       width: 16 / 9 * 1440 ~/ 1,
                       height: 1440,
                     ),
@@ -82,7 +89,7 @@ class _VideoControllerSetSizeScreenState
                     ),
                   ),
                   ListTile(
-                    onTap: () => controller.setSize(
+                    onTap: () => _controller.setSize(
                       width: 16 / 9 * 1080 ~/ 1,
                       height: 1080,
                     ),
@@ -94,7 +101,7 @@ class _VideoControllerSetSizeScreenState
                     ),
                   ),
                   ListTile(
-                    onTap: () => controller.setSize(
+                    onTap: () => _controller.setSize(
                       width: 16 / 9 * 720 ~/ 1,
                       height: 720,
                     ),
@@ -106,7 +113,7 @@ class _VideoControllerSetSizeScreenState
                     ),
                   ),
                   ListTile(
-                    onTap: () => controller.setSize(
+                    onTap: () => _controller.setSize(
                       width: 16 / 9 * 480 ~/ 1,
                       height: 480,
                     ),
@@ -118,7 +125,7 @@ class _VideoControllerSetSizeScreenState
                     ),
                   ),
                   ListTile(
-                    onTap: () => controller.setSize(
+                    onTap: () => _controller.setSize(
                       width: 16 / 9 * 360 ~/ 1,
                       height: 360,
                     ),
@@ -130,7 +137,7 @@ class _VideoControllerSetSizeScreenState
                     ),
                   ),
                   ListTile(
-                    onTap: () => controller.setSize(
+                    onTap: () => _controller.setSize(
                       width: 16 / 9 * 240 ~/ 1,
                       height: 240,
                     ),
@@ -142,7 +149,7 @@ class _VideoControllerSetSizeScreenState
                     ),
                   ),
                   ListTile(
-                    onTap: () => controller.setSize(
+                    onTap: () => _controller.setSize(
                       width: 16 / 9 * 144 ~/ 1,
                       height: 144,
                     ),

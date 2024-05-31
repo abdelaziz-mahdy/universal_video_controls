@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:video_player/video_player.dart';
 
-import 'package:media_kit/media_kit.dart';
-import 'package:media_kit_video/media_kit_video.dart';
-
-import '../common/globals.dart';
 import '../common/sources/sources.dart';
+import '../common/utils/utils.dart';
+import '../common/utils/utils_import.dart';
 
 class StressTestScreen extends StatefulWidget {
   const StressTestScreen({Key? key}) : super(key: key);
@@ -15,43 +14,40 @@ class StressTestScreen extends StatefulWidget {
 
 class _StressTestScreenState extends State<StressTestScreen> {
   static const int count = 8;
-
-  final List<Player> players = [];
-  final List<VideoController> controllers = [];
+  final List<VideoPlayerController> _controllers = [];
+  bool _isInitialized = false;
 
   @override
   void initState() {
     super.initState();
+    prepareSources().then((_) {
+      _initializeVideoPlayers();
+    });
+  }
+
+  void _initializeVideoPlayers() async {
     for (int i = 0; i < count; i++) {
-      final player = Player();
-      final controller = VideoController(
-        player,
-        configuration: configuration.value,
-      );
-      players.add(player);
-      controllers.add(controller);
+      final controller = await initializeVideoPlayer(getSources()[i % getSources().length]);
+      _controllers.add(controller);
     }
-    for (int i = 0; i < count; i++) {
-      players[i].setAudioTrack(AudioTrack.no());
-      players[i].setPlaylistMode(PlaylistMode.loop);
-      players[i].open(Media(sources[i % sources.length]));
-      players[i].stream.error.listen((error) => debugPrint(error));
-    }
+    setState(() {
+      _isInitialized = true;
+    });
   }
 
   @override
   void dispose() {
-    for (final player in players) {
-      player.dispose();
+    for (var controller in _controllers) {
+      controller.dispose();
     }
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final children = controllers.map(
+    final children = _controllers.map(
       (e) {
-        final video = Video(controller: e);
+        final video = VideoPlayer(e);
         if (Theme.of(context).platform == TargetPlatform.android) {
           return video;
         }
@@ -63,9 +59,10 @@ class _StressTestScreenState extends State<StressTestScreen> {
         );
       },
     ).toList();
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('package:media_kit'),
+        title: const Text('Video Player'),
       ),
       body: GridView.extent(
         maxCrossAxisExtent: 480.0,
