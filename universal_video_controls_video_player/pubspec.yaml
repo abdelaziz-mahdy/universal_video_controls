@@ -1,6 +1,6 @@
 name: universal_video_controls_video_player
 description: Interface for video_player to work with universal_video_controls
-version: 0.0.1
+version: 1.0.0
 homepage: https://github.com/abdelaziz-mahdy/universal_video_controls
 
 environment:
@@ -10,7 +10,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  universal_video_controls: ^0.0.1
+  universal_video_controls: ^1.0.0
   video_player: ^2.4.5
 
 dependency_overrides: 
