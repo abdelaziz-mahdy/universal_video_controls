@@ -16,7 +16,8 @@ class VideoPlayerControlsWrapper extends AbstractPlayer {
   void _initialize() {
     controller.addListener(() {
       final isPlaying = controller.value.isPlaying;
-      final isCompleted = controller.value.position == controller.value.duration;
+      final isCompleted =
+          controller.value.position == controller.value.duration;
 
       state = state.copyWith(
         playing: isPlaying,
@@ -26,7 +27,8 @@ class VideoPlayerControlsWrapper extends AbstractPlayer {
         buffering: controller.value.isBuffering,
         width: controller.value.size.width.toInt(),
         height: controller.value.size.height.toInt(),
-        volume: controller.value.volume*100,
+        volume: controller.value.volume * 100,
+        subtitle: [controller.value.caption.text],
       );
 
       if (!playingController.isClosed) {
@@ -58,7 +60,11 @@ class VideoPlayerControlsWrapper extends AbstractPlayer {
       }
 
       if (!volumeController.isClosed) {
-        volumeController.add(controller.value.volume*100);
+        volumeController.add(controller.value.volume * 100);
+      }
+
+      if (!subtitleController.isClosed) {
+        subtitleController.add([controller.value.caption.text]);
       }
     });
   }
@@ -73,37 +79,43 @@ class VideoPlayerControlsWrapper extends AbstractPlayer {
 
   @override
   Future<void> play({bool synchronized = true}) async {
-    if (disposed) throw AssertionError('[VideoPlayerController] has been disposed');
+    if (disposed)
+      throw AssertionError('[VideoPlayerController] has been disposed');
     await controller.play();
   }
 
   @override
   Future<void> pause({bool synchronized = true}) async {
-    if (disposed) throw AssertionError('[VideoPlayerController] has been disposed');
+    if (disposed)
+      throw AssertionError('[VideoPlayerController] has been disposed');
     await controller.pause();
   }
 
   @override
   Future<void> seek(Duration duration, {bool synchronized = true}) async {
-    if (disposed) throw AssertionError('[VideoPlayerController] has been disposed');
+    if (disposed)
+      throw AssertionError('[VideoPlayerController] has been disposed');
     await controller.seekTo(duration);
   }
 
   @override
   Future<void> setVolume(double volume, {bool synchronized = true}) async {
-    if (disposed) throw AssertionError('[VideoPlayerController] has been disposed');
-    await controller.setVolume(volume/100);
+    if (disposed)
+      throw AssertionError('[VideoPlayerController] has been disposed');
+    await controller.setVolume(volume / 100);
   }
 
   @override
   Future<void> setRate(double rate, {bool synchronized = true}) async {
-    if (disposed) throw AssertionError('[VideoPlayerController] has been disposed');
+    if (disposed)
+      throw AssertionError('[VideoPlayerController] has been disposed');
     await controller.setPlaybackSpeed(rate);
   }
 
   @override
   Future<void> playOrPause() {
-    if (disposed) throw AssertionError('[VideoPlayerController] has been disposed');
+    if (disposed)
+      throw AssertionError('[VideoPlayerController] has been disposed');
     if (state.playing) {
       controller.pause();
     } else {
@@ -114,7 +126,8 @@ class VideoPlayerControlsWrapper extends AbstractPlayer {
 
   @override
   Widget videoWidget() {
-    if (disposed) throw AssertionError('[VideoPlayerController] has been disposed');
+    if (disposed)
+      throw AssertionError('[VideoPlayerController] has been disposed');
     return VideoPlayer(controller);
   }
 }
