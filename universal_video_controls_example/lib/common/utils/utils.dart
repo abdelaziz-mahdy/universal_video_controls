@@ -4,7 +4,8 @@ import 'package:video_player/video_player.dart';
 
 import 'utils_import.dart';
 
-Future<void> showFilePicker(BuildContext context, void Function(VideoPlayerController) onControllerCreated) async {
+Future<void> showFilePicker(BuildContext context,
+    void Function(VideoPlayerController) onControllerCreated) async {
   final result = await FilePicker.platform.pickFiles(type: FileType.any);
   if (result?.files.isNotEmpty ?? false) {
     final file = result!.files.first;
@@ -16,7 +17,8 @@ Future<void> showFilePicker(BuildContext context, void Function(VideoPlayerContr
   }
 }
 
-Future<void> showURIPicker(BuildContext context, void Function(VideoPlayerController) onControllerCreated) async {
+Future<void> showURIPicker(BuildContext context,
+    void Function(VideoPlayerController) onControllerCreated) async {
   final key = GlobalKey<FormState>();
   final src = TextEditingController();
   await showModalBottomSheet(

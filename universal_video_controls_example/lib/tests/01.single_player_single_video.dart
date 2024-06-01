@@ -23,7 +23,7 @@ class _SinglePlayerSingleVideoScreenState
   @override
   void initState() {
     super.initState();
-      _initializeVideoPlayer(getSources()[0]);
+    _initializeVideoPlayer(getSources()[0]);
   }
 
   void _initializeVideoPlayer(String source) async {
