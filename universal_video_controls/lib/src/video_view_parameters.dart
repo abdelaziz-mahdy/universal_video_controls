@@ -6,7 +6,7 @@
 import 'dart:async';
 import 'package:flutter/widgets.dart';
 
-import 'video/video.dart';
+import 'video_controls/video_controls.dart';
 import 'subtitle/subtitle_view.dart';
 
 /// {@template video_view_parameters}

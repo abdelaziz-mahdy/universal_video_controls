@@ -66,9 +66,7 @@ class TabViewState extends State<TabView> {
   @override
   void initState() {
     super.initState();
-    prepareSources().then((_) {
       _initializeVideoPlayer(getSources()[widget.i % getSources().length]);
-    });
   }
 
   void _initializeVideoPlayer(String source) async {

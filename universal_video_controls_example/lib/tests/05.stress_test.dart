@@ -22,9 +22,7 @@ class _StressTestScreenState extends State<StressTestScreen> {
   @override
   void initState() {
     super.initState();
-    prepareSources().then((_) {
       _initializeVideoPlayers();
-    });
   }
 
   void _initializeVideoPlayers() async {

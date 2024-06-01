@@ -14,11 +14,18 @@ class VideoPlayerControlsWrapper extends AbstractPlayer {
   }
 
   void _initialize() {
+    state = state.copyWith(
+      playing: isPlaying,
+      completed: isCompleted,
+      position: controller.value.position,
+      duration: controller.value.duration,
+      buffering: controller.value.isBuffering,
+      width: controller.value.size.width.toInt(),
+      height: controller.value.size.height.toInt(),
+      volume: controller.value.volume * 100,
+      subtitle: [controller.value.caption.text],
+    );
     controller.addListener(() {
-      final isPlaying = controller.value.isPlaying;
-      final isCompleted =
-          controller.value.position == controller.value.duration;
-
       state = state.copyWith(
         playing: isPlaying,
         completed: isCompleted,
@@ -69,11 +76,15 @@ class VideoPlayerControlsWrapper extends AbstractPlayer {
     });
   }
 
+  bool get isPlaying => controller.value.isPlaying;
+
+  bool get isCompleted =>
+      controller.value.position == controller.value.duration;
+
   @override
   Future<void> dispose({bool synchronized = true}) async {
     if (disposed) return;
     disposed = true;
-    await controller.dispose();
     await super.dispose();
   }
 

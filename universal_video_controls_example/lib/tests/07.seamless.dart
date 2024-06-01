@@ -24,11 +24,9 @@ class _SeamlessState extends State<Seamless> {
   @override
   void initState() {
     super.initState();
-    prepareSources().then((_) {
       Future.wait([createPlayer(0), createPlayer(1)]).then((_) {
         players[0]?.play();
       });
-    });
   }
 
   @override

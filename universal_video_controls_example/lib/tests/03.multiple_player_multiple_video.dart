@@ -23,9 +23,7 @@ class _MultiplePlayerMultipleVideoScreenState
   @override
   void initState() {
     super.initState();
-    prepareSources().then((_) {
       _initializeVideoPlayers();
-    });
   }
 
   void _initializeVideoPlayers() async {

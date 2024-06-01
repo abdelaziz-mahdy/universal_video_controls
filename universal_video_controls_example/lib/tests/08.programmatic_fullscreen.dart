@@ -26,9 +26,7 @@ class _ProgrammaticFullscreenState extends State<ProgrammaticFullscreen> {
   void initState() {
     super.initState();
     key = GlobalKey<VideoControlsState>();
-    prepareSources().then((_) {
-      _initializeVideoPlayer(getSources()[0]);
-    });
+    _initializeVideoPlayer(getSources()[0]);
   }
 
   void _initializeVideoPlayer(String source) async {

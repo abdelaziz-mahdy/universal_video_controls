@@ -6,7 +6,7 @@
 
 
 export 'src/video_view_parameters.dart';
-export 'src/video/video.dart';
+export 'src/video_controls/video_controls.dart';
 export 'src/subtitle/subtitle_view.dart';
 
 

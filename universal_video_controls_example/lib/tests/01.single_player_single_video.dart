@@ -23,9 +23,7 @@ class _SinglePlayerSingleVideoScreenState
   @override
   void initState() {
     super.initState();
-    prepareSources().then((_) {
       _initializeVideoPlayer(getSources()[0]);
-    });
   }
 
   void _initializeVideoPlayer(String source) async {
@@ -33,6 +31,7 @@ class _SinglePlayerSingleVideoScreenState
     setState(() {
       _isInitialized = true;
     });
+    _controller.play();
     _controller.addListener(() {
       if (_controller.value.hasError) {
         debugPrint(_controller.value.errorDescription);

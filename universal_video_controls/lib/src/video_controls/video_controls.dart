@@ -323,26 +323,34 @@ class VideoControlsState extends State<VideoControls>
                     child: FittedBox(
                         fit: videoViewParameters.fit,
                         alignment: videoViewParameters.alignment,
-                        child: SizedBox(
-                          width: rect.maxWidth,
-                          height: rect.maxHeight,
-                          child: Stack(
-                            children: [
-                              const SizedBox(),
-                              Positioned.fill(
-                                  child: player(context).videoWidget()),
-                              // // Keep the |Texture| hidden before the first frame renders. In native implementation, if no default frame size is passed (through VideoController), a starting 1 pixel sized texture/surface is created to initialize the render context & check for H/W support.
-                              // // This is then resized based on the video dimensions & accordingly texture ID, texture, EGLDisplay, EGLSurface etc. (depending upon platform) are also changed. Just don't show that 1 pixel texture to the UI.
-                              // // NOTE: Unmounting |Texture| causes the |MarkTextureFrameAvailable| to not do anything on GNU/Linux.
-                              // if (rect.width <= 1.0 && rect.height <= 1.0)
-                              //   Positioned.fill(
-                              //     child: Container(
-                              //       color: videoViewParameters.fill,
-                              //     ),
-                              //   ),
-                            ],
-                          ),
-                        )),
+                        child: StreamBuilder<int?>(
+                            stream: widget.player.stream.width,
+                            builder: (context, snapshot) {
+                              return SizedBox(
+                                width:
+                                    player(context).state.width?.toDouble() ??
+                                        rect.maxWidth,
+                                height:
+                                    player(context).state.height?.toDouble() ??
+                                        rect.maxHeight,
+                                child: Stack(
+                                  children: [
+                                    const SizedBox(),
+                                    Positioned.fill(
+                                        child: player(context).videoWidget()),
+                                    // // Keep the |Texture| hidden before the first frame renders. In native implementation, if no default frame size is passed (through VideoController), a starting 1 pixel sized texture/surface is created to initialize the render context & check for H/W support.
+                                    // // This is then resized based on the video dimensions & accordingly texture ID, texture, EGLDisplay, EGLSurface etc. (depending upon platform) are also changed. Just don't show that 1 pixel texture to the UI.
+                                    // // NOTE: Unmounting |Texture| causes the |MarkTextureFrameAvailable| to not do anything on GNU/Linux.
+                                    // if (rect.width <= 1.0 && rect.height <= 1.0)
+                                    //   Positioned.fill(
+                                    //     child: Container(
+                                    //       color: videoViewParameters.fill,
+                                    //     ),
+                                    //   ),
+                                  ],
+                                ),
+                              );
+                            })),
                   ),
                   if (videoViewParameters.subtitleViewConfiguration.visible)
                     Positioned.fill(
