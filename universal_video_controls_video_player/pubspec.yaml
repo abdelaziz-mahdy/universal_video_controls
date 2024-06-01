@@ -1,7 +1,7 @@
 name: universal_video_controls_video_player
-description: "A new Flutter package project."
+description: Interface for video_player to work with universal_video_controls
 version: 0.0.1
-homepage:
+homepage: https://github.com/abdelaziz-mahdy/universal_video_controls
 
 environment:
   sdk: '>=3.4.1 <4.0.0'

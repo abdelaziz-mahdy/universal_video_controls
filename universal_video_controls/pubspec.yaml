@@ -1,7 +1,7 @@
 name: universal_video_controls
-description: "A new Flutter package project."
+description: "Video player controls for all platforms based on media_kit controls but with abstraction to allow any other player to work using it (video_player is supported)"
 version: 0.0.1
-homepage:
+homepage: https://github.com/abdelaziz-mahdy/universal_video_controls
 
 environment:
   sdk: '>=3.4.1 <4.0.0'
