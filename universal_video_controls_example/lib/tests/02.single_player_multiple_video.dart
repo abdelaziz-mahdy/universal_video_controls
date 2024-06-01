@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:universal_video_controls/universal_video_controls.dart';
+import 'package:universal_video_controls_video_player/universal_video_controls_video_player.dart';
 import 'package:video_player/video_player.dart';
 
 import '../common/sources/sources.dart';
@@ -9,10 +11,12 @@ class SinglePlayerMultipleVideoScreen extends StatefulWidget {
   const SinglePlayerMultipleVideoScreen({Key? key}) : super(key: key);
 
   @override
-  State<SinglePlayerMultipleVideoScreen> createState() => _SinglePlayerMultipleVideoScreenState();
+  State<SinglePlayerMultipleVideoScreen> createState() =>
+      _SinglePlayerMultipleVideoScreenState();
 }
 
-class _SinglePlayerMultipleVideoScreenState extends State<SinglePlayerMultipleVideoScreen> {
+class _SinglePlayerMultipleVideoScreenState
+    extends State<SinglePlayerMultipleVideoScreen> {
   late VideoPlayerController _controller;
   bool _isInitialized = false;
 
@@ -43,29 +47,30 @@ class _SinglePlayerMultipleVideoScreenState extends State<SinglePlayerMultipleVi
   }
 
   List<Widget> get items => [
-    for (int i = 0; i < getSources().length; i++)
-      ListTile(
-        title: Text(
-          'Video $i',
-          style: const TextStyle(
-            fontSize: 14.0,
+        for (int i = 0; i < getSources().length; i++)
+          ListTile(
+            title: Text(
+              'Video $i',
+              style: const TextStyle(
+                fontSize: 14.0,
+              ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+            onTap: () {
+              setState(() {
+                _controller.dispose();
+                _isInitialized = false;
+                _initializeVideoPlayer(getSources()[i]);
+              });
+            },
           ),
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-        ),
-        onTap: () {
-          setState(() {
-            _controller.dispose();
-            _isInitialized = false;
-            _initializeVideoPlayer(getSources()[i]);
-          });
-        },
-      ),
-  ];
+      ];
 
   @override
   Widget build(BuildContext context) {
-    final horizontal = MediaQuery.of(context).size.width > MediaQuery.of(context).size.height;
+    final horizontal =
+        MediaQuery.of(context).size.width > MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Video Player'),
@@ -121,8 +126,12 @@ class _SinglePlayerMultipleVideoScreenState extends State<SinglePlayerMultipleVi
                             clipBehavior: Clip.antiAlias,
                             margin: const EdgeInsets.all(32.0),
                             child: _isInitialized
-                                ? VideoPlayer(_controller)
-                                : const Center(child: CircularProgressIndicator()),
+                                ? Video(
+                                    player:
+                                        VideoPlayerControlsWrapper(_controller),
+                                  )
+                                : const Center(
+                                    child: CircularProgressIndicator()),
                           ),
                         ),
                         const SizedBox(height: 32.0),
@@ -143,7 +152,9 @@ class _SinglePlayerMultipleVideoScreenState extends State<SinglePlayerMultipleVi
                   if (_isInitialized)
                     AspectRatio(
                       aspectRatio: _controller.value.aspectRatio,
-                      child: VideoPlayer(_controller),
+                      child: Video(
+                        player: VideoPlayerControlsWrapper(_controller),
+                      ),
                     )
                   else
                     const Center(child: CircularProgressIndicator()),

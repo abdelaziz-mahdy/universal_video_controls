@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:universal_video_controls/universal_video_controls.dart';
+import 'package:universal_video_controls_video_player/universal_video_controls_video_player.dart';
 import 'package:video_player/video_player.dart';
 
 import '../common/sources/sources.dart';
@@ -124,7 +126,7 @@ class _SinglePlayerSingleVideoScreenState extends State<SinglePlayerSingleVideoS
                               child: _isInitialized
                                   ? AspectRatio(
                                       aspectRatio: _controller.value.aspectRatio,
-                                      child: VideoPlayer(_controller),
+                      child: Video(player: VideoPlayerControlsWrapper(_controller),),
                                     )
                                   : const Center(
                                       child: CircularProgressIndicator(),
@@ -150,7 +152,7 @@ class _SinglePlayerSingleVideoScreenState extends State<SinglePlayerSingleVideoS
                   if (_isInitialized)
                     AspectRatio(
                       aspectRatio: _controller.value.aspectRatio,
-                      child: VideoPlayer(_controller),
+                      child: Video(player: VideoPlayerControlsWrapper(_controller),),
                     )
                   else
                     const Center(

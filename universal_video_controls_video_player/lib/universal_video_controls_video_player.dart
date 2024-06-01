@@ -26,6 +26,7 @@ class VideoPlayerControlsWrapper extends AbstractPlayer {
         buffering: controller.value.isBuffering,
         width: controller.value.size.width.toInt(),
         height: controller.value.size.height.toInt(),
+        volume: controller.value.volume*100,
       );
 
       if (!playingController.isClosed) {
@@ -54,6 +55,10 @@ class VideoPlayerControlsWrapper extends AbstractPlayer {
 
       if (!heightController.isClosed) {
         heightController.add(controller.value.size.height.toInt());
+      }
+
+      if (!volumeController.isClosed) {
+        volumeController.add(controller.value.volume*100);
       }
     });
   }
@@ -87,7 +92,7 @@ class VideoPlayerControlsWrapper extends AbstractPlayer {
   @override
   Future<void> setVolume(double volume, {bool synchronized = true}) async {
     if (disposed) throw AssertionError('[VideoPlayerController] has been disposed');
-    await controller.setVolume(volume);
+    await controller.setVolume(volume/100);
   }
 
   @override

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:universal_video_controls/universal_video_controls.dart';
+import 'package:universal_video_controls_video_player/universal_video_controls_video_player.dart';
 import 'package:video_player/video_player.dart';
 
 import '../common/sources/sources.dart';
 import '../common/utils/utils.dart';
+import '../common/utils/utils_import.dart';
 
 class TabsTest extends StatelessWidget {
   const TabsTest({Key? key}) : super(key: key);
@@ -40,8 +43,7 @@ class TabsTest extends StatelessWidget {
         ),
         body: TabBarView(
           children: [
-            for (int i = 0; i < count; i++)
-              TabView(i),
+            for (int i = 0; i < count; i++) TabView(i),
           ],
         ),
       ),
@@ -88,12 +90,10 @@ class TabViewState extends State<TabView> {
   }
 
   @override
- 
-
- Widget build(BuildContext context) {
-    return VideoPlayer(
-      _controller,
-      // controls: NoVideoControls,
+  Widget build(BuildContext context) {
+    return Video(
+      player: VideoPlayerControlsWrapper(_controller),
+      controls: NoVideoControls,
     );
   }
 }

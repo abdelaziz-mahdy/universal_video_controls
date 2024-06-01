@@ -38,7 +38,8 @@ class _SeamlessState extends State<Seamless> {
   }
 
   Future<void> createPlayer(int page) async {
-    final controller = await initializeVideoPlayer(getSources()[Random().nextInt(getSources().length)]);
+    final controller = await initializeVideoPlayer(
+        getSources()[Random().nextInt(getSources().length)]);
     players[page] = controller;
 
     if (early.contains(page)) {
@@ -89,7 +90,9 @@ class _SeamlessState extends State<Seamless> {
                   child: CircularProgressIndicator(color: Color(0xffffffff)),
                 );
               }
-              return VideoPlayer(controller);
+              return Video(
+                player: VideoPlayerControlsWrapper(_controller),
+              );
             },
             controller: pageController,
             scrollDirection: Axis.vertical,
