@@ -126,7 +126,7 @@ class _SinglePlayerMultipleVideoScreenState
                             clipBehavior: Clip.antiAlias,
                             margin: const EdgeInsets.all(32.0),
                             child: _isInitialized
-                                ? Video(
+                                ? VideoControls(
                                     player:
                                         VideoPlayerControlsWrapper(_controller),
                                   )
@@ -152,7 +152,7 @@ class _SinglePlayerMultipleVideoScreenState
                   if (_isInitialized)
                     AspectRatio(
                       aspectRatio: _controller.value.aspectRatio,
-                      child: Video(
+                      child: VideoControls(
                         player: VideoPlayerControlsWrapper(_controller),
                       ),
                     )

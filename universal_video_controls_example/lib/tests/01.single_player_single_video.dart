@@ -11,10 +11,12 @@ class SinglePlayerSingleVideoScreen extends StatefulWidget {
   const SinglePlayerSingleVideoScreen({Key? key}) : super(key: key);
 
   @override
-  State<SinglePlayerSingleVideoScreen> createState() => _SinglePlayerSingleVideoScreenState();
+  State<SinglePlayerSingleVideoScreen> createState() =>
+      _SinglePlayerSingleVideoScreenState();
 }
 
-class _SinglePlayerSingleVideoScreenState extends State<SinglePlayerSingleVideoScreen> {
+class _SinglePlayerSingleVideoScreenState
+    extends State<SinglePlayerSingleVideoScreen> {
   late VideoPlayerController _controller;
   bool _isInitialized = false;
 
@@ -45,29 +47,30 @@ class _SinglePlayerSingleVideoScreenState extends State<SinglePlayerSingleVideoS
   }
 
   List<Widget> get items => [
-    for (int i = 0; i < getSources().length; i++)
-      ListTile(
-        title: Text(
-          'Video $i',
-          style: const TextStyle(
-            fontSize: 14.0,
+        for (int i = 0; i < getSources().length; i++)
+          ListTile(
+            title: Text(
+              'Video $i',
+              style: const TextStyle(
+                fontSize: 14.0,
+              ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+            onTap: () {
+              setState(() {
+                _controller.dispose();
+                _isInitialized = false;
+                _initializeVideoPlayer(getSources()[i]);
+              });
+            },
           ),
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-        ),
-        onTap: () {
-          setState(() {
-            _controller.dispose();
-            _isInitialized = false;
-            _initializeVideoPlayer(getSources()[i]);
-          });
-        },
-      ),
-  ];
+      ];
 
   @override
   Widget build(BuildContext context) {
-    final horizontal = MediaQuery.of(context).size.width > MediaQuery.of(context).size.height;
+    final horizontal =
+        MediaQuery.of(context).size.width > MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Video Player'),
@@ -125,8 +128,12 @@ class _SinglePlayerSingleVideoScreenState extends State<SinglePlayerSingleVideoS
                               margin: const EdgeInsets.all(32.0),
                               child: _isInitialized
                                   ? AspectRatio(
-                                      aspectRatio: _controller.value.aspectRatio,
-                      child: Video(player: VideoPlayerControlsWrapper(_controller),),
+                                      aspectRatio:
+                                          _controller.value.aspectRatio,
+                                      child: VideoControls(
+                                        player: VideoPlayerControlsWrapper(
+                                            _controller),
+                                      ),
                                     )
                                   : const Center(
                                       child: CircularProgressIndicator(),
@@ -152,7 +159,9 @@ class _SinglePlayerSingleVideoScreenState extends State<SinglePlayerSingleVideoS
                   if (_isInitialized)
                     AspectRatio(
                       aspectRatio: _controller.value.aspectRatio,
-                      child: Video(player: VideoPlayerControlsWrapper(_controller),),
+                      child: VideoControls(
+                        player: VideoPlayerControlsWrapper(_controller),
+                      ),
                     )
                   else
                     const Center(

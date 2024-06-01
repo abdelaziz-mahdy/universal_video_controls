@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:universal_video_controls/universal_video_controls.dart';
+import 'package:universal_video_controls_video_player/universal_video_controls_video_player.dart';
 import 'package:video_player/video_player.dart';
 
 import '../common/sources/sources.dart';
 import '../common/utils/utils.dart';
+import '../common/utils/utils_import.dart';
 
 Future<void> paintFirstFrame(BuildContext context) async {
   final List<VideoPlayerController> _controllers = [];
   for (int i = 0; i < 5; i++) {
-    final controller = await initializeVideoPlayer(getSources()[i % getSources().length]);
+    final controller =
+        await initializeVideoPlayer(getSources()[i % getSources().length]);
     _controllers.add(controller);
   }
 
@@ -45,9 +49,10 @@ class PaintFirstFrameScreen extends StatelessWidget {
           final video = SizedBox(
             height: 256.0,
             child: AspectRatio(
-              aspectRatio: 16.0 / 9.0,
-              child: VideoPlayer(controllers[i]),
-            ),
+                aspectRatio: 16.0 / 9.0,
+                child: VideoControls(
+                  player: VideoPlayerControlsWrapper(controllers[i]),
+                )),
           );
           if (Theme.of(context).platform == TargetPlatform.android) {
             return video;

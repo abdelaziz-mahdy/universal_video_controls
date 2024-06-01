@@ -1,6 +1,8 @@
 import 'dart:math';
 import 'dart:collection';
 import 'package:flutter/material.dart';
+import 'package:universal_video_controls/universal_video_controls.dart';
+import 'package:universal_video_controls_video_player/universal_video_controls_video_player.dart';
 import 'package:video_player/video_player.dart';
 
 import '../common/sources/sources.dart';
@@ -90,8 +92,8 @@ class _SeamlessState extends State<Seamless> {
                   child: CircularProgressIndicator(color: Color(0xffffffff)),
                 );
               }
-              return Video(
-                player: VideoPlayerControlsWrapper(_controller),
+              return VideoControls(
+                player: VideoPlayerControlsWrapper(controller),
               );
             },
             controller: pageController,

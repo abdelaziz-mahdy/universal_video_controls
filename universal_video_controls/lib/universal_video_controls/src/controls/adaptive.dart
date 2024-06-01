@@ -9,10 +9,10 @@ import '../../../universal_video_controls.dart';
 
 /// {@template adaptive_video_controls}
 ///
-/// [Video] controls based on the running platform.
+/// [VideoControls] controls based on the running platform.
 ///
 /// {@endtemplate}
-Widget AdaptiveVideoControls(VideoState state) {
+Widget AdaptiveVideoControls(VideoControlsState state) {
   switch (Theme.of(state.context).platform) {
     case TargetPlatform.android:
     case TargetPlatform.iOS:

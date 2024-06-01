@@ -90,7 +90,7 @@ class _MultiplePlayerMultipleVideoScreenState
                         child: _isInitialized
                             ? AspectRatio(
                                 aspectRatio: controller.value.aspectRatio,
-                                child: Video(
+                                child: VideoControls(
                                   player:
                                       VideoPlayerControlsWrapper(controller),
                                 ),
@@ -106,7 +106,7 @@ class _MultiplePlayerMultipleVideoScreenState
                     if (_isInitialized)
                       AspectRatio(
                         aspectRatio: controller.value.aspectRatio,
-                        child: Video(
+                        child: VideoControls(
                           player: VideoPlayerControlsWrapper(controller),
                         ),
                       )

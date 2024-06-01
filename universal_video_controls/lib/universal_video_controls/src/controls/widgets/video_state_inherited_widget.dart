@@ -10,11 +10,11 @@ import '../../../../universal_video_controls.dart';
 
 /// {@template video_state_inherited_widget}
 ///
-/// Inherited widget which provides [VideoState] associated with the parent [Video] widget to descendant widgets.
+/// Inherited widget which provides [VideoControlsState] associated with the parent [VideoControls] widget to descendant widgets.
 ///
 /// {@endtemplate}
 class VideoStateInheritedWidget extends InheritedWidget {
-  final VideoState state;
+  final VideoControlsState state;
   final ValueNotifier<BuildContext?> contextNotifier;
   final ValueNotifier<VideoViewParameters> videoViewParametersNotifier;
   VideoStateInheritedWidget({
@@ -54,11 +54,11 @@ class VideoStateInheritedWidget extends InheritedWidget {
 
 /// {@template video_state_inherited_widget_context_notifier}
 ///
-/// This widget is used to notify the [VideoState._contextNotifier] about the most recent [BuildContext] associated with the [Video] widget.
+/// This widget is used to notify the [VideoControlsState._contextNotifier] about the most recent [BuildContext] associated with the [VideoControls] widget.
 ///
 /// {@endtemplate}
 class _VideoStateInheritedWidgetContextNotifier extends StatefulWidget {
-  final VideoState state;
+  final VideoControlsState state;
   final ValueNotifier<BuildContext?> contextNotifier;
   final ValueNotifier<VideoViewParameters?> videoViewParametersNotifier;
 
@@ -78,7 +78,7 @@ class _VideoStateInheritedWidgetContextNotifier extends StatefulWidget {
 
 class _VideoStateInheritedWidgetContextNotifierState
     extends State<_VideoStateInheritedWidgetContextNotifier> {
-  static final _fallback = HashMap<VideoState, BuildContext>.identity();
+  static final _fallback = HashMap<VideoControlsState, BuildContext>.identity();
 
   @override
   void dispose() {

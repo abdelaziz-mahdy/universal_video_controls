@@ -9,11 +9,9 @@ import 'tests/03.multiple_player_multiple_video.dart';
 import 'tests/04.tabs_test.dart';
 import 'tests/05.stress_test.dart';
 import 'tests/06.paint_first_frame.dart';
-import 'tests/07.video_controller_set_size.dart';
-import 'tests/08.screenshot.dart';
-import 'tests/09.seamless.dart';
-import 'tests/10.programmatic_fullscreen.dart';
-import 'tests/11.video_view_parameters.dart';
+import 'tests/07.seamless.dart';
+import 'tests/08.programmatic_fullscreen.dart';
+import 'tests/09.video_view_parameters.dart';
 
 import 'common/sources/sources.dart';
 
@@ -62,7 +60,6 @@ class PrimaryScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('package:media_kit'),
         actions: [
-        
           const SizedBox(width: 16.0),
         ],
       ),
@@ -157,38 +154,6 @@ class PrimaryScreen extends StatelessWidget {
               paintFirstFrame(context);
             },
           ),
-          if (!UniversalPlatform.isWeb)
-            ListTile(
-              title: const Text(
-                'video_controller_set_size.dart',
-                style: TextStyle(fontSize: 14.0),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-              onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => const VideoControllerSetSizeScreen(),
-                  ),
-                );
-              },
-            ),
-          if (!UniversalPlatform.isWeb)
-            ListTile(
-              title: const Text(
-                'screenshot.dart',
-                style: TextStyle(fontSize: 14.0),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-              onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => const Screenshot(),
-                  ),
-                );
-              },
-            ),
           ListTile(
             title: const Text(
               'seamless.dart',

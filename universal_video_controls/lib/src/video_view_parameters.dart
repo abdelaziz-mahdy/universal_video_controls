@@ -14,7 +14,7 @@ import 'subtitle/subtitle_view.dart';
 /// VideoViewParameters
 /// -------------------
 ///
-/// The attributes of a [Video] widget composed into a single class.
+/// The attributes of a [VideoControls] widget composed into a single class.
 ///
 /// {@endtemplate}
 class VideoViewParameters {

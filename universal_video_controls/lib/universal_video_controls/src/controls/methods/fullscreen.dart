@@ -11,11 +11,11 @@ import 'video_state.dart';
 
 import '../widgets/video_controls_theme_data_injector.dart';
 
-/// Whether a [Video] present in the current [BuildContext] is in fullscreen or not.
+/// Whether a [VideoControls] present in the current [BuildContext] is in fullscreen or not.
 bool isFullscreen(BuildContext context) =>
     FullscreenInheritedWidget.maybeOf(context) != null;
 
-/// Makes the [Video] present in the current [BuildContext] enter fullscreen.
+/// Makes the [VideoControls] present in the current [BuildContext] enter fullscreen.
 Future<void> enterFullscreen(BuildContext context) {
   return lock.synchronized(() async {
     if (!isFullscreen(context)) {
@@ -43,7 +43,7 @@ Future<void> enterFullscreen(BuildContext context) {
                       contextNotifier: contextNotifierValue,
                       videoViewParametersNotifier:
                           videoViewParametersNotifierValue,
-                      child: Video(
+                      child: VideoControls(
                         player: controllerValue,
                         // Do not restrict the video's width & height in fullscreen mode:
                         width: null,
@@ -85,7 +85,7 @@ Future<void> enterFullscreen(BuildContext context) {
   });
 }
 
-/// Makes the [Video] present in the current [BuildContext] exit fullscreen.
+/// Makes the [VideoControls] present in the current [BuildContext] exit fullscreen.
 Future<void> exitFullscreen(BuildContext context) {
   return lock.synchronized(() async {
     if (isFullscreen(context)) {
@@ -102,7 +102,7 @@ Future<void> exitFullscreen(BuildContext context) {
   });
 }
 
-/// Toggles fullscreen for the [Video] present in the current [BuildContext].
+/// Toggles fullscreen for the [VideoControls] present in the current [BuildContext].
 Future<void> toggleFullscreen(BuildContext context) {
   if (isFullscreen(context)) {
     return exitFullscreen(context);

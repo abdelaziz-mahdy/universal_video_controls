@@ -16,10 +16,10 @@ import 'widgets/video_controls_theme_data_injector.dart';
 
 /// {@template material_video_controls}
 ///
-/// [Video] controls which use Material design.
+/// [VideoControls] controls which use Material design.
 ///
 /// {@endtemplate}
-Widget MaterialVideoControls(VideoState state) {
+Widget MaterialVideoControls(VideoControlsState state) {
   return const VideoControlsThemeDataInjector(
     child: _MaterialVideoControls(),
   );

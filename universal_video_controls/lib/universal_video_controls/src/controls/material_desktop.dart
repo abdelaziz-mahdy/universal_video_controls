@@ -16,10 +16,10 @@ import 'widgets/video_controls_theme_data_injector.dart';
 
 /// {@template material_desktop_video_controls}
 ///
-/// [Video] controls which use Material design.
+/// [VideoControls] controls which use Material design.
 ///
 /// {@endtemplate}
-Widget MaterialDesktopVideoControls(VideoState state) {
+Widget MaterialDesktopVideoControls(VideoControlsState state) {
   return const VideoControlsThemeDataInjector(
     child: _MaterialDesktopVideoControls(),
   );
@@ -548,13 +548,13 @@ class _MaterialDesktopVideoControlsState
                 player(context).seek(rate);
               },
               const SingleActivator(LogicalKeyboardKey.arrowLeft): () {
-                final rate = player(context).state.position -
-                    const Duration(seconds: 2);
+                final rate =
+                    player(context).state.position - const Duration(seconds: 2);
                 player(context).seek(rate);
               },
               const SingleActivator(LogicalKeyboardKey.arrowRight): () {
-                final rate = player(context).state.position +
-                    const Duration(seconds: 2);
+                final rate =
+                    player(context).state.position + const Duration(seconds: 2);
                 player(context).seek(rate);
               },
               const SingleActivator(LogicalKeyboardKey.arrowUp): () {
@@ -584,16 +584,12 @@ class _MaterialDesktopVideoControlsState
                   ? (e) {
                       if (e is PointerScrollEvent) {
                         if (e.delta.dy > 0) {
-                          final volume =
-                              player(context).state.volume - 5.0;
-                          player(context)
-                              .setVolume(volume.clamp(0.0, 100.0));
+                          final volume = player(context).state.volume - 5.0;
+                          player(context).setVolume(volume.clamp(0.0, 100.0));
                         }
                         if (e.delta.dy < 0) {
-                          final volume =
-                              player(context).state.volume + 5.0;
-                          player(context)
-                              .setVolume(volume.clamp(0.0, 100.0));
+                          final volume = player(context).state.volume + 5.0;
+                          player(context).setVolume(volume.clamp(0.0, 100.0));
                         }
                       }
                     }
@@ -630,16 +626,12 @@ class _MaterialDesktopVideoControlsState
                 onPanUpdate: _theme(context).modifyVolumeOnScroll
                     ? (e) {
                         if (e.delta.dy > 0) {
-                          final volume =
-                              player(context).state.volume - 5.0;
-                          player(context)
-                              .setVolume(volume.clamp(0.0, 100.0));
+                          final volume = player(context).state.volume - 5.0;
+                          player(context).setVolume(volume.clamp(0.0, 100.0));
                         }
                         if (e.delta.dy < 0) {
-                          final volume =
-                              player(context).state.volume + 5.0;
-                          player(context)
-                              .setVolume(volume.clamp(0.0, 100.0));
+                          final volume = player(context).state.volume + 5.0;
+                          player(context).setVolume(volume.clamp(0.0, 100.0));
                         }
                       }
                     : null,
@@ -1406,13 +1398,13 @@ class MaterialDesktopVolumeButtonState
           if (event is PointerScrollEvent) {
             if (event.scrollDelta.dy < 0) {
               player(context).setVolume(
-                    (volume + 5.0).clamp(0.0, 100.0),
-                  );
+                (volume + 5.0).clamp(0.0, 100.0),
+              );
             }
             if (event.scrollDelta.dy > 0) {
               player(context).setVolume(
-                    (volume - 5.0).clamp(0.0, 100.0),
-                  );
+                (volume - 5.0).clamp(0.0, 100.0),
+              );
             }
           }
         },

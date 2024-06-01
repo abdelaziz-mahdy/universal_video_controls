@@ -10,11 +10,11 @@ import '../methods/video_state.dart';
 
 /// {@template fullscreen_inherited_widget}
 ///
-/// Inherited widget used to identify whether parent [Video] is in fullscreen or not.
+/// Inherited widget used to identify whether parent [VideoControls] is in fullscreen or not.
 ///
 /// {@endtemplate}
 class FullscreenInheritedWidget extends InheritedWidget {
-  final VideoState parent;
+  final VideoControlsState parent;
 
   FullscreenInheritedWidget({
     super.key,

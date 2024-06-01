@@ -8,7 +8,7 @@ import '../../../universal_video_controls.dart';
 
 /// {@template no_video_controls}
 ///
-/// Disables [Video] controls.
+/// Disables [VideoControls] controls.
 ///
 /// {@endtemplate}
 const NoVideoControls = null;

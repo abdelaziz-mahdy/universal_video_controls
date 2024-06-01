@@ -1,9 +1,12 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:universal_video_controls/universal_video_controls.dart';
+import 'package:universal_video_controls_video_player/universal_video_controls_video_player.dart';
 import 'package:video_player/video_player.dart';
 
 import '../common/sources/sources.dart';
 import '../common/utils/utils.dart';
+import '../common/utils/utils_import.dart';
 
 class ProgrammaticFullscreen extends StatefulWidget {
   const ProgrammaticFullscreen({Key? key}) : super(key: key);
@@ -14,7 +17,7 @@ class ProgrammaticFullscreen extends StatefulWidget {
 
 class _ProgrammaticFullscreenState extends State<ProgrammaticFullscreen> {
   late VideoPlayerController _controller;
-  late GlobalKey<VideoPlayerState> key;
+  late GlobalKey<VideoControlsState> key;
   bool _isInitialized = false;
   int tick = 0;
   Timer? timer;
@@ -22,7 +25,7 @@ class _ProgrammaticFullscreenState extends State<ProgrammaticFullscreen> {
   @override
   void initState() {
     super.initState();
-    key = GlobalKey<VideoPlayerState>();
+    key = GlobalKey<VideoControlsState>();
     prepareSources().then((_) {
       _initializeVideoPlayer(getSources()[0]);
     });
@@ -48,48 +51,49 @@ class _ProgrammaticFullscreenState extends State<ProgrammaticFullscreen> {
   }
 
   List<Widget> get items => [
-    const SizedBox(height: 16.0),
-    Center(
-      child: ElevatedButton(
-        onPressed: () {
-          if (timer == null) {
-            timer = Timer.periodic(
-              const Duration(seconds: 1),
-              (timer) {
-                if (timer.tick % 3 == 0) {
-                  debugPrint('Fullscreen: ${key.currentState?.isFullscreen()}');
-                  if (key.currentState?.isFullscreen() ?? false) {
-                    key.currentState?.exitFullscreen();
-                  } else {
-                    key.currentState?.enterFullscreen();
-                  }
-                }
-                if (mounted) {
-                  setState(() {
-                    tick = timer.tick;
-                  });
-                }
-              },
-            );
-          } else {
-            timer?.cancel();
-            timer = null;
-          }
+        const SizedBox(height: 16.0),
+        Center(
+          child: ElevatedButton(
+            onPressed: () {
+              if (timer == null) {
+                timer = Timer.periodic(
+                  const Duration(seconds: 1),
+                  (timer) {
+                    if (timer.tick % 3 == 0) {
+                      debugPrint(
+                          'Fullscreen: ${key.currentState?.isFullscreen()}');
+                      if (key.currentState?.isFullscreen() ?? false) {
+                        key.currentState?.exitFullscreen();
+                      } else {
+                        key.currentState?.enterFullscreen();
+                      }
+                    }
+                    if (mounted) {
+                      setState(() {
+                        tick = timer.tick;
+                      });
+                    }
+                  },
+                );
+              } else {
+                timer?.cancel();
+                timer = null;
+              }
 
-
-          setState(() {});
-        },
-        child: Text(
-          timer == null ? 'Cycle Fullscreen' : '${3 - tick % 3}',
+              setState(() {});
+            },
+            child: Text(
+              timer == null ? 'Cycle Fullscreen' : '${3 - tick % 3}',
+            ),
+          ),
         ),
-      ),
-    ),
-    const SizedBox(height: 16.0),
-  ];
+        const SizedBox(height: 16.0),
+      ];
 
   @override
   Widget build(BuildContext context) {
-    final horizontal = MediaQuery.of(context).size.width > MediaQuery.of(context).size.height;
+    final horizontal =
+        MediaQuery.of(context).size.width > MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Video Player'),
@@ -146,11 +150,13 @@ class _ProgrammaticFullscreenState extends State<ProgrammaticFullscreen> {
                               clipBehavior: Clip.antiAlias,
                               margin: const EdgeInsets.all(32.0),
                               child: _isInitialized
-                                  ? VideoPlayer(
+                                  ? VideoControls(
                                       key: key,
-                                      controller: _controller,
+                                      player: VideoPlayerControlsWrapper(
+                                          _controller),
                                     )
-                                  : const Center(child: CircularProgressIndicator()),
+                                  : const Center(
+                                      child: CircularProgressIndicator()),
                             ),
                           ),
                           const SizedBox(height: 32.0),
@@ -172,9 +178,9 @@ class _ProgrammaticFullscreenState extends State<ProgrammaticFullscreen> {
                   if (_isInitialized)
                     AspectRatio(
                       aspectRatio: _controller.value.aspectRatio,
-                      child: VideoPlayer(
+                      child: VideoControls(
                         key: key,
-                        controller: _controller,
+                        player: VideoPlayerControlsWrapper(_controller),
                         width: MediaQuery.of(context).size.width,
                         height: MediaQuery.of(context).size.width * 9.0 / 16.0,
                       ),

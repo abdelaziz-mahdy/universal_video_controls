@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:universal_video_controls/universal_video_controls.dart';
+import 'package:universal_video_controls_video_player/universal_video_controls_video_player.dart';
 import 'package:video_player/video_player.dart';
 
 import '../common/sources/sources.dart';
@@ -27,7 +29,8 @@ class _StressTestScreenState extends State<StressTestScreen> {
 
   void _initializeVideoPlayers() async {
     for (int i = 0; i < count; i++) {
-      final controller = await initializeVideoPlayer(getSources()[i % getSources().length]);
+      final controller =
+          await initializeVideoPlayer(getSources()[i % getSources().length]);
       _controllers.add(controller);
     }
     setState(() {
@@ -47,7 +50,9 @@ class _StressTestScreenState extends State<StressTestScreen> {
   Widget build(BuildContext context) {
     final children = _controllers.map(
       (e) {
-        final video = VideoPlayer(e);
+        final video = VideoControls(
+          player: VideoPlayerControlsWrapper(e),
+        );
         if (Theme.of(context).platform == TargetPlatform.android) {
           return video;
         }

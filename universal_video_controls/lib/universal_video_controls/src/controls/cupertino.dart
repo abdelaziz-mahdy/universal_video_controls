@@ -11,10 +11,10 @@ import 'widgets/video_controls_theme_data_injector.dart';
 
 /// {@template cupertino_video_controls}
 ///
-/// [Video] controls which use Cupertino design.
+/// [VideoControls] controls which use Cupertino design.
 ///
 /// {@endtemplate}
-Widget CupertinoVideoControls(VideoState state) {
+Widget CupertinoVideoControls(VideoControlsState state) {
   return const VideoControlsThemeDataInjector(
     child: _CupertinoVideoControls(),
   );

@@ -20,7 +20,7 @@ import '../video_view_parameters.dart';
 ///
 /// Video
 /// -----
-/// [Video] widget is used to display video output.
+/// [VideoControls] widget is used to display video output.
 ///
 /// Use [VideoController] to initialize & handle the video rendering.
 ///
@@ -61,8 +61,8 @@ import '../video_view_parameters.dart';
 /// ```
 ///
 /// {@endtemplate}
-class Video extends StatefulWidget {
-  /// The [AbstractPlayer] reference to control this [Video] output.
+class VideoControls extends StatefulWidget {
+  /// The [AbstractPlayer] reference to control this [VideoControls] output.
   final AbstractPlayer player;
 
   /// Height of this viewport.
@@ -104,14 +104,14 @@ class Video extends StatefulWidget {
   /// The configuration for subtitles e.g. [TextStyle] & padding etc.
   final SubtitleViewConfiguration subtitleViewConfiguration;
 
-  /// The callback invoked when the [Video] enters fullscreen.
+  /// The callback invoked when the [VideoControls] enters fullscreen.
   final Future<void> Function() onEnterFullscreen;
 
-  /// The callback invoked when the [Video] exits fullscreen.
+  /// The callback invoked when the [VideoControls] exits fullscreen.
   final Future<void> Function() onExitFullscreen;
 
   /// {@macro video}
-  const Video({
+  const VideoControls({
     Key? key,
     required this.player,
     this.width,
@@ -131,10 +131,11 @@ class Video extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<Video> createState() => VideoState();
+  State<VideoControls> createState() => VideoControlsState();
 }
 
-class VideoState extends State<Video> with WidgetsBindingObserver {
+class VideoControlsState extends State<VideoControls>
+    with WidgetsBindingObserver {
   late final _contextNotifier = ValueNotifier<BuildContext?>(null);
   late final ValueNotifier<VideoViewParameters> _videoViewParametersNotifier =
       universal_video_controls.VideoStateInheritedWidget.maybeOf(
@@ -366,7 +367,7 @@ class VideoState extends State<Video> with WidgetsBindingObserver {
   }
 }
 
-typedef VideoControlsBuilder = Widget Function(VideoState state);
+typedef VideoControlsBuilder = Widget Function(VideoControlsState state);
 
 // --------------------------------------------------
 
