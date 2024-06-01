@@ -17,6 +17,7 @@ dependencies:
   universal_platform: ^1.0.0+1
   plugin_platform_interface: ^2.0.2
   collection: any
+  meta: ^1.7.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

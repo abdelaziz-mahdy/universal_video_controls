@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/widgets.dart';
 import 'package:collection/collection.dart';
+import 'package:meta/meta.dart';
 
 /// {@template abstract_player}
 /// AbstractPlayer
@@ -63,23 +64,23 @@ abstract class AbstractPlayer {
       ],
     );
   }
-
+  @mustBeOverridden
   Future<void> play() {
     throw UnimplementedError('[AbstractPlayer.play] is not implemented');
   }
-
+  @mustBeOverridden
   Future<void> playOrPause() {
     throw UnimplementedError('[AbstractPlayer.playOrPause] is not implemented');
   }
-
+  @mustBeOverridden
   Future<void> pause() {
     throw UnimplementedError('[AbstractPlayer.pause] is not implemented');
   }
-
+  @mustBeOverridden
   Future<void> seek(Duration duration) {
     throw UnimplementedError('[AbstractPlayer.seek] is not implemented');
   }
-
+  @mustBeOverridden
   Future<void> setVolume(double volume) {
     throw UnimplementedError('[AbstractPlayer.setVolume] is not implemented');
   }
@@ -91,11 +92,12 @@ abstract class AbstractPlayer {
   // Future<void> previous() {
   //   throw UnimplementedError('[AbstractPlayer.previous] is not implemented');
   // }
-
+  @mustBeOverridden
   Future<void> setRate(double rate) {
     throw UnimplementedError('[AbstractPlayer.setRate] is not implemented');
   }
 
+  @mustBeOverridden
   Widget videoWidget() {
     throw UnimplementedError('[AbstractPlayer.videoWidget] is not implemented');
   }
