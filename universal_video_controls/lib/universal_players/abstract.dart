@@ -1,7 +1,5 @@
 import 'dart:async';
-import 'dart:typed_data';
 import 'package:flutter/widgets.dart';
-import 'package:meta/meta.dart';
 import 'package:collection/collection.dart';
 
 /// {@template abstract_player}
@@ -19,7 +17,7 @@ abstract class AbstractPlayer {
   AbstractPlayer();
 
   /// Current state of the player.
-  late PlayerState state = PlayerState();
+  late PlayerState state = const PlayerState();
 
   /// Current state of the player available as listenable [Stream]s.
   late PlayerStream stream = PlayerStream(
@@ -31,7 +29,7 @@ abstract class AbstractPlayer {
     heightController.stream
         .distinct((previous, current) => previous == current),
     subtitleController.stream.distinct(
-        (previous, current) => ListEquality().equals(previous, current)),
+        (previous, current) => const ListEquality().equals(previous, current)),
     bufferingController.stream
         .distinct((previous, current) => previous == current),
     bufferController.stream

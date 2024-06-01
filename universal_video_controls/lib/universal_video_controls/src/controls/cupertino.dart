@@ -3,6 +3,7 @@
 /// Copyright © 2021 & onwards, Hitesh Kumar Saini <saini123hitesh@gmail.com>.
 /// All rights reserved.
 /// Use of this source code is governed by MIT license that can be found in the LICENSE file.
+library;
 // ignore_for_file: non_constant_identifier_names
 import 'package:flutter/cupertino.dart';
 import '../../../universal_video_controls.dart';
@@ -82,7 +83,7 @@ class CupertinoVideoControlsTheme extends InheritedWidget {
 
 /// {@macro cupertino_video_controls}
 class _CupertinoVideoControls extends StatefulWidget {
-  const _CupertinoVideoControls({Key? key}) : super(key: key);
+  const _CupertinoVideoControls();
 
   @override
   State<_CupertinoVideoControls> createState() =>

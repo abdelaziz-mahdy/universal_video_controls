@@ -59,8 +59,8 @@ class PrimaryScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('package:media_kit'),
-        actions: [
-          const SizedBox(width: 16.0),
+        actions: const [
+          SizedBox(width: 16.0),
         ],
       ),
       body: ListView(
@@ -206,7 +206,7 @@ class PrimaryScreen extends StatelessWidget {
 }
 
 class DownloadingScreen extends StatelessWidget {
-  const DownloadingScreen({Key? key}) : super(key: key);
+  const DownloadingScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

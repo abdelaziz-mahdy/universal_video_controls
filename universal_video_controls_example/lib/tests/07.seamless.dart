@@ -6,11 +6,10 @@ import 'package:universal_video_controls_video_player/universal_video_controls_v
 import 'package:video_player/video_player.dart';
 
 import '../common/sources/sources.dart';
-import '../common/utils/utils.dart';
 import '../common/utils/utils_import.dart';
 
 class Seamless extends StatefulWidget {
-  const Seamless({Key? key}) : super(key: key);
+  const Seamless({super.key});
 
   @override
   State<Seamless> createState() => _SeamlessState();

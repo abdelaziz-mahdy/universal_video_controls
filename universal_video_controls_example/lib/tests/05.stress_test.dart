@@ -4,11 +4,10 @@ import 'package:universal_video_controls_video_player/universal_video_controls_v
 import 'package:video_player/video_player.dart';
 
 import '../common/sources/sources.dart';
-import '../common/utils/utils.dart';
 import '../common/utils/utils_import.dart';
 
 class StressTestScreen extends StatefulWidget {
-  const StressTestScreen({Key? key}) : super(key: key);
+  const StressTestScreen({super.key});
 
   @override
   State<StressTestScreen> createState() => _StressTestScreenState();

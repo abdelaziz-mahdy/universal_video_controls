@@ -3,6 +3,7 @@
 /// Copyright © 2021 & onwards, Hitesh Kumar Saini <saini123hitesh@gmail.com>.
 /// All rights reserved.
 /// Use of this source code is governed by MIT license that can be found in the LICENSE file.
+library;
 // ignore_for_file: non_constant_identifier_names
 import 'dart:async';
 import 'package:flutter/material.dart';
@@ -1413,7 +1414,7 @@ class _MaterialVideoControlsState extends State<_MaterialVideoControls> {
                           Expanded(
                               flex: _theme(context)
                                   .seekOnDoubleTapLayoutWidgetRatios[1],
-                              child: SizedBox()),
+                              child: const SizedBox()),
                         Expanded(
                           flex: _theme(context)
                               .seekOnDoubleTapLayoutWidgetRatios[2],
@@ -1477,11 +1478,11 @@ class MaterialSeekBar extends StatefulWidget {
   final VoidCallback? onSeekEnd;
 
   const MaterialSeekBar({
-    Key? key,
+    super.key,
     this.delta,
     this.onSeekStart,
     this.onSeekEnd,
-  }) : super(key: key);
+  });
 
   @override
   MaterialSeekBarState createState() => MaterialSeekBarState();
@@ -1877,11 +1878,11 @@ class MaterialFullscreenButton extends StatelessWidget {
   final Color? iconColor;
 
   const MaterialFullscreenButton({
-    Key? key,
+    super.key,
     this.icon,
     this.iconSize,
     this.iconColor,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -1914,12 +1915,12 @@ class MaterialCustomButton extends StatelessWidget {
   final VoidCallback onPressed;
 
   const MaterialCustomButton({
-    Key? key,
+    super.key,
     this.icon,
     this.iconSize,
     this.iconColor,
     required this.onPressed,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -2006,10 +2007,9 @@ class _BackwardSeekIndicator extends StatefulWidget {
   final void Function(Duration) onChanged;
   final void Function(Duration) onSubmitted;
   const _BackwardSeekIndicator({
-    Key? key,
     required this.onChanged,
     required this.onSubmitted,
-  }) : super(key: key);
+  });
 
   @override
   State<_BackwardSeekIndicator> createState() => _BackwardSeekIndicatorState();
@@ -2093,10 +2093,9 @@ class _ForwardSeekIndicator extends StatefulWidget {
   final void Function(Duration) onChanged;
   final void Function(Duration) onSubmitted;
   const _ForwardSeekIndicator({
-    Key? key,
     required this.onChanged,
     required this.onSubmitted,
-  }) : super(key: key);
+  });
 
   @override
   State<_ForwardSeekIndicator> createState() => _ForwardSeekIndicatorState();

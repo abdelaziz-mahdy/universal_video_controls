@@ -3,6 +3,7 @@
 /// Copyright © 2021 & onwards, Hitesh Kumar Saini <saini123hitesh@gmail.com>.
 /// All rights reserved.
 /// Use of this source code is governed by MIT license that can be found in the LICENSE file.
+library;
 import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
@@ -23,10 +24,10 @@ class SubtitleView extends StatefulWidget {
 
   /// {@macro subtitle_view}
   const SubtitleView({
-    Key? key,
+    super.key,
     required this.player,
     required this.configuration,
-  }) : super(key: key);
+  });
 
   @override
   SubtitleViewState createState() => SubtitleViewState();

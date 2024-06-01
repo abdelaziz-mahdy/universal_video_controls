@@ -4,11 +4,10 @@ import 'package:universal_video_controls_video_player/universal_video_controls_v
 import 'package:video_player/video_player.dart';
 
 import '../common/sources/sources.dart';
-import '../common/utils/utils.dart';
 import '../common/utils/utils_import.dart';
 
 class MultiplePlayerMultipleVideoScreen extends StatefulWidget {
-  const MultiplePlayerMultipleVideoScreen({Key? key}) : super(key: key);
+  const MultiplePlayerMultipleVideoScreen({super.key});
 
   @override
   State<MultiplePlayerMultipleVideoScreen> createState() =>

@@ -3,6 +3,7 @@
 /// Copyright © 2021 & onwards, Hitesh Kumar Saini <saini123hitesh@gmail.com>.
 /// All rights reserved.
 /// Use of this source code is governed by MIT license that can be found in the LICENSE file.
+library;
 import 'dart:io';
 import 'dart:async';
 import 'package:flutter/widgets.dart';
@@ -112,7 +113,7 @@ class VideoControls extends StatefulWidget {
 
   /// {@macro video}
   const VideoControls({
-    Key? key,
+    super.key,
     required this.player,
     this.width,
     this.height,
@@ -128,7 +129,7 @@ class VideoControls extends StatefulWidget {
     this.subtitleViewConfiguration = const SubtitleViewConfiguration(),
     this.onEnterFullscreen = defaultEnterNativeFullscreen,
     this.onExitFullscreen = defaultExitNativeFullscreen,
-  }) : super(key: key);
+  });
 
   @override
   State<VideoControls> createState() => VideoControlsState();
