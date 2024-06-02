@@ -113,25 +113,30 @@ class VideoControls extends StatefulWidget {
   /// The callback invoked when the [VideoControls] exits fullscreen.
   final Future<void> Function() onExitFullscreen;
 
+  /// Whether to dispose the controls wrapper on the widget dispose or not
+  /// Which the [AbstractPlayer]
+  /// Default: is true to save resources
+  final bool autoDisposeControlsWrapper;
+
   /// {@macro video}
-  const VideoControls({
-    super.key,
-    required this.player,
-    this.width,
-    this.height,
-    this.fit = BoxFit.contain,
-    this.fill = const Color(0xFF000000),
-    this.alignment = Alignment.center,
-    this.aspectRatio,
-    this.filterQuality = FilterQuality.low,
-    this.controls = universal_video_controls.AdaptiveVideoControls,
-    this.wakelock = true,
-    this.pauseUponEnteringBackgroundMode = true,
-    this.resumeUponEnteringForegroundMode = false,
-    this.subtitleViewConfiguration = const SubtitleViewConfiguration(),
-    this.onEnterFullscreen = defaultEnterNativeFullscreen,
-    this.onExitFullscreen = defaultExitNativeFullscreen,
-  });
+  const VideoControls(
+      {super.key,
+      required this.player,
+      this.width,
+      this.height,
+      this.fit = BoxFit.contain,
+      this.fill = const Color(0xFF000000),
+      this.alignment = Alignment.center,
+      this.aspectRatio,
+      this.filterQuality = FilterQuality.low,
+      this.controls = universal_video_controls.AdaptiveVideoControls,
+      this.wakelock = true,
+      this.pauseUponEnteringBackgroundMode = true,
+      this.resumeUponEnteringForegroundMode = false,
+      this.subtitleViewConfiguration = const SubtitleViewConfiguration(),
+      this.onEnterFullscreen = defaultEnterNativeFullscreen,
+      this.onExitFullscreen = defaultExitNativeFullscreen,
+      this.autoDisposeControlsWrapper = true});
 
   @override
   State<VideoControls> createState() => VideoControlsState();
@@ -298,6 +303,10 @@ class VideoControlsState extends State<VideoControls>
     _wakelock.disable();
     for (final subscription in _subscriptions) {
       subscription.cancel();
+    }
+    
+    if (widget.autoDisposeControlsWrapper) {
+      widget.player.dispose();
     }
     super.dispose();
   }
