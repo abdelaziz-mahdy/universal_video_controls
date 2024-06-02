@@ -330,7 +330,7 @@ class VideoControlsState extends State<VideoControls>
   @override
   Widget build(BuildContext context) {
     return universal_video_controls.VideoStateInheritedWidget(
-      state: this as dynamic,
+      state: this,
       contextNotifier: _contextNotifier,
       videoViewParametersNotifier: _videoViewParametersNotifier,
       child: ValueListenableBuilder<VideoViewParameters>(
