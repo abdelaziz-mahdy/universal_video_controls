@@ -10,6 +10,7 @@ import 'dart:async';
 import 'package:flutter/widgets.dart';
 import 'package:flutter/services.dart';
 import 'package:universal_video_controls/universal_video_controls/src/controls/methods/video_state.dart';
+import 'package:window_manager/window_manager.dart';
 
 import '../subtitle/subtitle_view.dart';
 import '../../universal_players/abstract.dart';
@@ -400,10 +401,13 @@ Future<void> defaultEnterNativeFullscreen() async {
         ],
       );
     } else if (Platform.isMacOS || Platform.isWindows || Platform.isLinux) {
-      await const MethodChannel('com.alexmercerind/universal_video_controls')
-          .invokeMethod(
-        'Utils.EnterNativeFullscreen',
-      );
+      // await const MethodChannel('com.alexmercerind/universal_video_controls')
+      //     .invokeMethod(
+      //   'Utils.EnterNativeFullscreen',
+      // );
+      await windowManager.ensureInitialized();
+
+      await windowManager.setFullScreen(true);
     }
   } catch (exception, stacktrace) {
     debugPrint(exception.toString());
@@ -427,10 +431,13 @@ Future<void> defaultExitNativeFullscreen() async {
         ],
       );
     } else if (Platform.isMacOS || Platform.isWindows || Platform.isLinux) {
-      await const MethodChannel('com.alexmercerind/universal_video_controls')
-          .invokeMethod(
-        'Utils.ExitNativeFullscreen',
-      );
+      // await const MethodChannel('com.alexmercerind/universal_video_controls')
+      //     .invokeMethod(
+      //   'Utils.ExitNativeFullscreen',
+      // );
+      await windowManager.ensureInitialized();
+
+      await windowManager.setFullScreen(false);
     }
   } catch (exception, stacktrace) {
     debugPrint(exception.toString());
