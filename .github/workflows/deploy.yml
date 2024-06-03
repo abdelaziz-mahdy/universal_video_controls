@@ -10,17 +10,16 @@ concurrency:
 
 jobs:
   build_web:
-    name: Build Flutter Web, Take Screenshots and Deploy
+    name: Build Flutter Web and Deploy
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: ./universal_video_controls_example  # Set the working directory globally
 
     steps:
-      - name: Get the branch name
-        run: echo "Current branch name is ${{ github.ref_name }}"
+
       - name: Checkout Code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
