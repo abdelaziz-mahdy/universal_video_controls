@@ -16,6 +16,7 @@ class StressTestScreen extends StatefulWidget {
 class _StressTestScreenState extends State<StressTestScreen> {
   static const int count = 8;
   final List<VideoPlayerController> _controllers = [];
+  final List<VideoPlayerControlsWrapper> _wrappers = [];
   bool _isInitialized = false;
 
   @override
@@ -29,6 +30,7 @@ class _StressTestScreenState extends State<StressTestScreen> {
       final controller =
           initializeVideoPlayer(getSources()[i % getSources().length]);
       _controllers.add(controller);
+      _wrappers.add(VideoPlayerControlsWrapper(controller));
       controller.initialize();
     }
     setState(() {
@@ -41,6 +43,9 @@ class _StressTestScreenState extends State<StressTestScreen> {
     for (var controller in _controllers) {
       controller.dispose();
     }
+    for (var wrapper in _wrappers) {
+      wrapper.dispose();
+    }
     super.dispose();
   }
 
@@ -50,6 +55,7 @@ class _StressTestScreenState extends State<StressTestScreen> {
       (e) {
         final video = VideoControls(
           player: VideoPlayerControlsWrapper(e),
+          autoDisposeControlsWrapper: false,
         );
         if (Theme.of(context).platform == TargetPlatform.android) {
           return video;

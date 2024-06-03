@@ -10,6 +10,7 @@ import 'dart:async';
 import 'package:flutter/widgets.dart';
 import 'package:flutter/services.dart';
 import 'package:universal_video_controls/universal_video_controls/src/controls/methods/video_state.dart';
+import 'package:universal_video_controls/universal_video_controls/src/controls/widgets/video_state_inherited_widget.dart';
 import 'package:window_manager/window_manager.dart';
 
 import '../subtitle/subtitle_view.dart';
@@ -317,6 +318,7 @@ class VideoControlsState extends State<VideoControls>
     if (_disposeNotifiers) {
       _videoViewParametersNotifier.dispose();
       _contextNotifier.dispose();
+      VideoStateInheritedWidgetContextNotifierState.fallback.remove(this);
     }
     if (widget.autoDisposeControlsWrapper && _disposeNotifiers) {
       widget.player.dispose();
