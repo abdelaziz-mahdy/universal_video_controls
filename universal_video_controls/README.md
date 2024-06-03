@@ -6,11 +6,14 @@ The `universal_video_controls` package provides a comprehensive solution for vid
 
 ## Images
 
-| Device  | With Controls                                                
--------------------------------------------------------------------------------|-------------------------------------------------------------------------------|
-| Desktop | ![Desktop with Controls](https://github.com/abdelaziz-mahdy/universal_video_controls/blob/main/universal_video_controls/images/desktop_with_controls.png?raw=true) |
-| Mobile  | ![Mobile with Controls](https://github.com/abdelaziz-mahdy/universal_video_controls/blob/main/universal_video_controls/images/mobile_with_controls.png?raw=true)   |
 
+| Desktop                                                                                                      | Mobile                                                                                                      |
+|--------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------|
+| ![Desktop with Controls](https://github.com/abdelaziz-mahdy/universal_video_controls/blob/main/universal_video_controls/images/desktop_with_controls.png?raw=true) | ![Mobile with Controls](https://github.com/abdelaziz-mahdy/universal_video_controls/blob/main/universal_video_controls/images/mobile_with_controls.png?raw=true)   |
+
+## Examples
+
+Examples can be found at: [Universal Video Controls Examples](https://github.com/abdelaziz-mahdy/universal_video_controls/tree/main/universal_video_controls_example)
 
 ## Getting Started
 
