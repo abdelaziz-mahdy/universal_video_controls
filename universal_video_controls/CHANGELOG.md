@@ -1,3 +1,6 @@
+## 1.0.5
+- Added demo to readme.
+
 ## 1.0.4
 
 - Updated readme.
