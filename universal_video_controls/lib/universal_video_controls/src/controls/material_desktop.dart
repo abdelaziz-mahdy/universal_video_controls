@@ -54,12 +54,6 @@ class MaterialDesktopVideoControlsThemeData {
   /// Whether to display seek bar.
   final bool displaySeekBar;
 
-  /// Whether a skip next button should be displayed if there are more than one videos in the playlist.
-  final bool automaticallyImplySkipNextButton;
-
-  /// Whether a skip previous button should be displayed if there are more than one videos in the playlist.
-  final bool automaticallyImplySkipPreviousButton;
-
   /// Modify volume on mouse scroll.
   final bool modifyVolumeOnScroll;
 
@@ -184,8 +178,6 @@ class MaterialDesktopVideoControlsThemeData {
   /// {@macro material_desktop_video_controls_theme_data}
   const MaterialDesktopVideoControlsThemeData({
     this.displaySeekBar = true,
-    this.automaticallyImplySkipNextButton = true,
-    this.automaticallyImplySkipPreviousButton = true,
     this.toggleFullscreenOnDoublePress = true,
     this.playAndPauseOnTap = true,
     this.modifyVolumeOnScroll = true,
@@ -235,8 +227,6 @@ class MaterialDesktopVideoControlsThemeData {
   /// Creates a copy of this [MaterialDesktopVideoControlsThemeData] with the given fields replaced by the non-null parameter values.
   MaterialDesktopVideoControlsThemeData copyWith({
     bool? displaySeekBar,
-    bool? automaticallyImplySkipNextButton,
-    bool? automaticallyImplySkipPreviousButton,
     bool? toggleFullscreenOnDoublePress,
     bool? playAndPauseOnTap,
     bool? modifyVolumeOnScroll,
@@ -274,11 +264,6 @@ class MaterialDesktopVideoControlsThemeData {
   }) {
     return MaterialDesktopVideoControlsThemeData(
       displaySeekBar: displaySeekBar ?? this.displaySeekBar,
-      automaticallyImplySkipNextButton: automaticallyImplySkipNextButton ??
-          this.automaticallyImplySkipNextButton,
-      automaticallyImplySkipPreviousButton:
-          automaticallyImplySkipPreviousButton ??
-              this.automaticallyImplySkipPreviousButton,
       toggleFullscreenOnDoublePress:
           toggleFullscreenOnDoublePress ?? this.toggleFullscreenOnDoublePress,
       playAndPauseOnTap: playAndPauseOnTap ?? this.playAndPauseOnTap,

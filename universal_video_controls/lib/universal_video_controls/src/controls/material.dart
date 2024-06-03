@@ -42,8 +42,6 @@ const kDefaultMaterialVideoControlsThemeData = MaterialVideoControlsThemeData();
 const kDefaultMaterialVideoControlsThemeDataFullscreen =
     MaterialVideoControlsThemeData(
   displaySeekBar: true,
-  automaticallyImplySkipNextButton: true,
-  automaticallyImplySkipPreviousButton: true,
   volumeGesture: true,
   brightnessGesture: true,
   seekGesture: true,
@@ -116,12 +114,6 @@ class MaterialVideoControlsThemeData {
 
   /// Whether to display seek bar.
   final bool displaySeekBar;
-
-  /// Whether a skip next button should be displayed if there are more than one videos in the playlist.
-  final bool automaticallyImplySkipNextButton;
-
-  /// Whether a skip previous button should be displayed if there are more than one videos in the playlist.
-  final bool automaticallyImplySkipPreviousButton;
 
   /// Whether to modify volume on vertical drag gesture on the right side of the screen.
   final bool volumeGesture;
@@ -274,8 +266,6 @@ class MaterialVideoControlsThemeData {
   /// {@macro material_video_controls_theme_data}
   const MaterialVideoControlsThemeData({
     this.displaySeekBar = true,
-    this.automaticallyImplySkipNextButton = true,
-    this.automaticallyImplySkipPreviousButton = true,
     this.volumeGesture = false,
     this.brightnessGesture = false,
     this.seekGesture = false,
@@ -333,8 +323,6 @@ class MaterialVideoControlsThemeData {
   /// Creates a copy of this [MaterialVideoControlsThemeData] with the given fields replaced by the non-null parameter values.
   MaterialVideoControlsThemeData copyWith({
     bool? displaySeekBar,
-    bool? automaticallyImplySkipNextButton,
-    bool? automaticallyImplySkipPreviousButton,
     bool? volumeGesture,
     bool? brightnessGesture,
     bool? seekGesture,
@@ -377,11 +365,7 @@ class MaterialVideoControlsThemeData {
   }) {
     return MaterialVideoControlsThemeData(
       displaySeekBar: displaySeekBar ?? this.displaySeekBar,
-      automaticallyImplySkipNextButton: automaticallyImplySkipNextButton ??
-          this.automaticallyImplySkipNextButton,
-      automaticallyImplySkipPreviousButton:
-          automaticallyImplySkipPreviousButton ??
-              this.automaticallyImplySkipPreviousButton,
+
       volumeGesture: volumeGesture ?? this.volumeGesture,
       brightnessGesture: brightnessGesture ?? this.brightnessGesture,
       seekGesture: seekGesture ?? this.seekGesture,

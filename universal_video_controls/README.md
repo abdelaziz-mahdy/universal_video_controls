@@ -192,8 +192,6 @@ MaterialVideoControlsTheme(
   fullscreen: const MaterialVideoControlsThemeData(
     // Modify theme options:
     displaySeekBar: false,
-    automaticallyImplySkipNextButton: false,
-    automaticallyImplySkipPreviousButton: false,
   ),
   child: Scaffold(
     body: VideoControls(
