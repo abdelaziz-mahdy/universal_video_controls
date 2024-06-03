@@ -13,9 +13,6 @@ dependencies:
   universal_video_controls: ^1.0.0
   video_player: ^2.4.5
 
-dependency_overrides: 
-  universal_video_controls:
-    path: ../universal_video_controls
 dev_dependencies:
   flutter_test:
     sdk: flutter

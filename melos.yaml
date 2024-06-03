@@ -1,0 +1,8 @@
+name: universal_video_controls
+
+packages:
+  - ./**
+
+scripts:
+  analyze:
+    exec: dart analyze .

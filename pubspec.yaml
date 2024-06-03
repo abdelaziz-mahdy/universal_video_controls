@@ -1,0 +1,8 @@
+name: universal_video_controls_workspace
+publish_to: none
+
+environment:
+  sdk: ^2.19.0
+
+dev_dependencies:
+  melos: ^6.0.0

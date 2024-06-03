@@ -31,10 +31,8 @@ dependencies:
   flutter:
     sdk: flutter
   universal_platform: ^1.1.0
-  universal_video_controls: 
-    path: ../universal_video_controls
-  universal_video_controls_video_player:
-    path: ../universal_video_controls_video_player
+  universal_video_controls: ^1.0.0
+  universal_video_controls_video_player: ^1.0.0
   path: ^1.8.2
   file_picker: ^5.2.4
   path_provider: ^2.0.14
@@ -43,11 +41,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.6
   video_player: any
-dependency_overrides:
-  universal_video_controls: 
-    path: ../universal_video_controls
-  universal_video_controls_video_player:
-    path: ../universal_video_controls_video_player
+
 
 dev_dependencies:
   flutter_test:
