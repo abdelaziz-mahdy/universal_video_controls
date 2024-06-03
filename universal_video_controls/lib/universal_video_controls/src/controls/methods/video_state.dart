@@ -6,6 +6,7 @@
 library;
 
 import 'package:flutter/widgets.dart';
+import 'package:universal_video_controls/src/utils/dispose_safe_notifer.dart';
 import '../../../../universal_players/abstract.dart';
 import '../../../../universal_video_controls.dart';
 
@@ -14,7 +15,7 @@ VideoControlsState state(BuildContext context) =>
     VideoStateInheritedWidget.of(context).state;
 
 /// Returns the [ValueNotifier<BuildContext>] associated with the [VideoControls] present in the current [BuildContext].
-ValueNotifier<BuildContext?> contextNotifier(BuildContext context) =>
+DisposeSafeNotifier<BuildContext?> contextNotifier(BuildContext context) =>
     VideoStateInheritedWidget.of(context).contextNotifier;
 
 /// Returns the [ValueNotifier<VideoViewParameters>] associated with the [VideoControls] present in the current [BuildContext].

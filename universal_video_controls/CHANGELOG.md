@@ -1,3 +1,6 @@
+## 1.0.6
+- fix specific dispose error, in certain conditions.
+
 ## 1.0.5
 - fix web pause on full screen.
 - Added demo to readme.

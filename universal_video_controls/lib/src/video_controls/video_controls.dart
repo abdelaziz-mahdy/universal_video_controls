@@ -8,6 +8,7 @@ library;
 import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
+import 'package:universal_video_controls/src/utils/dispose_safe_notifer.dart';
 import 'package:universal_video_controls/universal_video_controls.dart';
 import 'package:universal_video_controls/universal_video_controls/src/controls/methods/video_state.dart';
 
@@ -141,7 +142,7 @@ class VideoControls extends StatefulWidget {
 
 class VideoControlsState extends State<VideoControls>
     with WidgetsBindingObserver {
-  late final _contextNotifier = ValueNotifier<BuildContext?>(null);
+  late final _contextNotifier = DisposeSafeNotifier<BuildContext?>(null);
   late ValueNotifier<VideoViewParameters> _videoViewParametersNotifier;
   late bool _disposeNotifiers;
   final _subtitleViewKey = GlobalKey<SubtitleViewState>();

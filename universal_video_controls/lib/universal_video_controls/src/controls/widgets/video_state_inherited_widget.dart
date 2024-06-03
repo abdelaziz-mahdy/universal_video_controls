@@ -8,6 +8,7 @@ library;
 import 'dart:collection';
 
 import 'package:flutter/widgets.dart';
+import 'package:universal_video_controls/src/utils/dispose_safe_notifer.dart';
 import '../../../../universal_video_controls.dart';
 
 /// {@template video_state_inherited_widget}
@@ -17,7 +18,7 @@ import '../../../../universal_video_controls.dart';
 /// {@endtemplate}
 class VideoStateInheritedWidget extends InheritedWidget {
   final VideoControlsState state;
-  final ValueNotifier<BuildContext?> contextNotifier;
+  final DisposeSafeNotifier<BuildContext?> contextNotifier;
   final ValueNotifier<VideoViewParameters> videoViewParametersNotifier;
   final bool disposeNotifiers;
   VideoStateInheritedWidget({
@@ -63,7 +64,7 @@ class VideoStateInheritedWidget extends InheritedWidget {
 /// {@endtemplate}
 class VideoStateInheritedWidgetContextNotifier extends StatefulWidget {
   final VideoControlsState state;
-  final ValueNotifier<BuildContext?> contextNotifier;
+  final DisposeSafeNotifier<BuildContext?> contextNotifier;
   final ValueNotifier<VideoViewParameters?> videoViewParametersNotifier;
 
   final Widget child;
@@ -87,8 +88,10 @@ class VideoStateInheritedWidgetContextNotifierState
 
   @override
   void dispose() {
-    // Restore the original [BuildContext] associated with this [Video] widget.
-    widget.contextNotifier.value = fallback[widget.state];
+    if (!widget.contextNotifier.disposed) {
+      // Restore the original [BuildContext] associated with this [Video] widget.
+      widget.contextNotifier.value = fallback[widget.state];
+    }
     super.dispose();
   }
 
