@@ -16,6 +16,7 @@ import '../../universal_players/abstract.dart';
 /// ------------
 ///
 /// [SubtitleView] widget is used to display the subtitles on top of the [Video].
+/// {@endtemplate}
 class SubtitleView extends StatefulWidget {
   /// The [AbstractPlayer] reference to control this [SubtitleView] output.
   final AbstractPlayer player;
@@ -89,13 +90,12 @@ class SubtitleViewState extends State<SubtitleView> {
       builder: (context, constraints) {
         // Calculate the visible text scale factor.
         final textScaleFactor = widget.configuration.textScaleFactor ??
-            MediaQuery.of(context).textScaleFactor *
-                sqrt(
+            MediaQuery.of(context).textScaler.scale(sqrt(
                   ((constraints.maxWidth * constraints.maxHeight) /
                           (kTextScaleFactorReferenceWidth *
                               kTextScaleFactorReferenceHeight))
                       .clamp(0.0, 1.0),
-                );
+                ));
         return Material(
           color: Colors.transparent,
           child: AnimatedContainer(
