@@ -1,6 +1,5 @@
-## 1.0.6
-- fix web pause on full screen.
 ## 1.0.5
+- fix web pause on full screen.
 - Added demo to readme.
 
 ## 1.0.4
