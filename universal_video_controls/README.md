@@ -8,8 +8,8 @@ The `universal_video_controls` package provides a comprehensive solution for vid
 
 | Device  | With Controls                                                
 -------------------------------------------------------------------------------|-------------------------------------------------------------------------------|
-| Desktop | ![Desktop with Controls](images/desktop_with_controls.png) |
-| Mobile  | ![Mobile with Controls](images/mobile_with_controls.png)   |
+| Desktop | ![Desktop with Controls](https://github.com/abdelaziz-mahdy/universal_video_controls/blob/main/universal_video_controls/images/desktop_with_controls.png?raw=true) |
+| Mobile  | ![Mobile with Controls](https://github.com/abdelaziz-mahdy/universal_video_controls/blob/main/universal_video_controls/images/mobile_with_controls.png?raw=true)   |
 
 
 ## Getting Started
