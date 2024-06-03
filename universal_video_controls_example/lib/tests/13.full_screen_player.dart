@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-
-import 'package:media_kit/media_kit.dart';
-import 'package:media_kit_video/media_kit_video.dart';
+import 'package:universal_video_controls/universal_video_controls.dart';
+import 'package:universal_video_controls_video_player/universal_video_controls_video_player.dart';
+import 'package:video_player/video_player.dart';
 import 'package:universal_platform/universal_platform.dart';
-
-import '../common/globals.dart';
-import '../common/widgets.dart';
-import '../common/sources/sources.dart';
+import 'package:universal_video_controls_example/common/sources/sources.dart';
+import 'package:universal_video_controls_example/common/utils/utils.dart';
+import 'package:universal_video_controls_example/common/utils/utils_import.dart';
 
 class FullScreenPlayer extends StatefulWidget {
   const FullScreenPlayer({super.key});
@@ -16,27 +15,35 @@ class FullScreenPlayer extends StatefulWidget {
 }
 
 class _FullScreenPlayerState extends State<FullScreenPlayer> {
-  late final Player player = Player();
-  late final VideoController controller = VideoController(
-    player,
-    configuration: configuration.value,
-  );
-  // A [GlobalKey<VideoState>] is required to access the programmatic fullscreen interface.
-  late final GlobalKey<VideoState> key = GlobalKey<VideoState>();
+  late final VideoPlayerController _controller;
+  late final GlobalKey<VideoControlsState> key =
+      GlobalKey<VideoControlsState>();
+  bool _isInitialized = false;
 
   @override
   void initState() {
     super.initState();
-    player.open(Media(sources[0]));
-    player.stream.error.listen((error) => debugPrint(error));
+    _initializeVideoPlayer(getSources()[0]);
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       key.currentState?.enterFullscreen();
     });
   }
 
+  Future<void> _initializeVideoPlayer(String source) async {
+    _controller = await initializeVideoPlayer(source);
+    setState(() {
+      _isInitialized = true;
+    });
+    _controller.addListener(() {
+      if (_controller.value.hasError) {
+        debugPrint(_controller.value.errorDescription);
+      }
+    });
+  }
+
   @override
   void dispose() {
-    player.dispose();
+    _controller.dispose();
     super.dispose();
   }
 
@@ -58,9 +65,9 @@ class _FullScreenPlayerState extends State<FullScreenPlayer> {
                     fullscreen: MaterialDesktopVideoControlsThemeData(
                       topButtonBar: topBar(context),
                     ),
-                    child: Video(
+                    child: VideoControls(
                       key: key,
-                      controller: controller,
+                      player: VideoPlayerControlsWrapper(_controller),
                       onEnterFullscreen: () async {
                         await defaultEnterNativeFullscreen();
                       },
