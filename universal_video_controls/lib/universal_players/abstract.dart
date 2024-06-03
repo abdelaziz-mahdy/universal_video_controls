@@ -64,22 +64,27 @@ abstract class AbstractPlayer {
       ],
     );
   }
+
   @mustBeOverridden
   Future<void> play() {
     throw UnimplementedError('[AbstractPlayer.play] is not implemented');
   }
+
   @mustBeOverridden
   Future<void> playOrPause() {
     throw UnimplementedError('[AbstractPlayer.playOrPause] is not implemented');
   }
+
   @mustBeOverridden
   Future<void> pause() {
     throw UnimplementedError('[AbstractPlayer.pause] is not implemented');
   }
+
   @mustBeOverridden
   Future<void> seek(Duration duration) {
     throw UnimplementedError('[AbstractPlayer.seek] is not implemented');
   }
+
   @mustBeOverridden
   Future<void> setVolume(double volume) {
     throw UnimplementedError('[AbstractPlayer.setVolume] is not implemented');

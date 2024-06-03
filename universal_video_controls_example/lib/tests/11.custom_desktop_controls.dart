@@ -61,15 +61,16 @@ class _CustomDesktopControlsState extends State<CustomDesktopControls> {
 
   @override
   Widget build(BuildContext context) {
-    final horizontal = MediaQuery.of(context).size.width > MediaQuery.of(context).size.height;
+    final horizontal =
+        MediaQuery.of(context).size.width > MediaQuery.of(context).size.height;
     return MaterialDesktopVideoControlsTheme(
       normal: MaterialDesktopVideoControlsThemeData(
-         // Modify theme options:
+        // Modify theme options:
         seekBarThumbColor: Colors.blue,
         seekBarPositionColor: Colors.blue,
         toggleFullscreenOnDoublePress: false,
         // Modify top button bar:
-                topButtonBar: [
+        topButtonBar: [
           const Spacer(),
           MaterialDesktopCustomButton(
             onPressed: () {
@@ -143,7 +144,8 @@ class _CustomDesktopControlsState extends State<CustomDesktopControls> {
                                 clipBehavior: Clip.antiAlias,
                                 margin: const EdgeInsets.all(32.0),
                                 child: VideoControls(
-                                  player: VideoPlayerControlsWrapper(_controller),
+                                  player:
+                                      VideoPlayerControlsWrapper(_controller),
                                 ),
                               ),
                             ),

@@ -132,7 +132,6 @@ class _SinglePlayerSingleVideoScreenState
                                       child: VideoControls(
                                         player: VideoPlayerControlsWrapper(
                                             _controller),
-                                      
                                       ),
                                     )
                                   : const Center(
@@ -160,8 +159,8 @@ class _SinglePlayerSingleVideoScreenState
                     AspectRatio(
                       aspectRatio: _controller.value.aspectRatio,
                       child: VideoControls(
-                          player: VideoPlayerControlsWrapper(_controller),
-                          ),
+                        player: VideoPlayerControlsWrapper(_controller),
+                      ),
                     )
                   else
                     const Center(

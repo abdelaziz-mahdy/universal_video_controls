@@ -365,7 +365,6 @@ class MaterialVideoControlsThemeData {
   }) {
     return MaterialVideoControlsThemeData(
       displaySeekBar: displaySeekBar ?? this.displaySeekBar,
-
       volumeGesture: volumeGesture ?? this.volumeGesture,
       brightnessGesture: brightnessGesture ?? this.brightnessGesture,
       seekGesture: seekGesture ?? this.seekGesture,
