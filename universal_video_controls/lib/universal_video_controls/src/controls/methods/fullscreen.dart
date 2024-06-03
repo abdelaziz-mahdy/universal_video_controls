@@ -5,6 +5,7 @@
 /// Use of this source code is governed by MIT license that can be found in the LICENSE file.
 library;
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:synchronized/synchronized.dart';
 import '../../../../universal_video_controls.dart';
@@ -84,6 +85,13 @@ Future<void> enterFullscreen(BuildContext context) {
           ),
         );
         await onEnterFullscreen(context)?.call();
+        if (kIsWeb) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (player(context).state.playing) {
+              player(context).play();
+            }
+          });
+        }
       }
     }
   });
@@ -98,6 +106,7 @@ Future<void> exitFullscreen(BuildContext context) {
         // It is known that this [context] will have a [FullscreenInheritedWidget] above it.
         if (context.mounted) {
           FullscreenInheritedWidget.of(context).parent.refreshView();
+          
         }
       }
       // [exitNativeFullscreen] is moved to [WillPopScope] in [FullscreenInheritedWidget].

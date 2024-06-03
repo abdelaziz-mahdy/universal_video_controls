@@ -329,6 +329,13 @@ class VideoControlsState extends State<VideoControls>
       setState(() {
         _key = ValueKey(!_key.value);
       });
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (player(_contextNotifier.value!).state.playing) {
+            player(_contextNotifier.value!).play();
+          }
+        });
+      });
     }
   }
 
