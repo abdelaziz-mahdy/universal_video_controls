@@ -4,6 +4,14 @@
 
 The `universal_video_controls` package provides a comprehensive solution for video controls that can be universally applied to various video players. This package is a port and generalization of the `media_kit` controls, designed to create an abstraction that allows these controls to work with any video player backend, provided that the backend's interface is compatible with the `AbstractPlayer` class.
 
+## Images
+
+| Device  | With Controls                                                
+-------------------------------------------------------------------------------|-------------------------------------------------------------------------------|
+| Desktop | ![Desktop with Controls](images/desktop_with_controls.png) |
+| Mobile  | ![Mobile with Controls](images/mobile_with_controls.png)   |
+
+
 ## Getting Started
 
 This section will guide you through the steps to get started with the `universal_video_controls` package.
