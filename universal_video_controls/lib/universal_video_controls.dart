@@ -18,3 +18,4 @@ export 'universal_video_controls/src/controls/material_desktop.dart';
 export 'universal_video_controls/src/controls/methods/fullscreen.dart';
 export 'universal_video_controls/src/controls/widgets/fullscreen_inherited_widget.dart';
 export 'universal_video_controls/src/controls/widgets/video_state_inherited_widget.dart';
+export 'universal_video_controls/src/controls/methods/full_screen_utils/full_screen_utils.dart';

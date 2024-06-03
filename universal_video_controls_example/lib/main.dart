@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'package:universal_platform/universal_platform.dart';
 
 import 'tests/01.single_player_single_video.dart';
 import 'tests/02.tabs_test.dart';

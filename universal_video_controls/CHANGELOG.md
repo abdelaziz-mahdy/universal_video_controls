@@ -1,3 +1,8 @@
+## 1.0.4
+
+- Updated readme.
+- Fixed Fullscreen on web.
+
 ## 1.0.3
 
 - Updated readme. 

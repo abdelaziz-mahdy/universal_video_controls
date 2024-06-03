@@ -5,20 +5,15 @@
 /// Use of this source code is governed by MIT license that can be found in the LICENSE file.
 library;
 
-import 'dart:io';
 import 'dart:async';
 import 'package:flutter/widgets.dart';
-import 'package:flutter/services.dart';
+import 'package:universal_video_controls/universal_video_controls.dart';
 import 'package:universal_video_controls/universal_video_controls/src/controls/methods/video_state.dart';
-import 'package:universal_video_controls/universal_video_controls/src/controls/widgets/video_state_inherited_widget.dart';
-import 'package:window_manager/window_manager.dart';
 
-import '../subtitle/subtitle_view.dart';
 import '../../universal_players/abstract.dart';
 import '../../universal_video_controls.dart' as universal_video_controls;
 
 import '../utils/wakelock.dart';
-import '../video_view_parameters.dart';
 
 /// {@template video}
 ///
@@ -405,69 +400,3 @@ class VideoControlsState extends State<VideoControls>
 }
 
 typedef VideoControlsBuilder = Widget Function(VideoControlsState state);
-
-// --------------------------------------------------
-
-/// Makes the native window enter fullscreen.
-Future<void> defaultEnterNativeFullscreen() async {
-  try {
-    if (Platform.isAndroid || Platform.isIOS) {
-      await Future.wait(
-        [
-          SystemChrome.setEnabledSystemUIMode(
-            SystemUiMode.immersiveSticky,
-            overlays: [],
-          ),
-          SystemChrome.setPreferredOrientations(
-            [
-              DeviceOrientation.landscapeLeft,
-              DeviceOrientation.landscapeRight,
-            ],
-          ),
-        ],
-      );
-    } else if (Platform.isMacOS || Platform.isWindows || Platform.isLinux) {
-      // await const MethodChannel('com.alexmercerind/media_kit_video')
-      //     .invokeMethod(
-      //   'Utils.EnterNativeFullscreen',
-      // );
-      await windowManager.ensureInitialized();
-
-      await windowManager.setFullScreen(true);
-    }
-  } catch (exception, stacktrace) {
-    debugPrint(exception.toString());
-    debugPrint(stacktrace.toString());
-  }
-}
-
-/// Makes the native window exit fullscreen.
-Future<void> defaultExitNativeFullscreen() async {
-  try {
-    if (Platform.isAndroid || Platform.isIOS) {
-      await Future.wait(
-        [
-          SystemChrome.setEnabledSystemUIMode(
-            SystemUiMode.manual,
-            overlays: SystemUiOverlay.values,
-          ),
-          SystemChrome.setPreferredOrientations(
-            [],
-          ),
-        ],
-      );
-    } else if (Platform.isMacOS || Platform.isWindows || Platform.isLinux) {
-      // await const MethodChannel('com.alexmercerind/media_kit_video')
-      //     .invokeMethod(
-      //   'Utils.ExitNativeFullscreen',
-      // );
-      await windowManager.ensureInitialized();
-
-      await windowManager.setFullScreen(false);
-    }
-  } catch (exception, stacktrace) {
-    debugPrint(exception.toString());
-    debugPrint(stacktrace.toString());
-  }
-}
-// --------------------------------------------------
