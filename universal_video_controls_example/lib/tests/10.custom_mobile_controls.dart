@@ -24,7 +24,7 @@ class _CustomMobileControlsState extends State<CustomMobileControls> {
   }
 
   Future<void> _initializeVideoPlayer(String source) async {
-    _controller = await initializeVideoPlayer(source);
+    _controller = initializeVideoPlayer(source);
     setState(() {
       _isInitialized = true;
     });
@@ -33,6 +33,7 @@ class _CustomMobileControlsState extends State<CustomMobileControls> {
         debugPrint(_controller.value.errorDescription);
       }
     });
+    _controller.initialize();
   }
 
   @override

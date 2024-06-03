@@ -27,8 +27,9 @@ class _StressTestScreenState extends State<StressTestScreen> {
   void _initializeVideoPlayers() async {
     for (int i = 0; i < count; i++) {
       final controller =
-          await initializeVideoPlayer(getSources()[i % getSources().length]);
+          initializeVideoPlayer(getSources()[i % getSources().length]);
       _controllers.add(controller);
+      controller.initialize();
     }
     setState(() {
       _isInitialized = true;

@@ -10,8 +10,9 @@ Future<void> paintFirstFrame(BuildContext context) async {
   final List<VideoPlayerController> controllers = [];
   for (int i = 0; i < 5; i++) {
     final controller =
-        await initializeVideoPlayer(getSources()[i % getSources().length]);
+        initializeVideoPlayer(getSources()[i % getSources().length]);
     controllers.add(controller);
+    controller.initialize();
   }
 
   await Future.wait(controllers.map((e) => e.initialize()));

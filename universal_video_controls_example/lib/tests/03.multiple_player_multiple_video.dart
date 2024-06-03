@@ -27,8 +27,9 @@ class _MultiplePlayerMultipleVideoScreenState
 
   void _initializeVideoPlayers() async {
     for (var source in getSources()) {
-      final controller = await initializeVideoPlayer(source);
+      final controller = initializeVideoPlayer(source);
       _controllers.add(controller);
+      controller.initialize();
     }
     setState(() {
       _isInitialized = true;
@@ -86,9 +87,8 @@ class _MultiplePlayerMultipleVideoScreenState
                         alignment: Alignment.center,
                         child: _isInitialized
                             ? VideoControls(
-                              player:
-                                  VideoPlayerControlsWrapper(controller),
-                            )
+                                player: VideoPlayerControlsWrapper(controller),
+                              )
                             : const Center(child: CircularProgressIndicator()),
                       ),
                     ),

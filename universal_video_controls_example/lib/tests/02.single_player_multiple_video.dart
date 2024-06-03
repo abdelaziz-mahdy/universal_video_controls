@@ -28,7 +28,7 @@ class _SinglePlayerMultipleVideoScreenState
   }
 
   void _initializeVideoPlayer(String source) async {
-    _controller = await initializeVideoPlayer(source);
+    _controller = initializeVideoPlayer(source);
     setState(() {
       _isInitialized = true;
     });
@@ -37,6 +37,7 @@ class _SinglePlayerMultipleVideoScreenState
         debugPrint(_controller.value.errorDescription);
       }
     });
+    await _controller.initialize();
   }
 
   @override

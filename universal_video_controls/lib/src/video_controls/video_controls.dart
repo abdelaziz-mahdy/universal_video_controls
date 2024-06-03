@@ -318,7 +318,7 @@ class VideoControlsState extends State<VideoControls>
       _videoViewParametersNotifier.dispose();
       _contextNotifier.dispose();
     }
-    if (widget.autoDisposeControlsWrapper) {
+    if (widget.autoDisposeControlsWrapper && _disposeNotifiers) {
       widget.player.dispose();
     }
 

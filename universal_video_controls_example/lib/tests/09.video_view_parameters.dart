@@ -36,7 +36,7 @@ class _VideoViewParametersScreenState extends State<VideoViewParametersScreen> {
   }
 
   void _initializeVideoPlayer(String source) async {
-    _controller = await initializeVideoPlayer(source);
+    _controller = initializeVideoPlayer(source);
     setState(() {
       _isInitialized = true;
     });
@@ -45,6 +45,7 @@ class _VideoViewParametersScreenState extends State<VideoViewParametersScreen> {
         debugPrint(_controller.value.errorDescription);
       }
     });
+    await _controller.initialize();
   }
 
   @override

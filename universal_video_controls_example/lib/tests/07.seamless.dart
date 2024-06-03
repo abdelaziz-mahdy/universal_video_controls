@@ -37,8 +37,9 @@ class _SeamlessState extends State<Seamless> {
   }
 
   Future<void> createPlayer(int page) async {
-    final controller = await initializeVideoPlayer(
+    final controller = initializeVideoPlayer(
         getSources()[Random().nextInt(getSources().length)]);
+    controller.initialize();
     players[page] = controller;
 
     if (early.contains(page)) {
