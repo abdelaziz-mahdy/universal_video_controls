@@ -1,0 +1,46 @@
+name: Flutter Build and Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+concurrency: 
+  group: auto-deploy
+  cancel-in-progress: true
+
+jobs:
+  build_web:
+    name: Build Flutter Web, Take Screenshots and Deploy
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./universal_video_controls_example  # Set the working directory globally
+
+    steps:
+      - name: Get the branch name
+        run: echo "Current branch name is ${{ github.ref_name }}"
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: "stable"
+          # channel: "master"
+          cache: true
+
+      - name: Install Flutter Dependencies
+        run: flutter pub get
+
+        
+
+      - name: Build Flutter Web
+        run: flutter build web --release --base-href "/universal_video_controls/" --web-renderer canvaskit
+      # - name: Build Flutter Web wasm
+      #   run: flutter build web --wasm --release --base-href "/bouncy_ball_physics/" --web-renderer canvaskit
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./universal_video_controls_example/build/web
+          # publish_dir: ./build/web_wasm
