@@ -14,6 +14,10 @@ import 'tests/08.programmatic_fullscreen.dart';
 import 'tests/09.video_view_parameters.dart';
 
 import 'common/sources/sources.dart';
+import 'tests/10.custom_mobile_controls.dart';
+import 'tests/11.custom_desktop_controls.dart';
+import 'tests/12.custom_adaptive_controls.dart';
+import 'tests/13.full_screen_player.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -199,6 +203,57 @@ class PrimaryScreen extends StatelessWidget {
               );
             },
           ),
+          ListTile(
+            title: const Text(
+              'custom_mobile_controls.dart',
+              style: TextStyle(fontSize: 14.0),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const CustomMobileControls(),
+                ),
+              );
+            },
+          ),
+          ListTile(
+              title: const Text(
+                'custom_desktop_controls.dart',
+                style: TextStyle(fontSize: 14.0),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const CustomDesktopControls(),
+                ));
+              }),
+          ListTile(
+              title: const Text(
+                'custom_adaptive_controls.dart',
+                style: TextStyle(fontSize: 14.0),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const CustomAdaptiveControls(),
+                ));
+              }),
+          ListTile(
+              title: const Text(
+                'full_screen_player.dart',
+                style: TextStyle(fontSize: 14.0),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const FullScreenPlayer(),
+                ));
+              }),
         ],
       ),
     );
