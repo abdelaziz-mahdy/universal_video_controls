@@ -4,7 +4,6 @@ import 'package:universal_video_controls_video_player/universal_video_controls_v
 import 'package:video_player/video_player.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:universal_video_controls_example/common/sources/sources.dart';
-import 'package:universal_video_controls_example/common/utils/utils.dart';
 import 'package:universal_video_controls_example/common/utils/utils_import.dart';
 
 class FullScreenPlayer extends StatefulWidget {
