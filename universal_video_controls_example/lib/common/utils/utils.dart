@@ -10,8 +10,9 @@ Future<void> showFilePicker(BuildContext context,
   if (result?.files.isNotEmpty ?? false) {
     final file = result!.files.first;
     if (file.path != null) {
-      final controller = await initializeVideoPlayer(file.path!);
+      final controller = initializeVideoPlayer(file.path!);
       onControllerCreated(controller);
+      await controller.initialize();
       controller.play();
     }
   }
@@ -53,10 +54,12 @@ Future<void> showURIPicker(BuildContext context,
                 child: ElevatedButton(
                   onPressed: () async {
                     if (key.currentState!.validate()) {
-                      final controller = await initializeVideoPlayer(src.text);
+                      final controller = initializeVideoPlayer(src.text);
                       onControllerCreated(controller);
-                      controller.play();
+
                       Navigator.of(context).maybePop();
+                      await controller.initialize();
+                      controller.play();
                     }
                   },
                   child: const Text('Play'),

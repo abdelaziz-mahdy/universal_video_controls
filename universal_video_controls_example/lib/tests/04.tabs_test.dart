@@ -69,10 +69,11 @@ class TabViewState extends State<TabView> {
   }
 
   void _initializeVideoPlayer(String source) async {
-    _controller = await initializeVideoPlayer(source);
+    _controller = initializeVideoPlayer(source);
     setState(() {
       _isInitialized = true;
     });
+    await _controller.initialize();
     _controller.addListener(() {
       if (_controller.value.hasError) {
         debugPrint(_controller.value.errorDescription);
