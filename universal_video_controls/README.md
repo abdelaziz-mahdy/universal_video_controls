@@ -27,8 +27,8 @@ Add the following dependencies to your `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  universal_video_controls: ^1.0.0
-  universal_video_controls_video_player: ^1.0.0
+  universal_video_controls: ^1.0.6
+  universal_video_controls_video_player: ^1.0.1
   video_player: ^2.2.5
 ```
 

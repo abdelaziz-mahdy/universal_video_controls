@@ -1,11 +1,11 @@
 # This is a generated file; do not edit or check into version control.
 flutter_plugin_android_lifecycle=/Users/AbdelazizMahdy/.pub-cache/hosted/pub.dev/flutter_plugin_android_lifecycle-2.0.20/
 package_info_plus=/Users/AbdelazizMahdy/.pub-cache/hosted/pub.dev/package_info_plus-8.0.0/
-screen_brightness=/Users/AbdelazizMahdy/.pub-cache/hosted/pub.dev/screen_brightness-0.2.2+1/
-screen_brightness_android=/Users/AbdelazizMahdy/.pub-cache/hosted/pub.dev/screen_brightness_android-0.1.0+2/
-screen_brightness_ios=/Users/AbdelazizMahdy/.pub-cache/hosted/pub.dev/screen_brightness_ios-0.1.0/
-screen_brightness_macos=/Users/AbdelazizMahdy/.pub-cache/hosted/pub.dev/screen_brightness_macos-0.1.0+1/
-screen_brightness_windows=/Users/AbdelazizMahdy/.pub-cache/hosted/pub.dev/screen_brightness_windows-0.1.3/
+screen_brightness=/Users/AbdelazizMahdy/.pub-cache/hosted/pub.dev/screen_brightness-1.0.1/
+screen_brightness_android=/Users/AbdelazizMahdy/.pub-cache/hosted/pub.dev/screen_brightness_android-1.0.1/
+screen_brightness_ios=/Users/AbdelazizMahdy/.pub-cache/hosted/pub.dev/screen_brightness_ios-1.0.1/
+screen_brightness_macos=/Users/AbdelazizMahdy/.pub-cache/hosted/pub.dev/screen_brightness_macos-1.0.1/
+screen_brightness_windows=/Users/AbdelazizMahdy/.pub-cache/hosted/pub.dev/screen_brightness_windows-1.0.1/
 screen_retriever=/Users/AbdelazizMahdy/.pub-cache/hosted/pub.dev/screen_retriever-0.1.9/
 video_player=/Users/AbdelazizMahdy/.pub-cache/hosted/pub.dev/video_player-2.8.6/
 video_player_android=/Users/AbdelazizMahdy/.pub-cache/hosted/pub.dev/video_player_android-2.4.16/

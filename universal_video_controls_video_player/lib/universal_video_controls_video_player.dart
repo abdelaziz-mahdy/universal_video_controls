@@ -15,18 +15,6 @@ class VideoPlayerControlsWrapper extends AbstractPlayer {
 
   void _initialize() {
     state = state.copyWith(
-      playing: isPlaying,
-      completed: isCompleted,
-      position: controller.value.position,
-      duration: controller.value.duration,
-      buffering: controller.value.isBuffering,
-      width: controller.value.size.width.toInt(),
-      height: controller.value.size.height.toInt(),
-      volume: controller.value.volume * 100,
-      subtitle: [controller.value.caption.text],
-    );
-    controller.addListener(() {
-      state = state.copyWith(
         playing: isPlaying,
         completed: isCompleted,
         position: controller.value.position,
@@ -36,7 +24,19 @@ class VideoPlayerControlsWrapper extends AbstractPlayer {
         height: controller.value.size.height.toInt(),
         volume: controller.value.volume * 100,
         subtitle: [controller.value.caption.text],
-      );
+        buffer: controller.value.buffered.lastOrNull?.end);
+    controller.addListener(() {
+      state = state.copyWith(
+          playing: isPlaying,
+          completed: isCompleted,
+          position: controller.value.position,
+          duration: controller.value.duration,
+          buffering: controller.value.isBuffering,
+          width: controller.value.size.width.toInt(),
+          height: controller.value.size.height.toInt(),
+          volume: controller.value.volume * 100,
+          subtitle: [controller.value.caption.text],
+          buffer: controller.value.buffered.lastOrNull?.end);
 
       if (!playingController.isClosed) {
         playingController.add(isPlaying);
@@ -72,6 +72,11 @@ class VideoPlayerControlsWrapper extends AbstractPlayer {
 
       if (!subtitleController.isClosed) {
         subtitleController.add([controller.value.caption.text]);
+      }
+      if (!bufferController.isClosed) {
+        if (controller.value.buffered.lastOrNull?.end != null) {
+          bufferController.add(controller.value.buffered.lastOrNull!.end);
+        }
       }
     });
   }
