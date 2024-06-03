@@ -85,13 +85,10 @@ class _MultiplePlayerMultipleVideoScreenState
                       child: Container(
                         alignment: Alignment.center,
                         child: _isInitialized
-                            ? AspectRatio(
-                                aspectRatio: controller.value.aspectRatio,
-                                child: VideoControls(
-                                  player:
-                                      VideoPlayerControlsWrapper(controller),
-                                ),
-                              )
+                            ? VideoControls(
+                              player:
+                                  VideoPlayerControlsWrapper(controller),
+                            )
                             : const Center(child: CircularProgressIndicator()),
                       ),
                     ),
@@ -101,11 +98,8 @@ class _MultiplePlayerMultipleVideoScreenState
                 children: [
                   for (var controller in _controllers)
                     if (_isInitialized)
-                      AspectRatio(
-                        aspectRatio: controller.value.aspectRatio,
-                        child: VideoControls(
-                          player: VideoPlayerControlsWrapper(controller),
-                        ),
+                      VideoControls(
+                        player: VideoPlayerControlsWrapper(controller),
                       )
                     else
                       const Center(child: CircularProgressIndicator()),

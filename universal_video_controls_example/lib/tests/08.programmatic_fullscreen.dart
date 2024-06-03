@@ -174,14 +174,11 @@ class _ProgrammaticFullscreenState extends State<ProgrammaticFullscreen> {
             : ListView(
                 children: [
                   if (_isInitialized)
-                    AspectRatio(
-                      aspectRatio: _controller.value.aspectRatio,
-                      child: VideoControls(
-                        key: key,
-                        player: VideoPlayerControlsWrapper(_controller),
-                        width: MediaQuery.of(context).size.width,
-                        height: MediaQuery.of(context).size.width * 9.0 / 16.0,
-                      ),
+                    VideoControls(
+                      key: key,
+                      player: VideoPlayerControlsWrapper(_controller),
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.width * 9.0 / 16.0,
                     )
                   else
                     const Center(child: CircularProgressIndicator()),

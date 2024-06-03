@@ -128,13 +128,9 @@ class _SinglePlayerSingleVideoScreenState
                               clipBehavior: Clip.antiAlias,
                               margin: const EdgeInsets.all(32.0),
                               child: _isInitialized
-                                  ? AspectRatio(
-                                      aspectRatio:
-                                          _controller.value.aspectRatio,
-                                      child: VideoControls(
-                                        player: VideoPlayerControlsWrapper(
-                                            _controller),
-                                      ),
+                                  ? VideoControls(
+                                      player: VideoPlayerControlsWrapper(
+                                          _controller),
                                     )
                                   : const Center(
                                       child: CircularProgressIndicator(),
@@ -158,11 +154,8 @@ class _SinglePlayerSingleVideoScreenState
             : ListView(
                 children: [
                   if (_isInitialized)
-                    AspectRatio(
-                      aspectRatio: _controller.value.aspectRatio,
-                      child: VideoControls(
-                        player: VideoPlayerControlsWrapper(_controller),
-                      ),
+                    VideoControls(
+                      player: VideoPlayerControlsWrapper(_controller),
                     )
                   else
                     const Center(

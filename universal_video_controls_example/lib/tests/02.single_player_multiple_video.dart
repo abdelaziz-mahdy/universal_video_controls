@@ -149,11 +149,8 @@ class _SinglePlayerMultipleVideoScreenState
             : ListView(
                 children: [
                   if (_isInitialized)
-                    AspectRatio(
-                      aspectRatio: _controller.value.aspectRatio,
-                      child: VideoControls(
-                        player: VideoPlayerControlsWrapper(_controller),
-                      ),
+                    VideoControls(
+                      player: VideoPlayerControlsWrapper(_controller),
                     )
                   else
                     const Center(child: CircularProgressIndicator()),
