@@ -6,6 +6,7 @@
 library;
 
 import 'dart:async';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:universal_video_controls/universal_video_controls.dart';
 import 'package:universal_video_controls/universal_video_controls/src/controls/methods/video_state.dart';
@@ -149,6 +150,7 @@ class VideoControlsState extends State<VideoControls>
   late int? _width = widget.player.state.width;
   late int? _height = widget.player.state.height;
   late bool _visible = (_width ?? 0) > 0 && (_height ?? 0) > 0;
+  ValueKey _key = const ValueKey(true);
 
   bool _pauseDueToPauseUponEnteringBackgroundMode = false;
   // Public API:
@@ -322,7 +324,13 @@ class VideoControlsState extends State<VideoControls>
     super.dispose();
   }
 
-  void refreshView() {}
+  void refreshView() {
+    if (kIsWeb) {
+      setState(() {
+        _key = ValueKey(!_key.value);
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -362,6 +370,7 @@ class VideoControlsState extends State<VideoControls>
                                     children: [
                                       const SizedBox(),
                                       Positioned.fill(
+                                          key: _key,
                                           child: player(context).videoWidget()),
                                       // // Keep the |Texture| hidden before the first frame renders. In native implementation, if no default frame size is passed (through VideoController), a starting 1 pixel sized texture/surface is created to initialize the render context & check for H/W support.
                                       // // This is then resized based on the video dimensions & accordingly texture ID, texture, EGLDisplay, EGLSurface etc. (depending upon platform) are also changed. Just don't show that 1 pixel texture to the UI.
