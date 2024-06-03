@@ -156,6 +156,8 @@ class _SinglePlayerSingleVideoScreenState
                   if (_isInitialized)
                     VideoControls(
                       player: VideoPlayerControlsWrapper(_controller),
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.width * 9.0 / 16.0,
                     )
                   else
                     const Center(

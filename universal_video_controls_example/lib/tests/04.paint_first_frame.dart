@@ -12,7 +12,6 @@ Future<void> paintFirstFrame(BuildContext context) async {
     final controller =
         initializeVideoPlayer(getSources()[i % getSources().length]);
     controllers.add(controller);
-    controller.initialize();
   }
 
   await Future.wait(controllers.map((e) => e.initialize()));

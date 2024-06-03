@@ -4,20 +4,18 @@ import 'package:flutter/services.dart';
 import 'package:universal_platform/universal_platform.dart';
 
 import 'tests/01.single_player_single_video.dart';
-import 'tests/02.single_player_multiple_video.dart';
-import 'tests/03.multiple_player_multiple_video.dart';
-import 'tests/04.tabs_test.dart';
-import 'tests/05.stress_test.dart';
-import 'tests/06.paint_first_frame.dart';
-import 'tests/07.seamless.dart';
-import 'tests/08.programmatic_fullscreen.dart';
-import 'tests/09.video_view_parameters.dart';
+import 'tests/02.tabs_test.dart';
+import 'tests/03.stress_test.dart';
+import 'tests/04.paint_first_frame.dart';
+import 'tests/05.seamless.dart';
+import 'tests/06.programmatic_fullscreen.dart';
+import 'tests/07.video_view_parameters.dart';
 
 import 'common/sources/sources.dart';
-import 'tests/10.custom_mobile_controls.dart';
-import 'tests/11.custom_desktop_controls.dart';
-import 'tests/12.custom_adaptive_controls.dart';
-import 'tests/13.full_screen_player.dart';
+import 'tests/08.custom_mobile_controls.dart';
+import 'tests/09.custom_desktop_controls.dart';
+import 'tests/10.custom_adaptive_controls.dart';
+import 'tests/11.full_screen_player.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -80,39 +78,6 @@ class PrimaryScreen extends StatelessWidget {
               Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (context) => const SinglePlayerSingleVideoScreen(),
-                ),
-              );
-            },
-          ),
-          if (!UniversalPlatform.isWeb)
-            ListTile(
-              title: const Text(
-                'single_player_multiple_video.dart',
-                style: TextStyle(fontSize: 14.0),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-              onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        const SinglePlayerMultipleVideoScreen(),
-                  ),
-                );
-              },
-            ),
-          ListTile(
-            title: const Text(
-              'multiple_player_multiple_video.dart',
-              style: TextStyle(fontSize: 14.0),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
-            onTap: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) =>
-                      const MultiplePlayerMultipleVideoScreen(),
                 ),
               );
             },
