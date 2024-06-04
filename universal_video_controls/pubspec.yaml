@@ -43,7 +43,7 @@ flutter:
       windows:
         pluginClass: UniversalVideoControlsPluginCApi
       web:
-        pluginClass: UniversalVideoControlsPlugin
+        pluginClass: UniversalVideoControlsWeb
         fileName: universal_video_controls_web.dart
   # To add assets to your package, add an assets section, like this:
   # assets:
