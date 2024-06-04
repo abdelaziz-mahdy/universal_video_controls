@@ -1,3 +1,6 @@
+## 1.0.8
+- fix readme link.
+
 ## 1.0.7
 - fix pub points 
 

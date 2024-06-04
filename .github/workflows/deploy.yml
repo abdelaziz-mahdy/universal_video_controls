@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./universal_video_controls_example  # Set the working directory globally
+        working-directory: ./universal_video_controls/example  # Set the working directory globally
 
     steps:
 
@@ -41,5 +41,5 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./universal_video_controls_example/build/web
+          publish_dir: ./universal_video_controls/example/build/web
           # publish_dir: ./build/web_wasm

@@ -14,7 +14,8 @@ The `universal_video_controls` package provides a comprehensive solution for vid
 ## Examples
 
 Examples can be found at:
-- [Universal Video Controls Examples](https://github.com/abdelaziz-mahdy/universal_video_controls/tree/main/universal_video_controls_example)
+- [Universal Video Controls Examples](https://github.com/abdelaziz-mahdy/universal_video_controls/tree/main/
+universal_video_controls/example)
 - [Example Demo](https://abdelaziz-mahdy.github.io/universal_video_controls/)
 
 ## Getting Started
