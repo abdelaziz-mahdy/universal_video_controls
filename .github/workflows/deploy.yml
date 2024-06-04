@@ -14,10 +14,9 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./universal_video_controls/example  # Set the working directory globally
+        working-directory: ./universal_video_controls/example
 
     steps:
-
       - name: Checkout Code
         uses: actions/checkout@v4
 
@@ -25,21 +24,137 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: "stable"
-          # channel: "master"
           cache: true
 
       - name: Install Flutter Dependencies
         run: flutter pub get
 
-        
-
       - name: Build Flutter Web
         run: flutter build web --release --base-href "/universal_video_controls/" --web-renderer canvaskit
-      # - name: Build Flutter Web wasm
-      #   run: flutter build web --wasm --release --base-href "/bouncy_ball_physics/" --web-renderer canvaskit
+
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./universal_video_controls/example/build/web
-          # publish_dir: ./build/web_wasm
+
+  build_android:
+    name: Build Flutter APK (Android)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./universal_video_controls/example
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: "stable"
+          cache: true
+
+      - name: Install Flutter Dependencies
+        run: flutter pub get
+
+      - name: Build Flutter APK
+        run: flutter build apk --release
+
+  build_ios:
+    name: Build Flutter IPA (iOS)
+    runs-on: macos-latest
+    defaults:
+      run:
+        working-directory: ./universal_video_controls/example
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: "stable"
+          cache: true
+
+      - name: Install Flutter Dependencies
+        run: flutter pub get
+
+      - name: Setup macOS for iOS Build
+        run: |
+          sudo gem install cocoapods
+          flutter config --enable-ios
+          sudo xcode-select --switch /Applications/Xcode.app/Contents/Developer
+
+      - name: Build Flutter IPA
+        run: flutter build ipa --release
+
+  build_macos:
+    name: Build Flutter macOS
+    runs-on: macos-latest
+    defaults:
+      run:
+        working-directory: ./universal_video_controls/example
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: "stable"
+          cache: true
+
+      - name: Install Flutter Dependencies
+        run: flutter pub get
+
+      - name: Build Flutter macOS
+        run: flutter build macos --release
+
+  build_windows:
+    name: Build Flutter Windows
+    runs-on: windows-latest
+    defaults:
+      run:
+        working-directory: ./universal_video_controls/example
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: "stable"
+          cache: true
+
+      - name: Install Flutter Dependencies
+        run: flutter pub get
+
+      - name: Build Flutter Windows
+        run: flutter build windows --release
+
+  build_linux:
+    name: Build Flutter Linux
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./universal_video_controls/example
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: "stable"
+          cache: true
+
+      - name: Install Flutter Dependencies
+        run: flutter pub get
+
+      - name: Build Flutter Linux
+        run: flutter build linux --release
