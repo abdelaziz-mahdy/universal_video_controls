@@ -1,6 +1,0 @@
-# melos_managed_dependency_overrides: universal_video_controls,universal_video_controls_video_player
-dependency_overrides:
-  universal_video_controls:
-    path: ../universal_video_controls
-  universal_video_controls_video_player:
-    path: ../universal_video_controls_video_player
