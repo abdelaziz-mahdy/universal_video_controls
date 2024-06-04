@@ -5,6 +5,7 @@
 list(APPEND FLUTTER_PLUGIN_LIST
   screen_brightness_windows
   screen_retriever
+  universal_video_controls
   window_manager
 )
 

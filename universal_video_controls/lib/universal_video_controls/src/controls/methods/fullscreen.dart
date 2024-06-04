@@ -106,7 +106,6 @@ Future<void> exitFullscreen(BuildContext context) {
         // It is known that this [context] will have a [FullscreenInheritedWidget] above it.
         if (context.mounted) {
           FullscreenInheritedWidget.of(context).parent.refreshView();
-          
         }
       }
       // [exitNativeFullscreen] is moved to [WillPopScope] in [FullscreenInheritedWidget].

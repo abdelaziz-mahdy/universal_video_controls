@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:video_player/video_player.dart';
 
-VideoPlayerController initializeVideoPlayer(String source)  {
+VideoPlayerController initializeVideoPlayer(String source) {
   late VideoPlayerController controller;
 
   if (source.startsWith('http') || source.startsWith('https')) {

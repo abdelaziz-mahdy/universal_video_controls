@@ -3,7 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/universal_video_controls/melos_universal_video_controls.iml" filepath="$PROJECT_DIR$/universal_video_controls/melos_universal_video_controls.iml" />
-      <module fileurl="file://$PROJECT_DIR$/universal_video_controls_example/melos_universal_video_controls_example.iml" filepath="$PROJECT_DIR$/universal_video_controls_example/melos_universal_video_controls_example.iml" />
+      <module fileurl="file://$PROJECT_DIR$/universal_video_controls/example/melos_universal_video_controls_example.iml" filepath="$PROJECT_DIR$/universal_video_controls/example/melos_universal_video_controls_example.iml" />
       <module fileurl="file://$PROJECT_DIR$/universal_video_controls_video_player/melos_universal_video_controls_video_player.iml" filepath="$PROJECT_DIR$/universal_video_controls_video_player/melos_universal_video_controls_video_player.iml" />
       <module fileurl="file://$PROJECT_DIR$/melos_universal_video_controls.iml" filepath="$PROJECT_DIR$/melos_universal_video_controls.iml" />
     </modules>

@@ -482,7 +482,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "1.0.6"
+    version: "1.0.7"
   universal_video_controls_video_player:
     dependency: "direct main"
     description:

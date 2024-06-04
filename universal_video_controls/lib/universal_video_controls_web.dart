@@ -3,10 +3,6 @@
 // package as the core of your plugin.
 // ignore: avoid_web_libraries_in_flutter
 
-import 'package:flutter_web_plugins/flutter_web_plugins.dart';
-import 'package:web/web.dart' as web;
-
-
 /// A web implementation of the UniversalVideoControlsPlatform of the UniversalVideoControls plugin.
 class UniversalVideoControlsWeb {
   /// Constructs a UniversalVideoControlsWeb
