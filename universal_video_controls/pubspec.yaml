@@ -1,6 +1,6 @@
 name: universal_video_controls
 description: "Video player controls for all platforms based on media_kit controls but with abstraction to allow any other player to work using it (video_player is supported)"
-version: 1.0.6
+version: 1.0.7
 homepage: https://github.com/abdelaziz-mahdy/universal_video_controls
 
 environment:
@@ -29,7 +29,22 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
-
+  plugin:
+    platforms:
+      android:
+        package: com.example.universal_video_controls
+        pluginClass: UniversalVideoControlsPlugin
+      ios:
+        pluginClass: UniversalVideoControlsPlugin
+      linux:
+        pluginClass: UniversalVideoControlsPlugin
+      macos:
+        pluginClass: UniversalVideoControlsPlugin
+      windows:
+        pluginClass: UniversalVideoControlsPluginCApi
+      web:
+        pluginClass: UniversalVideoControlsPlugin
+        fileName: universal_video_controls_web.dart
   # To add assets to your package, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg

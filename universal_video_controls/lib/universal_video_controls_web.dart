@@ -6,21 +6,9 @@
 import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 import 'package:web/web.dart' as web;
 
-import 'universal_video_controls_platform_interface.dart';
 
 /// A web implementation of the UniversalVideoControlsPlatform of the UniversalVideoControls plugin.
-class UniversalVideoControlsWeb extends UniversalVideoControlsPlatform {
+class UniversalVideoControlsWeb {
   /// Constructs a UniversalVideoControlsWeb
   UniversalVideoControlsWeb();
-
-  static void registerWith(Registrar registrar) {
-    UniversalVideoControlsPlatform.instance = UniversalVideoControlsWeb();
-  }
-
-  /// Returns a [String] containing the version of the platform.
-  @override
-  Future<String?> getPlatformVersion() async {
-    final version = web.window.navigator.userAgent;
-    return version;
-  }
 }

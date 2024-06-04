@@ -1,3 +1,6 @@
+## 1.0.7
+- fix pub points 
+
 ## 1.0.6
 - fix specific dispose error, in certain conditions.
 
