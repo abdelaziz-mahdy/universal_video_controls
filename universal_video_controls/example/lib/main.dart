@@ -58,7 +58,7 @@ class PrimaryScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('package:media_kit'),
+        title: const Text('package:universal_video_controls'),
         actions: const [
           SizedBox(width: 16.0),
         ],
@@ -230,7 +230,7 @@ class DownloadingScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('package:media_kit'),
+        title: const Text('package:universal_video_controls'),
       ),
       body: Center(
         child: ValueListenableBuilder<String>(
