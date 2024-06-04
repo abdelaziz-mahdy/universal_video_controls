@@ -81,14 +81,9 @@ jobs:
       - name: Install Flutter Dependencies
         run: flutter pub get
 
-      - name: Setup macOS for iOS Build
-        run: |
-          sudo gem install cocoapods
-          flutter config --enable-ios
-          sudo xcode-select --switch /Applications/Xcode.app/Contents/Developer
 
-      - name: Build Flutter IPA
-        run: flutter build ipa --release
+      - name: Build Flutter 
+        run: flutter build ios --verbose --no-codesign
 
   build_macos:
     name: Build Flutter macOS
