@@ -109,7 +109,7 @@ class SubtitleViewState extends State<SubtitleView> {
               ].join('\n'),
               style: style,
               textAlign: textAlign,
-              textScaleFactor: textScaleFactor,
+              textScaler: TextScaler.linear(textScaleFactor),
             ),
           ),
         );
