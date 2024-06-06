@@ -536,12 +536,12 @@ class _MaterialDesktopVideoControlsState
               },
               const SingleActivator(LogicalKeyboardKey.arrowLeft): () {
                 final rate =
-                    player(context).state.position - const Duration(seconds: 2);
+                    player(context).state.position - const Duration(seconds: 5);
                 player(context).seek(rate);
               },
               const SingleActivator(LogicalKeyboardKey.arrowRight): () {
                 final rate =
-                    player(context).state.position + const Duration(seconds: 2);
+                    player(context).state.position + const Duration(seconds: 5);
                 player(context).seek(rate);
               },
               const SingleActivator(LogicalKeyboardKey.arrowUp): () {

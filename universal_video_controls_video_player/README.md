@@ -13,7 +13,7 @@ Add the following dependencies to your `pubspec.yaml` file:
 ```yaml
 dependencies:
   universal_video_controls_video_player: ^1.0.1
-  universal_video_controls: ^1.0.6
+  universal_video_controls: ^1.0.10
   video_player: ^2.2.5
 ```
 
@@ -46,6 +46,5 @@ We welcome contributions to the `universal_video_controls_video_player` project!
 ## License
 
 This project is licensed under the MIT License. See the LICENSE file for more details.
-
 
 Thank you for using `universal_video_controls_video_player`!

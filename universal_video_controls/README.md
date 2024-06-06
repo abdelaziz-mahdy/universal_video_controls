@@ -6,16 +6,16 @@ The `universal_video_controls` package provides a comprehensive solution for vid
 
 ## Images
 
-
-| Desktop                                                                                                      | Mobile                                                                                                      |
-|--------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------|
-| ![Desktop with Controls](https://github.com/abdelaziz-mahdy/universal_video_controls/blob/main/universal_video_controls/images/desktop_with_controls.png?raw=true) | ![Mobile with Controls](https://github.com/abdelaziz-mahdy/universal_video_controls/blob/main/universal_video_controls/images/mobile_with_controls.png?raw=true)   |
+| Desktop                                                                                                                                                            | Mobile                                                                                                                                                           |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ![Desktop with Controls](https://github.com/abdelaziz-mahdy/universal_video_controls/blob/main/universal_video_controls/images/desktop_with_controls.png?raw=true) | ![Mobile with Controls](https://github.com/abdelaziz-mahdy/universal_video_controls/blob/main/universal_video_controls/images/mobile_with_controls.png?raw=true) |
 
 ## Examples
 
 Examples can be found at:
+
 - [Universal Video Controls Examples](https://github.com/abdelaziz-mahdy/universal_video_controls/tree/main/
-universal_video_controls/example)
+  universal_video_controls/example)
 - [Example Demo](https://abdelaziz-mahdy.github.io/universal_video_controls/)
 
 ## Getting Started
@@ -28,7 +28,7 @@ Add the following dependencies to your `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  universal_video_controls: ^1.0.6
+  universal_video_controls: ^1.0.10
   universal_video_controls_video_player: ^1.0.1
   video_player: ^2.2.5
 ```
@@ -129,6 +129,7 @@ Scaffold(
   ),
 );
 ```
+
 ```dart
 Scaffold(
   body: VideoControls(
@@ -138,7 +139,6 @@ Scaffold(
   ),
 );
 ```
-
 
 #### Build custom video controls
 
@@ -214,6 +214,7 @@ MaterialVideoControlsTheme(
   ),
 );
 ```
+
 - Related widgets (may be used in `primaryButtonBar`, `topButtonBar` & `bottomButtonBar`):
   - `MaterialPlayOrPauseButton`
   - `MaterialSkipNextButton`
@@ -225,7 +226,7 @@ MaterialVideoControlsTheme(
 ##### `MaterialDesktopVideoControls`
 
 - [Material Design](https://material.io/) video controls for desktop.
-- Theming: 
+- Theming:
   - Use `MaterialDesktopVideoControlsTheme` widget.
   - `VideoControls` widget(s) in the `child` tree will follow the specified theme:
 
@@ -262,6 +263,7 @@ MaterialDesktopVideoControlsTheme(
   ),
 );
 ```
+
 - Related widgets (may be used in `primaryButtonBar`, `topButtonBar` & `bottomButtonBar`):
   - `MaterialDesktopPlayOrPauseButton`
   - `MaterialDesktopFullscreenButton`
@@ -270,20 +272,20 @@ MaterialDesktopVideoControlsTheme(
   - `MaterialDesktopPositionIndicator`
 - Keyboard shortcuts may be modified using `keyboardShortcuts` argument. Default ones are listed below:
 
-| Shortcut                      | Action                    |
-|-------------------------------|---------------------------|
-| Media Play Button             | Play                      |
-| Media Pause Button            | Pause                     |
-| Media Play/Pause Button       | Play/Pause                |
-| Space                         | Play/Pause                |
-| J                             | Seek 10s Behind           |
-| I                             | Seek 10s Ahead            |
-| Arrow Left                    | Seek 2s Behind            |
-| Arrow Right                   | Seek 2s Ahead             |
-| Arrow Up                      | Increase Volume 5%        |
-| Arrow Down                    | Decrease Volume 5%        |
-| F                             | Enter/Exit Fullscreen     |
-| Escape                        | Exit Fullscreen           |
+| Shortcut                | Action                |
+| ----------------------- | --------------------- |
+| Media Play Button       | Play                  |
+| Media Pause Button      | Pause                 |
+| Media Play/Pause Button | Play/Pause            |
+| Space                   | Play/Pause            |
+| J                       | Seek 10s Behind       |
+| I                       | Seek 10s Ahead        |
+| Arrow Left              | Seek 5s Behind        |
+| Arrow Right             | Seek 5s Ahead         |
+| Arrow Up                | Increase Volume 5%    |
+| Arrow Down              | Decrease Volume 5%    |
+| F                       | Enter/Exit Fullscreen |
+| Escape                  | Exit Fullscreen       |
 
 ##### `CupertinoVideoControls`
 
@@ -314,7 +316,6 @@ CupertinoVideoControlsTheme(
 - Disable video controls _i.e._ only render video output.
 - Theming:
   - No theming applicable.
-
 
 ## Contributing
 
