@@ -546,6 +546,7 @@ class _MaterialVideoControlsState extends State<_MaterialVideoControls> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     state(context).setShowControlsLogic(({bool autoHide = false}) {
+      _timer?.cancel();
       _controlsForcedShown = true;
       setState(() {
         mount = true;
