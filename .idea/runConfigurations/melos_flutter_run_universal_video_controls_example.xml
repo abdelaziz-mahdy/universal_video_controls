@@ -1,6 +1,0 @@
-<component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Flutter Run -&gt; 'universal_video_controls_example'" type="FlutterRunConfigurationType" factoryName="Flutter">
-    <option name="filePath" value="$PROJECT_DIR$/universal_video_controls/example/lib/main.dart" />
-    <method v="2" />
-  </configuration>
-</component>
