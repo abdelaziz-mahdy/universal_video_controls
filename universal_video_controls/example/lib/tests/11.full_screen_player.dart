@@ -23,9 +23,6 @@ class _FullScreenPlayerState extends State<FullScreenPlayer> {
   void initState() {
     super.initState();
     _initializeVideoPlayer(getSources()[0]);
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      key.currentState?.enterFullscreen();
-    });
   }
 
   Future<void> _initializeVideoPlayer(String source) async {
@@ -39,6 +36,10 @@ class _FullScreenPlayerState extends State<FullScreenPlayer> {
       }
     });
     await _controller.initialize();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      await key.currentState?.enterFullscreen();
+      //
+    });
   }
 
   @override

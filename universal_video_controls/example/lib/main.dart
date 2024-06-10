@@ -14,6 +14,7 @@ import 'tests/08.custom_mobile_controls.dart';
 import 'tests/09.custom_desktop_controls.dart';
 import 'tests/10.custom_adaptive_controls.dart';
 import 'tests/11.full_screen_player.dart';
+import 'tests/12.settings_button.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -215,6 +216,18 @@ class PrimaryScreen extends StatelessWidget {
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => const FullScreenPlayer(),
+                ));
+              }),
+          ListTile(
+              title: const Text(
+                'settings_button.dart',
+                style: TextStyle(fontSize: 14.0),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const CustomDesktopSettingsButton(),
                 ));
               }),
         ],

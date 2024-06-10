@@ -29,7 +29,6 @@ class _VideoViewParametersScreenState extends State<VideoViewParametersScreen> {
   @override
   void initState() {
     key = GlobalKey<VideoControlsState>();
-
     _initializeVideoPlayer(getSources()[0]);
 
     super.initState();
