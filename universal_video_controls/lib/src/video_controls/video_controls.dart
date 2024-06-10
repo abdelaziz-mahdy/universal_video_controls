@@ -152,7 +152,8 @@ class VideoControlsState extends State<VideoControls>
   late int? _height = widget.player.state.height;
   late bool _visible = (_width ?? 0) > 0 && (_height ?? 0) > 0;
   ValueKey _key = const ValueKey(true);
-
+  Function({bool autoHide})? _showControlsCall;
+  Function? _hideControlsCall;
   bool _pauseDueToPauseUponEnteringBackgroundMode = false;
   // Public API:
   bool isFullscreen() {
@@ -204,6 +205,42 @@ class VideoControlsState extends State<VideoControls>
       controls: controls,
       subtitleViewConfiguration: subtitleViewConfiguration,
     );
+  }
+
+  /// force show the controls
+  /// [hideControls] need to called to hide controls 
+  void showControls({bool autoHide = false}) {
+    if (_showControlsCall != null) {
+      _showControlsCall!(autoHide: autoHide);
+    } else {
+      if (kDebugMode) {
+        print("_showControlsCall callback not found");
+      }
+    }
+  }
+
+  /// force hide the controls
+  /// This need to be called if [showControls] with auto hide being false
+  void hideControls() {
+    if (_hideControlsCall != null) {
+      _hideControlsCall!();
+    } else {
+      if (kDebugMode) {
+        print("_hideControlsCall callback not found");
+      }
+    }
+  }
+
+  /// Internal method dont use it in your app (exposed for internal use only),
+  /// This method will set the logic for configuring the any settings in the underline controls
+  void setShowControlsLogic(Function({bool autoHide}) showControlsCall) {
+    _showControlsCall = showControlsCall;
+  }
+
+  /// Internal method dont use it in your app (exposed for internal use only),
+  /// This method will set the logic for configuring the any settings in the underline controls
+  void setHideControlsLogic(Function() hideControlsCall) {
+    _hideControlsCall = hideControlsCall;
   }
 
   @override

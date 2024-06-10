@@ -1,3 +1,6 @@
+## 1.0.11
+- Exposed hide and show controls methods to be controlled using code.
+  
 ## 1.0.10
 - update the arrows left and right seek from 2 sec to 5 sec to match youtube.
 ## 1.0.9

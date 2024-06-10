@@ -363,7 +363,7 @@ class _MaterialDesktopVideoControlsState
     extends State<_MaterialDesktopVideoControls> {
   late bool mount = _theme(context).visibleOnMount;
   late bool visible = _theme(context).visibleOnMount;
-
+  bool _controlsForcedShown = false;
   Timer? _timer;
 
   // late /* private */ var playlist = player(context).state.playlist;
@@ -390,6 +390,35 @@ class _MaterialDesktopVideoControlsState
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+    state(context).setShowControlsLogic(({bool autoHide = false}) {
+      _controlsForcedShown = true;
+      setState(() {
+        mount = true;
+        visible = true;
+      });
+      if (autoHide) {
+        shiftSubtitle();
+        _timer?.cancel();
+        _timer = Timer(_theme(context).controlsHoverDuration, () {
+          if (mounted) {
+            setState(() {
+              visible = false;
+              _controlsForcedShown = false;
+            });
+            unshiftSubtitle();
+          }
+        });
+      }
+    });
+
+    state(context).setHideControlsLogic(() {
+      _controlsForcedShown = false;
+      setState(() {
+        visible = false;
+      });
+      unshiftSubtitle();
+      _timer?.cancel();
+    });
     if (subscriptions.isEmpty) {
       subscriptions.addAll(
         [
@@ -491,6 +520,7 @@ class _MaterialDesktopVideoControlsState
   }
 
   void onExit() {
+    if (_controlsForcedShown) return;
     setState(() {
       visible = false;
     });

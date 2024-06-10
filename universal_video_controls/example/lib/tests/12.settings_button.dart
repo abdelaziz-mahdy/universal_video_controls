@@ -17,11 +17,15 @@ class CustomDesktopSettingsButton extends StatefulWidget {
 class _CustomDesktopSettingsButtonState
     extends State<CustomDesktopSettingsButton> {
   late final VideoPlayerController _controller;
+  late GlobalKey<VideoControlsState> key;
+
   bool _isInitialized = false;
   MenuController menuController = MenuController();
   @override
   void initState() {
     super.initState();
+    key = GlobalKey<VideoControlsState>();
+
     _initializeVideoPlayer(getSources()[0]);
   }
 
@@ -100,6 +104,12 @@ class _CustomDesktopSettingsButtonState
                 },
               )
             ],
+            onClose: () {
+              key.currentState?.hideControls();
+            },
+            onOpen: () {
+              key.currentState?.showControls();
+            },
             crossAxisUnconstrained: true,
             child: MaterialDesktopCustomButton(
               onPressed: () {
@@ -171,6 +181,7 @@ class _CustomDesktopSettingsButtonState
                                 clipBehavior: Clip.antiAlias,
                                 margin: const EdgeInsets.all(32.0),
                                 child: VideoControls(
+                                  key: key,
                                   player:
                                       VideoPlayerControlsWrapper(_controller),
                                 ),
@@ -193,6 +204,7 @@ class _CustomDesktopSettingsButtonState
               : ListView(
                   children: [
                     VideoControls(
+                      key: key,
                       player: VideoPlayerControlsWrapper(_controller),
                       width: MediaQuery.of(context).size.width,
                       height: MediaQuery.of(context).size.width * 9.0 / 16.0,

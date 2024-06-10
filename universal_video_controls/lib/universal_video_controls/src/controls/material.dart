@@ -474,6 +474,7 @@ class _MaterialVideoControlsState extends State<_MaterialVideoControls> {
   late bool mount = _theme(context).visibleOnMount;
   late bool visible = _theme(context).visibleOnMount;
   Timer? _timer;
+  bool _controlsForcedShown = false;
 
   double _brightnessValue = 0.0;
   bool _brightnessIndicator = false;
@@ -544,6 +545,35 @@ class _MaterialVideoControlsState extends State<_MaterialVideoControls> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+    state(context).setShowControlsLogic(({bool autoHide = false}) {
+      _controlsForcedShown = true;
+      setState(() {
+        mount = true;
+        visible = true;
+      });
+      if (autoHide) {
+        shiftSubtitle();
+        _timer?.cancel();
+        _timer = Timer(_theme(context).controlsHoverDuration, () {
+          if (mounted) {
+            setState(() {
+              visible = false;
+              _controlsForcedShown = false;
+            });
+            unshiftSubtitle();
+          }
+        });
+      }
+    });
+
+    state(context).setHideControlsLogic(() {
+      _controlsForcedShown = false;
+      setState(() {
+        visible = false;
+      });
+      unshiftSubtitle();
+      _timer?.cancel();
+    });
     if (subscriptions.isEmpty) {
       subscriptions.addAll(
         [
@@ -637,6 +667,7 @@ class _MaterialVideoControlsState extends State<_MaterialVideoControls> {
         }
       });
     } else {
+      if (_controlsForcedShown) return;
       setState(() {
         visible = false;
       });
