@@ -330,6 +330,7 @@ class VideoControlsState extends State<VideoControls>
       setState(() {
         _key = ValueKey(!_key.value);
       });
+      // this is intended (to call the function after two frames)
       WidgetsBinding.instance.addPostFrameCallback((_) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
           if (player(_contextNotifier.value!).state.playing) {
