@@ -391,7 +391,7 @@ class _MaterialDesktopVideoControlsState
   void didChangeDependencies() {
     super.didChangeDependencies();
     state(context).setShowControlsLogic(({bool autoHide = false}) {
-       _timer?.cancel();
+      _timer?.cancel();
       _controlsForcedShown = true;
       setState(() {
         mount = true;
@@ -399,26 +399,12 @@ class _MaterialDesktopVideoControlsState
       });
       if (autoHide) {
         shiftSubtitle();
-        _timer?.cancel();
-        _timer = Timer(_theme(context).controlsHoverDuration, () {
-          if (mounted) {
-            setState(() {
-              visible = false;
-              _controlsForcedShown = false;
-            });
-            unshiftSubtitle();
-          }
-        });
+        hideControlsTimer();
       }
     });
 
     state(context).setHideControlsLogic(() {
-      _controlsForcedShown = false;
-      setState(() {
-        visible = false;
-      });
-      unshiftSubtitle();
-      _timer?.cancel();
+      hideControls();
     });
     if (subscriptions.isEmpty) {
       subscriptions.addAll(
@@ -441,17 +427,7 @@ class _MaterialDesktopVideoControlsState
       );
 
       if (_theme(context).visibleOnMount) {
-        _timer = Timer(
-          _theme(context).controlsHoverDuration,
-          () {
-            if (mounted) {
-              setState(() {
-                visible = false;
-              });
-              unshiftSubtitle();
-            }
-          },
-        );
+        hideControlsTimer();
       }
     }
   }
@@ -487,46 +463,47 @@ class _MaterialDesktopVideoControlsState
   }
 
   void onHover() {
+    if (_controlsForcedShown) return;
+
     setState(() {
       mount = true;
       visible = true;
     });
     shiftSubtitle();
-    _timer?.cancel();
-    _timer = Timer(_theme(context).controlsHoverDuration, () {
-      if (mounted) {
-        setState(() {
-          visible = false;
-        });
-        unshiftSubtitle();
-      }
-    });
+    hideControlsTimer();
   }
 
   void onEnter() {
+    if (_controlsForcedShown) return;
     setState(() {
       mount = true;
       visible = true;
     });
     shiftSubtitle();
+    hideControlsTimer();
+  }
+
+  void hideControls() {
+    _controlsForcedShown = false;
+    setState(() {
+      visible = false;
+    });
+    unshiftSubtitle();
+    _timer?.cancel();
+  }
+
+  void hideControlsTimer() {
     _timer?.cancel();
     _timer = Timer(_theme(context).controlsHoverDuration, () {
       if (mounted) {
-        setState(() {
-          visible = false;
-        });
-        unshiftSubtitle();
+        hideControls();
       }
     });
   }
 
   void onExit() {
     if (_controlsForcedShown) return;
-    setState(() {
-      visible = false;
-    });
-    unshiftSubtitle();
-    _timer?.cancel();
+    hideControls();
   }
 
   @override

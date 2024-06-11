@@ -554,26 +554,12 @@ class _MaterialVideoControlsState extends State<_MaterialVideoControls> {
       });
       if (autoHide) {
         shiftSubtitle();
-        _timer?.cancel();
-        _timer = Timer(_theme(context).controlsHoverDuration, () {
-          if (mounted) {
-            setState(() {
-              visible = false;
-              _controlsForcedShown = false;
-            });
-            unshiftSubtitle();
-          }
-        });
+        hideControlsTimer();
       }
     });
 
     state(context).setHideControlsLogic(() {
-      _controlsForcedShown = false;
-      setState(() {
-        visible = false;
-      });
-      unshiftSubtitle();
-      _timer?.cancel();
+      hideControls();
     });
     if (subscriptions.isEmpty) {
       subscriptions.addAll(
@@ -596,17 +582,7 @@ class _MaterialVideoControlsState extends State<_MaterialVideoControls> {
       );
 
       if (_theme(context).visibleOnMount) {
-        _timer = Timer(
-          _theme(context).controlsHoverDuration,
-          () {
-            if (mounted) {
-              setState(() {
-                visible = false;
-              });
-              unshiftSubtitle();
-            }
-          },
-        );
+        hideControlsTimer();
       }
     }
   }
@@ -651,6 +627,15 @@ class _MaterialVideoControlsState extends State<_MaterialVideoControls> {
     }
   }
 
+  void hideControlsTimer() {
+    _timer?.cancel();
+    _timer = Timer(_theme(context).controlsHoverDuration, () {
+      if (mounted) {
+        hideControls();
+      }
+    });
+  }
+
   void onTap() {
     if (!visible) {
       setState(() {
@@ -658,23 +643,21 @@ class _MaterialVideoControlsState extends State<_MaterialVideoControls> {
         visible = true;
       });
       shiftSubtitle();
-      _timer?.cancel();
-      _timer = Timer(_theme(context).controlsHoverDuration, () {
-        if (mounted) {
-          setState(() {
-            visible = false;
-          });
-          unshiftSubtitle();
-        }
-      });
+      hideControlsTimer();
     } else {
       if (_controlsForcedShown) return;
-      setState(() {
-        visible = false;
-      });
-      unshiftSubtitle();
-      _timer?.cancel();
+      hideControls();
     }
+  }
+
+  void hideControls() {
+    _controlsForcedShown = false;
+
+    setState(() {
+      visible = false;
+    });
+    unshiftSubtitle();
+    _timer?.cancel();
   }
 
   void onDoubleTapSeekBackward() {

@@ -1,3 +1,5 @@
+## 1.0.12
+- Improving Hide and show controls logic 
 ## 1.0.11
 - Exposed hide and show controls methods to be controlled using code.
   
