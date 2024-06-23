@@ -1,5 +1,7 @@
+## 1.0.13
+- remove drag on desktop changes volume.
 ## 1.0.12
-- Improving Hide and show controls logic 
+- Improving Hide and show controls logic.
 ## 1.0.11
 - Exposed hide and show controls methods to be controlled using code.
   

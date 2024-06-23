@@ -618,18 +618,18 @@ class _MaterialDesktopVideoControlsState
                           toggleFullscreen(context);
                         }
                       },
-                onPanUpdate: _theme(context).modifyVolumeOnScroll
-                    ? (e) {
-                        if (e.delta.dy > 0) {
-                          final volume = player(context).state.volume - 5.0;
-                          player(context).setVolume(volume.clamp(0.0, 100.0));
-                        }
-                        if (e.delta.dy < 0) {
-                          final volume = player(context).state.volume + 5.0;
-                          player(context).setVolume(volume.clamp(0.0, 100.0));
-                        }
-                      }
-                    : null,
+                // onPanUpdate: _theme(context).modifyVolumeOnScroll
+                //     ? (e) {
+                //         if (e.delta.dy > 0) {
+                //           final volume = player(context).state.volume - 5.0;
+                //           player(context).setVolume(volume.clamp(0.0, 100.0));
+                //         }
+                //         if (e.delta.dy < 0) {
+                //           final volume = player(context).state.volume + 5.0;
+                //           player(context).setVolume(volume.clamp(0.0, 100.0));
+                //         }
+                //       }
+                //     : null,
                 child: MouseRegion(
                   cursor: (_theme(context).hideMouseOnControlsRemoval && !mount)
                       ? SystemMouseCursors.none
