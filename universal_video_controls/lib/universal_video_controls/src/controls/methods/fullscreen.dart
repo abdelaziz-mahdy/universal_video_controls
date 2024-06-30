@@ -27,7 +27,6 @@ Future<void> enterFullscreen(BuildContext context) {
         final contextNotifierValue = contextNotifier(context);
         final videoViewParametersNotifierValue =
             videoViewParametersNotifier(context);
-        final controllerValue = player(context);
         Navigator.of(context, rootNavigator: true).push(
           PageRouteBuilder(
             pageBuilder: (_, __, ___) => Material(
@@ -49,7 +48,7 @@ Future<void> enterFullscreen(BuildContext context) {
                           videoViewParametersNotifierValue,
                       disposeNotifiers: false,
                       child: VideoControls(
-                        player: controllerValue,
+                        player: videoViewParametersNotifierValue.value.player,
                         // Do not restrict the video's width & height in fullscreen mode:
                         width: null,
                         height: null,

@@ -1,6 +1,6 @@
 name: universal_video_controls
 description: "Video player controls for all platforms based on media_kit controls but with abstraction to allow any other player to work using it (video_player is supported)"
-version: 1.0.13
+version: 1.0.14
 homepage: https://github.com/abdelaziz-mahdy/universal_video_controls
 
 environment:

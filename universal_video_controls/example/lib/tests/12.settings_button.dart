@@ -164,7 +164,7 @@ class _CustomDesktopSettingsButtonState
                 },
               ),
             ),
-            MaterialFullscreenButton()
+            const MaterialFullscreenButton()
           ],
         ),
         fullscreen: const MaterialDesktopVideoControlsThemeData(),

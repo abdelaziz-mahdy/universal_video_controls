@@ -192,23 +192,24 @@ class VideoControlsState extends State<VideoControls>
     FilterQuality? filterQuality,
     VideoControlsBuilder? controls,
     SubtitleViewConfiguration? subtitleViewConfiguration,
+    AbstractPlayer? player,
   }) {
-    _videoViewParametersNotifier.value =
-        _videoViewParametersNotifier.value.copyWith(
-      width: width,
-      height: height,
-      fit: fit,
-      fill: fill,
-      alignment: alignment,
-      aspectRatio: aspectRatio,
-      filterQuality: filterQuality,
-      controls: controls,
-      subtitleViewConfiguration: subtitleViewConfiguration,
-    );
+    _videoViewParametersNotifier.value = _videoViewParametersNotifier.value
+        .copyWith(
+            width: width,
+            height: height,
+            fit: fit,
+            fill: fill,
+            alignment: alignment,
+            aspectRatio: aspectRatio,
+            filterQuality: filterQuality,
+            controls: controls,
+            subtitleViewConfiguration: subtitleViewConfiguration,
+            player: player);
   }
 
   /// force show the controls
-  /// [hideControls] need to called to hide controls 
+  /// [hideControls] need to called to hide controls
   void showControls({bool autoHide = false}) {
     if (_showControlsCall != null) {
       _showControlsCall!(autoHide: autoHide);
@@ -251,16 +252,16 @@ class VideoControlsState extends State<VideoControls>
             )?.videoViewParametersNotifier ??
             ValueNotifier<VideoViewParameters>(
               VideoViewParameters(
-                width: widget.width,
-                height: widget.height,
-                fit: widget.fit,
-                fill: widget.fill,
-                alignment: widget.alignment,
-                aspectRatio: widget.aspectRatio,
-                filterQuality: widget.filterQuality,
-                controls: widget.controls,
-                subtitleViewConfiguration: widget.subtitleViewConfiguration,
-              ),
+                  width: widget.width,
+                  height: widget.height,
+                  fit: widget.fit,
+                  fill: widget.fill,
+                  alignment: widget.alignment,
+                  aspectRatio: widget.aspectRatio,
+                  filterQuality: widget.filterQuality,
+                  controls: widget.controls,
+                  subtitleViewConfiguration: widget.subtitleViewConfiguration,
+                  player: widget.player),
             );
     _disposeNotifiers =
         universal_video_controls.VideoStateInheritedWidget.maybeOf(
@@ -277,15 +278,15 @@ class VideoControlsState extends State<VideoControls>
         AppLifecycleState.paused,
         AppLifecycleState.detached,
       ].contains(state)) {
-        if (widget.player.state.playing) {
+        if (_videoViewParametersNotifier.value.player.state.playing) {
           _pauseDueToPauseUponEnteringBackgroundMode = true;
-          widget.player.pause();
+          _videoViewParametersNotifier.value.player.pause();
         }
       } else {
         if (widget.resumeUponEnteringForegroundMode &&
             _pauseDueToPauseUponEnteringBackgroundMode) {
           _pauseDueToPauseUponEnteringBackgroundMode = false;
-          widget.player.play();
+          _videoViewParametersNotifier.value.player.play();
         }
       }
     }
@@ -350,13 +351,13 @@ class VideoControlsState extends State<VideoControls>
     for (final subscription in _subscriptions) {
       subscription.cancel();
     }
+    if (widget.autoDisposeControlsWrapper && _disposeNotifiers) {
+      _videoViewParametersNotifier.value.player.dispose();
+    }
     if (_disposeNotifiers) {
       _videoViewParametersNotifier.dispose();
       _contextNotifier.dispose();
       VideoStateInheritedWidgetContextNotifierState.fallback.remove(this);
-    }
-    if (widget.autoDisposeControlsWrapper && _disposeNotifiers) {
-      widget.player.dispose();
     }
 
     super.dispose();
@@ -401,7 +402,7 @@ class VideoControlsState extends State<VideoControls>
                           fit: videoViewParameters.fit,
                           alignment: videoViewParameters.alignment,
                           child: StreamBuilder<int?>(
-                              stream: widget.player.stream.width,
+                              stream: videoViewParameters.player.stream.width,
                               builder: (context, snapshot) {
                                 return SizedBox(
                                   width:
@@ -435,7 +436,7 @@ class VideoControlsState extends State<VideoControls>
                     if (videoViewParameters.subtitleViewConfiguration.visible)
                       Positioned.fill(
                         child: SubtitleView(
-                          player: widget.player,
+                          player: videoViewParameters.player,
                           key: _subtitleViewKey,
                           configuration:
                               videoViewParameters.subtitleViewConfiguration,

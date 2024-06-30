@@ -25,7 +25,7 @@ ValueNotifier<VideoViewParameters> videoViewParametersNotifier(
 
 /// Returns the [AbstractPlayer] associated with the [VideoControls] present in the current [BuildContext].
 AbstractPlayer player(BuildContext context) =>
-    VideoStateInheritedWidget.of(context).state.widget.player;
+    videoViewParametersNotifier(context).value.player;
 
 /// Returns the callback which must be invoked when the video enters fullscreen mode.
 Future<void> Function()? onEnterFullscreen(BuildContext context) =>

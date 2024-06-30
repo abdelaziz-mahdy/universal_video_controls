@@ -8,7 +8,8 @@ abstract class UniversalVideoControlsPlatform extends PlatformInterface {
 
   static final Object _token = Object();
 
-  static UniversalVideoControlsPlatform _instance = MethodChannelUniversalVideoControls();
+  static UniversalVideoControlsPlatform _instance =
+      MethodChannelUniversalVideoControls();
 
   /// The default instance of [UniversalVideoControlsPlatform] to use.
   ///

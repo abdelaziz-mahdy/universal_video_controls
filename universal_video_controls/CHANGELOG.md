@@ -1,3 +1,5 @@
+## 1.0.14
+- Added player to update function to pass player update to fullscreen widget for a cause of changing the player and user is in fullscreen.
 ## 1.0.13
 - remove drag on desktop changes volume.
 ## 1.0.12

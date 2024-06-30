@@ -5,11 +5,13 @@ import 'package:universal_video_controls/universal_video_controls_method_channel
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  MethodChannelUniversalVideoControls platform = MethodChannelUniversalVideoControls();
+  MethodChannelUniversalVideoControls platform =
+      MethodChannelUniversalVideoControls();
   const MethodChannel channel = MethodChannel('universal_video_controls');
 
   setUp(() {
-    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockMethodCallHandler(
       channel,
       (MethodCall methodCall) async {
         return '42';
@@ -18,7 +20,8 @@ void main() {
   });
 
   tearDown(() {
-    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(channel, null);
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockMethodCallHandler(channel, null);
   });
 
   test('getPlatformVersion', () async {
