@@ -1,3 +1,6 @@
+## 1.0.2
+- loosen dart sdk required version
+
 ## 1.0.1
 
 - fix buffer.
