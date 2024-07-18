@@ -19,7 +19,7 @@ dependencies:
   collection: ^1.0.0
   meta: ^1.7.0
   window_manager: ^0.3.9
-  web: ^0.5.1
+  web: ^1.0.0
   flutter_web_plugins:
     sdk: flutter
 dev_dependencies:
