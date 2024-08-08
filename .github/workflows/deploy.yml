@@ -62,7 +62,7 @@ jobs:
         run: flutter pub get
 
       - name: Build Flutter Web
-        run: flutter build web --release --base-href "/universal_video_controls/" --web-renderer canvaskit --wasm
+        run: flutter build web --release --base-href "/universal_video_controls/" --wasm
 
       # - name: Deploy to GitHub Pages
       #   uses: peaceiris/actions-gh-pages@v3
