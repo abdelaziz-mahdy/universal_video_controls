@@ -1,5 +1,6 @@
 ## 1.0.16
 - update method gets called internally when any of the params are changed.
+- fix wakelock disabled when playing 
 ## 1.0.15
 - loosen dart sdk required version
 ## 1.0.14

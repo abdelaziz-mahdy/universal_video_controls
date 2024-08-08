@@ -390,17 +390,18 @@ class VideoControlsState extends State<VideoControls>
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
-    _wakelock.disable();
     for (final subscription in _subscriptions) {
       subscription.cancel();
     }
-    if (widget.autoDisposeControlsWrapper && _disposeNotifiers) {
-      _videoViewParametersNotifier.value.player.dispose();
-    }
+
     if (_disposeNotifiers) {
+      if (widget.autoDisposeControlsWrapper) {
+        _videoViewParametersNotifier.value.player.dispose();
+      }
       _videoViewParametersNotifier.dispose();
       _contextNotifier.dispose();
       VideoStateInheritedWidgetContextNotifierState.fallback.remove(this);
+      _wakelock.disable();
     }
 
     super.dispose();
