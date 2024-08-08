@@ -7,9 +7,6 @@ on:
   pull_request:
     branches:
       - main
-concurrency: 
-  group: auto-deploy
-  cancel-in-progress: true
 
 jobs:
   build_web:
