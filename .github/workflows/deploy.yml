@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - main
+  pull_request:
+    branches:
+      - main
 concurrency: 
   group: auto-deploy
   cancel-in-progress: true
@@ -33,6 +36,7 @@ jobs:
         run: flutter build web --release --base-href "/universal_video_controls/" --web-renderer canvaskit
 
       - name: Deploy to GitHub Pages
+        if: github.ref == 'refs/heads/main'
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
