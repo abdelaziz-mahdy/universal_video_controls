@@ -245,6 +245,48 @@ class VideoControlsState extends State<VideoControls>
   }
 
   @override
+  void didUpdateWidget(covariant VideoControls oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    final currentParams = _videoViewParametersNotifier.value;
+
+    final newParams = currentParams.copyWith(
+      width:
+          widget.width != oldWidget.width ? widget.width : currentParams.width,
+      height: widget.height != oldWidget.height
+          ? widget.height
+          : currentParams.height,
+      fit: widget.fit != oldWidget.fit ? widget.fit : currentParams.fit,
+      fill: widget.fill != oldWidget.fill ? widget.fill : currentParams.fill,
+      alignment: widget.alignment != oldWidget.alignment
+          ? widget.alignment
+          : currentParams.alignment,
+      aspectRatio: widget.aspectRatio != oldWidget.aspectRatio
+          ? widget.aspectRatio
+          : currentParams.aspectRatio,
+      filterQuality: widget.filterQuality != oldWidget.filterQuality
+          ? widget.filterQuality
+          : currentParams.filterQuality,
+      controls: widget.controls != oldWidget.controls
+          ? widget.controls
+          : currentParams.controls,
+      subtitleViewConfiguration: widget.subtitleViewConfiguration !=
+              oldWidget.subtitleViewConfiguration
+          ? widget.subtitleViewConfiguration
+          : currentParams.subtitleViewConfiguration,
+      player: widget.player != oldWidget.player
+          ? widget.player
+          : currentParams.player,
+    );
+
+    if (newParams != currentParams) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _videoViewParametersNotifier.value = newParams;
+      });
+    }
+  }
+
+  @override
   void didChangeDependencies() {
     _videoViewParametersNotifier =
         universal_video_controls.VideoStateInheritedWidget.maybeOf(
@@ -263,6 +305,7 @@ class VideoControlsState extends State<VideoControls>
                   subtitleViewConfiguration: widget.subtitleViewConfiguration,
                   player: widget.player),
             );
+
     _disposeNotifiers =
         universal_video_controls.VideoStateInheritedWidget.maybeOf(
               context,
@@ -347,17 +390,18 @@ class VideoControlsState extends State<VideoControls>
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
-    _wakelock.disable();
     for (final subscription in _subscriptions) {
       subscription.cancel();
     }
-    if (widget.autoDisposeControlsWrapper && _disposeNotifiers) {
-      _videoViewParametersNotifier.value.player.dispose();
-    }
+
     if (_disposeNotifiers) {
+      if (widget.autoDisposeControlsWrapper) {
+        _videoViewParametersNotifier.value.player.dispose();
+      }
       _videoViewParametersNotifier.dispose();
       _contextNotifier.dispose();
       VideoStateInheritedWidgetContextNotifierState.fallback.remove(this);
+      _wakelock.disable();
     }
 
     super.dispose();
