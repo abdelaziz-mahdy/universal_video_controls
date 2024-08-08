@@ -1,12 +1,14 @@
 // --------------------------------------------------
 
+import 'dart:js_interop';
+
 import 'package:flutter/material.dart';
-import 'dart:html';
+import 'package:web/web.dart';
 
 /// Makes the native window enter fullscreen.
 Future<void> defaultEnterNativeFullscreen() async {
   try {
-    await document.documentElement?.requestFullscreen();
+    await document.documentElement?.requestFullscreen().toDart;
   } catch (exception, stacktrace) {
     debugPrint(exception.toString());
     debugPrint(stacktrace.toString());
@@ -16,7 +18,7 @@ Future<void> defaultEnterNativeFullscreen() async {
 /// Makes the native window exit fullscreen.
 Future<void> defaultExitNativeFullscreen() async {
   try {
-    document.exitFullscreen();
+    await document.exitFullscreen().toDart;
   } catch (exception, stacktrace) {
     debugPrint(exception.toString());
     debugPrint(stacktrace.toString());
