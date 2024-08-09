@@ -1,3 +1,5 @@
+## 1.0.17
+- update deps (window_manager)
 ## 1.0.16
 - update method gets called internally when any of the params are changed.
 - fix wakelock disabled when playing 

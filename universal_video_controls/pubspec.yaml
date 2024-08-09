@@ -18,7 +18,7 @@ dependencies:
   plugin_platform_interface: ^2.0.2
   collection: ^1.0.0
   meta: ^1.7.0
-  window_manager: ^0.3.9
+  window_manager: ^0.4.0
   web: ^0.5.1
   flutter_web_plugins:
     sdk: flutter
