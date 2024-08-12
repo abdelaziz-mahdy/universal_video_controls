@@ -1,3 +1,6 @@
+## 1.0.18
+- fixed streams not being listened to when updating controller 
+
 ## 1.0.17
 - update deps (window_manager)
 ## 1.0.16

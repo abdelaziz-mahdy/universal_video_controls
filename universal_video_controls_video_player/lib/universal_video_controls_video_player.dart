@@ -19,66 +19,73 @@ class VideoPlayerControlsWrapper extends AbstractPlayer {
         completed: isCompleted,
         position: controller.value.position,
         duration: controller.value.duration,
-        buffering: controller.value.isBuffering,
+        buffering: true, // video starts as buffering
         width: controller.value.size.width.toInt(),
         height: controller.value.size.height.toInt(),
         volume: controller.value.volume * 100,
         subtitle: [controller.value.caption.text],
         buffer: controller.value.buffered.lastOrNull?.end);
-    controller.addListener(() {
-      state = state.copyWith(
-          playing: isPlaying,
-          completed: isCompleted,
-          position: controller.value.position,
-          duration: controller.value.duration,
-          buffering: controller.value.isBuffering,
-          width: controller.value.size.width.toInt(),
-          height: controller.value.size.height.toInt(),
-          volume: controller.value.volume * 100,
-          subtitle: [controller.value.caption.text],
-          buffer: controller.value.buffered.lastOrNull?.end);
+    controller.addListener(_listener);
+  }
 
-      if (!playingController.isClosed) {
-        playingController.add(isPlaying);
-      }
+  void _listener() {
+    bool isBuffering = controller.value.isBuffering
+        ? true
+        : controller.value.duration.inMilliseconds == 0
+            ? true
+            : false;
+    state = state.copyWith(
+        playing: isPlaying,
+        completed: isCompleted,
+        position: controller.value.position,
+        duration: controller.value.duration,
+        buffering: isBuffering,
+        width: controller.value.size.width.toInt(),
+        height: controller.value.size.height.toInt(),
+        volume: controller.value.volume * 100,
+        subtitle: [controller.value.caption.text],
+        buffer: controller.value.buffered.lastOrNull?.end);
 
-      if (!completedController.isClosed) {
-        completedController.add(isCompleted);
-      }
+    if (!playingController.isClosed) {
+      playingController.add(isPlaying);
+    }
 
-      if (!bufferingController.isClosed) {
-        bufferingController.add(controller.value.isBuffering);
-      }
+    if (!completedController.isClosed) {
+      completedController.add(isCompleted);
+    }
 
-      if (!positionController.isClosed) {
-        positionController.add(controller.value.position);
-      }
+    if (!bufferingController.isClosed) {
+      bufferingController.add(isBuffering);
+    }
 
-      if (!durationController.isClosed) {
-        durationController.add(controller.value.duration);
-      }
+    if (!positionController.isClosed) {
+      positionController.add(controller.value.position);
+    }
 
-      if (!widthController.isClosed) {
-        widthController.add(controller.value.size.width.toInt());
-      }
+    if (!durationController.isClosed) {
+      durationController.add(controller.value.duration);
+    }
 
-      if (!heightController.isClosed) {
-        heightController.add(controller.value.size.height.toInt());
-      }
+    if (!widthController.isClosed) {
+      widthController.add(controller.value.size.width.toInt());
+    }
 
-      if (!volumeController.isClosed) {
-        volumeController.add(controller.value.volume * 100);
-      }
+    if (!heightController.isClosed) {
+      heightController.add(controller.value.size.height.toInt());
+    }
 
-      if (!subtitleController.isClosed) {
-        subtitleController.add([controller.value.caption.text]);
+    if (!volumeController.isClosed) {
+      volumeController.add(controller.value.volume * 100);
+    }
+
+    if (!subtitleController.isClosed) {
+      subtitleController.add([controller.value.caption.text]);
+    }
+    if (!bufferController.isClosed) {
+      if (controller.value.buffered.lastOrNull?.end != null) {
+        bufferController.add(controller.value.buffered.lastOrNull!.end);
       }
-      if (!bufferController.isClosed) {
-        if (controller.value.buffered.lastOrNull?.end != null) {
-          bufferController.add(controller.value.buffered.lastOrNull!.end);
-        }
-      }
-    });
+    }
   }
 
   bool get isPlaying => controller.value.isPlaying;
@@ -90,6 +97,7 @@ class VideoPlayerControlsWrapper extends AbstractPlayer {
   Future<void> dispose({bool synchronized = true}) async {
     if (disposed) return;
     disposed = true;
+    controller.removeListener(_listener);
     await super.dispose();
   }
 

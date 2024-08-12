@@ -8,6 +8,7 @@ library;
 // ignore_for_file: non_constant_identifier_names
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:universal_video_controls/universal_players/abstract.dart';
 import '../../../universal_video_controls.dart';
 import 'package:volume_controller/volume_controller.dart';
 import 'package:screen_brightness/screen_brightness.dart';
@@ -495,6 +496,7 @@ class _MaterialVideoControlsState extends State<_MaterialVideoControls> {
   // late /* private */ var playlist = player(context).state.playlist;
   late bool buffering = player(context).state.buffering;
 
+  late AbstractPlayer _player = player(context);
   bool _mountSeekBackwardButton = false;
   bool _mountSeekForwardButton = false;
   bool _hideSeekBackwardButton = false;
@@ -561,6 +563,9 @@ class _MaterialVideoControlsState extends State<_MaterialVideoControls> {
     state(context).setHideControlsLogic(() {
       hideControls();
     });
+    if (_player != player(context)) {
+      cancelSubscriptions();
+    }
     if (subscriptions.isEmpty) {
       subscriptions.addAll(
         [
@@ -589,9 +594,7 @@ class _MaterialVideoControlsState extends State<_MaterialVideoControls> {
 
   @override
   void dispose() {
-    for (final subscription in subscriptions) {
-      subscription.cancel();
-    }
+    cancelSubscriptions();
     // --------------------------------------------------
     // package:screen_brightness
     Future.microtask(() async {
@@ -603,6 +606,13 @@ class _MaterialVideoControlsState extends State<_MaterialVideoControls> {
     _timerSeekBackwardButton?.cancel();
     _timerSeekForwardButton?.cancel();
     super.dispose();
+  }
+
+  void cancelSubscriptions() {
+    for (final subscription in subscriptions) {
+      subscription.cancel();
+    }
+    subscriptions.clear();
   }
 
   void shiftSubtitle() {
@@ -1495,7 +1505,7 @@ class MaterialSeekBarState extends State<MaterialSeekBar> {
   late Duration position = player(context).state.position;
   late Duration duration = player(context).state.duration;
   late Duration buffer = player(context).state.buffer;
-
+  late AbstractPlayer _player = player(context);
   final List<StreamSubscription> subscriptions = [];
 
   @override
@@ -1521,6 +1531,9 @@ class MaterialSeekBarState extends State<MaterialSeekBar> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+    if (_player != player(context)) {
+      cancelSubscriptions();
+    }
     if (subscriptions.isEmpty && widget.delta == null) {
       subscriptions.addAll(
         [
@@ -1559,10 +1572,15 @@ class MaterialSeekBarState extends State<MaterialSeekBar> {
   @override
   void dispose() {
     widget.delta?.removeListener(listener);
+    cancelSubscriptions();
+    super.dispose();
+  }
+
+  void cancelSubscriptions() {
     for (final subscription in subscriptions) {
       subscription.cancel();
     }
-    super.dispose();
+    subscriptions.clear();
   }
 
   void onPointerMove(PointerMoveEvent e, BoxConstraints constraints) {
@@ -1949,7 +1967,7 @@ class MaterialPositionIndicator extends StatefulWidget {
 class MaterialPositionIndicatorState extends State<MaterialPositionIndicator> {
   late Duration position = player(context).state.position;
   late Duration duration = player(context).state.duration;
-
+  late AbstractPlayer _player = player(context);
   final List<StreamSubscription> subscriptions = [];
 
   @override
@@ -1962,6 +1980,9 @@ class MaterialPositionIndicatorState extends State<MaterialPositionIndicator> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+    if (_player != player(context)) {
+      cancelSubscriptions();
+    }
     if (subscriptions.isEmpty) {
       subscriptions.addAll(
         [
@@ -1982,10 +2003,15 @@ class MaterialPositionIndicatorState extends State<MaterialPositionIndicator> {
 
   @override
   void dispose() {
+    cancelSubscriptions();
+    super.dispose();
+  }
+
+  void cancelSubscriptions() {
     for (final subscription in subscriptions) {
       subscription.cancel();
     }
-    super.dispose();
+    subscriptions.clear();
   }
 
   @override
