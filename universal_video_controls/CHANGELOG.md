@@ -1,3 +1,6 @@
+## 1.0.19
+- Improved check for listener
+
 ## 1.0.18
 - fixed streams not being listened to when updating controller 
 
