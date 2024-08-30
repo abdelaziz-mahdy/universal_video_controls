@@ -1,3 +1,6 @@
+## 1.0.20
+- Update to web 1.0.0
+
 ## 1.0.19
 - Improved check for listener
 
