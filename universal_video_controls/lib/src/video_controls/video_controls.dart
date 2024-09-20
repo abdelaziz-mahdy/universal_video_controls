@@ -422,7 +422,7 @@ class VideoControlsState extends State<VideoControls>
     _subscriptions.clear();
   }
 
-  void refreshView() {
+  void refreshView({bool playerWasPlaying = false}) {
     if (kIsWeb) {
       setState(() {
         _key = ValueKey(!_key.value);
@@ -430,7 +430,7 @@ class VideoControlsState extends State<VideoControls>
       // this is intended (to call the function after two frames)
       WidgetsBinding.instance.addPostFrameCallback((_) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          if (player(_contextNotifier.value!).state.playing) {
+          if (playerWasPlaying) {
             player(_contextNotifier.value!).play();
           }
         });

@@ -31,7 +31,7 @@ class VideoViewParameters {
   final /* VideoControlsBuilder? */ dynamic controls;
   final SubtitleViewConfiguration subtitleViewConfiguration;
   final AbstractPlayer player;
-
+  
   /// {@macro video_view_parameters}
   VideoViewParameters(
       {required this.width,
