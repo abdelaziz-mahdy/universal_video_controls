@@ -20,7 +20,7 @@ dependencies:
   universal_video_controls: ^1.0.0
   universal_video_controls_video_player: ^1.0.0
   path: ^1.8.2
-  file_picker: ^5.2.4
+  file_picker: ^8.1.2
   path_provider: ^2.0.14
   http: ">=0.13.0 <2.0.0"
   # The following adds the Cupertino Icons font to your application.
@@ -40,7 +40,7 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^3.0.0
+  flutter_lints: ^4.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
