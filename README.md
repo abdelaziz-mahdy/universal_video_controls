@@ -8,7 +8,7 @@ Welcome to the `universal_video_controls` package! This project is designed to p
 
 - **universal_video_controls**
   - This directory contains the main package code for the universal video controls.
-- **universal_video_controls_example**
+- **universal_video_controls/example/**
   - This directory contains examples demonstrating how to use the `universal_video_controls` package.
 - **universal_video_controls_video_player**
   - This directory contains the interface and implementation for the video player that integrates with the universal video controls.
@@ -19,9 +19,6 @@ Welcome to the `universal_video_controls` package! This project is designed to p
 
 This is the core package that provides universal video controls which can be used across different video players. It includes functionalities like play, pause, stop, seek, volume control, and more. The package is based on the `media_kit` controls and serves as a port and generalization of these controls. The goal is to create an abstraction that allows these controls to work with any video player backend, provided that the backend's interface is compatible with the `AbstractPlayer` class.
 
-### universal_video_controls_example
-
-This directory contains example projects and code snippets demonstrating how to integrate and use the `universal_video_controls` package. It serves as a practical guide for developers to understand the implementation and usage of the package.
 
 ### universal_video_controls_video_player
 
@@ -38,7 +35,7 @@ By adhering to this interface, you can integrate any video player backend with t
 
 ## Getting Started
 
-To get started with the `universal_video_controls` package, you can explore the examples provided in the `universal_video_controls_example` directory. These examples will guide you through the setup and integration process.
+To get started with the `universal_video_controls` package, you can explore the examples provided in the `universal_video_controls/example/` directory. These examples will guide you through the setup and integration process.
 
 ## Installation
 
@@ -47,7 +44,7 @@ Instructions for installing the package can be found in the `universal_video_con
 ## Usage
 
 1. **Install the Package**: Follow the installation instructions in the `universal_video_controls` directory.
-2. **Explore Examples**: Check out the `universal_video_controls_example` directory to see how the package can be used in different scenarios.
+2. **Explore Examples**: Check out the `universal_video_controls/example/` directory to see how the package can be used in different scenarios.
 3. **Integrate Video Player**: Use the interface provided in the `universal_video_controls_video_player` directory to integrate your video player with the universal controls.
 
 ## Contributing
