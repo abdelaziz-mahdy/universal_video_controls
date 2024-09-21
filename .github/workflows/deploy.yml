@@ -29,45 +29,33 @@ jobs:
       - name: Install Flutter Dependencies
         run: flutter pub get
 
+      # Step to build Flutter Web
       - name: Build Flutter Web
         run: flutter build web --release --base-href "/universal_video_controls/" --web-renderer canvaskit
 
+      # Step to move the Flutter Web build to a temporary directory
+      - name: Move Web Build to Temporary Directory
+        run: |
+          mkdir -p /tmp/web_build
+          cp -r ./build/web/* /tmp/web_build/
+
+      # Step to build Flutter WebAssembly (WASM)
+      - name: Build Flutter WebAssembly (WASM)
+        run: flutter build web --release --base-href "/universal_video_controls/wasm/" --wasm
+
+      # Step to move the WebAssembly build to a separate directory within the temp folder
+      - name: Move WASM Build to Temporary Directory
+        run: |
+          mkdir -p /tmp/web_build/wasm
+          cp -r ./build/web/* /tmp/web_build/wasm/
+
+      # Step to deploy both Flutter Web and WASM to GitHub Pages
       - name: Deploy to GitHub Pages
         if: github.ref == 'refs/heads/main'
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./universal_video_controls/example/build/web
-  build_web_wasm:
-    name: Build Flutter Web WASM and Deploy
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./universal_video_controls/example
-
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
-
-      - name: Setup Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          channel: "stable"
-          cache: true
-
-      - name: Install Flutter Dependencies
-        run: flutter pub get
-
-      - name: Build Flutter Web (WASM)
-        run: flutter build web --release --base-href "/universal_video_controls/wasm/" --wasm
-
-      - name: Deploy to GitHub Pages (WASM)
-        if: github.ref == 'refs/heads/main'
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./universal_video_controls/example/build/web
-          destination_dir: wasm
+          publish_dir: /tmp/web_build
 
   build_android:
     name: Build Flutter APK (Android)
