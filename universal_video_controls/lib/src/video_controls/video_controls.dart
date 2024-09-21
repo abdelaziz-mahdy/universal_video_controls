@@ -283,6 +283,10 @@ class VideoControlsState extends State<VideoControls>
       WidgetsBinding.instance.addPostFrameCallback((_) {
         _videoViewParametersNotifier.value = newParams;
       });
+      if (widget.player != oldWidget.player) {
+        cancelSubscriptions();
+        subscribeToEvents();
+      }
     }
   }
 
@@ -339,6 +343,11 @@ class VideoControlsState extends State<VideoControls>
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
+
+    subscribeToEvents();
+  }
+
+  void subscribeToEvents() {
     // --------------------------------------------------
     // Do not show the video frame until width & height are available.
     // Since [ValueNotifier<Rect?>] inside [VideoController] only gets updated by the render loop (i.e. it will not fire when video's width & height are not available etc.), it's important to handle this separately here.
@@ -390,9 +399,9 @@ class VideoControlsState extends State<VideoControls>
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
-    for (final subscription in _subscriptions) {
-      subscription.cancel();
-    }
+    _wakelock.disable();
+
+    cancelSubscriptions();
 
     if (_disposeNotifiers) {
       if (widget.autoDisposeControlsWrapper) {
@@ -401,13 +410,19 @@ class VideoControlsState extends State<VideoControls>
       _videoViewParametersNotifier.dispose();
       _contextNotifier.dispose();
       VideoStateInheritedWidgetContextNotifierState.fallback.remove(this);
-      _wakelock.disable();
     }
 
     super.dispose();
   }
 
-  void refreshView() {
+  void cancelSubscriptions() {
+    for (final subscription in _subscriptions) {
+      subscription.cancel();
+    }
+    _subscriptions.clear();
+  }
+
+  void refreshView({bool playerWasPlaying = false}) {
     if (kIsWeb) {
       setState(() {
         _key = ValueKey(!_key.value);
@@ -415,7 +430,7 @@ class VideoControlsState extends State<VideoControls>
       // this is intended (to call the function after two frames)
       WidgetsBinding.instance.addPostFrameCallback((_) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          if (player(_contextNotifier.value!).state.playing) {
+          if (playerWasPlaying) {
             player(_contextNotifier.value!).play();
           }
         });

@@ -10,6 +10,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/services.dart';
+import 'package:universal_video_controls/universal_players/abstract.dart';
 import '../../../universal_video_controls.dart';
 
 import 'methods/video_state.dart';
@@ -363,6 +364,7 @@ class _MaterialDesktopVideoControlsState
     extends State<_MaterialDesktopVideoControls> {
   late bool mount = _theme(context).visibleOnMount;
   late bool visible = _theme(context).visibleOnMount;
+  late AbstractPlayer _player = player(context);
   bool _controlsForcedShown = false;
   Timer? _timer;
 
@@ -406,6 +408,9 @@ class _MaterialDesktopVideoControlsState
     state(context).setHideControlsLogic(() {
       hideControls();
     });
+    if (_player != player(context)) {
+      cancelSubscriptions();
+    }
     if (subscriptions.isEmpty) {
       subscriptions.addAll(
         [
@@ -434,10 +439,15 @@ class _MaterialDesktopVideoControlsState
 
   @override
   void dispose() {
+    cancelSubscriptions();
+    super.dispose();
+  }
+
+  void cancelSubscriptions() {
     for (final subscription in subscriptions) {
       subscription.cancel();
     }
-    super.dispose();
+    subscriptions.clear();
   }
 
   void shiftSubtitle() {
@@ -878,7 +888,7 @@ class MaterialDesktopSeekBarState extends State<MaterialDesktopSeekBar> {
   late Duration position = player(context).state.position;
   late Duration duration = player(context).state.duration;
   late Duration buffer = player(context).state.buffer;
-
+  late AbstractPlayer _player = player(context);
   final List<StreamSubscription> subscriptions = [];
 
   @override
@@ -891,6 +901,9 @@ class MaterialDesktopSeekBarState extends State<MaterialDesktopSeekBar> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+    if (_player != player(context)) {
+      cancelSubscriptions();
+    }
     if (subscriptions.isEmpty) {
       subscriptions.addAll(
         [
@@ -926,10 +939,15 @@ class MaterialDesktopSeekBarState extends State<MaterialDesktopSeekBar> {
 
   @override
   void dispose() {
+    cancelSubscriptions();
+    super.dispose();
+  }
+
+  void cancelSubscriptions() {
     for (final subscription in subscriptions) {
       subscription.cancel();
     }
-    super.dispose();
+    subscriptions.clear();
   }
 
   void onPointerMove(PointerMoveEvent e, BoxConstraints constraints) {
@@ -1521,7 +1539,7 @@ class MaterialDesktopPositionIndicatorState
     extends State<MaterialDesktopPositionIndicator> {
   late Duration position = player(context).state.position;
   late Duration duration = player(context).state.duration;
-
+  late AbstractPlayer _player = player(context);
   final List<StreamSubscription> subscriptions = [];
 
   @override
@@ -1534,6 +1552,9 @@ class MaterialDesktopPositionIndicatorState
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+    if (_player != player(context)) {
+      cancelSubscriptions();
+    }
     if (subscriptions.isEmpty) {
       subscriptions.addAll(
         [
@@ -1554,10 +1575,15 @@ class MaterialDesktopPositionIndicatorState
 
   @override
   void dispose() {
+    cancelSubscriptions();
+    super.dispose();
+  }
+
+  void cancelSubscriptions() {
     for (final subscription in subscriptions) {
       subscription.cancel();
     }
-    super.dispose();
+    subscriptions.clear();
   }
 
   @override

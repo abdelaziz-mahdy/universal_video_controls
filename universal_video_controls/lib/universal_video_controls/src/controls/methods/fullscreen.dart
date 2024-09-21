@@ -22,6 +22,7 @@ bool isFullscreen(BuildContext context) =>
 Future<void> enterFullscreen(BuildContext context) {
   return lock.synchronized(() async {
     if (!isFullscreen(context)) {
+      bool playerWasPlaying = player(context).state.playing;
       if (context.mounted) {
         final stateValue = state(context);
         final contextNotifierValue = contextNotifier(context);
@@ -86,7 +87,7 @@ Future<void> enterFullscreen(BuildContext context) {
         await onEnterFullscreen(context)?.call();
         if (kIsWeb) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
-            if (player(context).state.playing) {
+            if (playerWasPlaying) {
               player(context).play();
             }
           });
@@ -100,11 +101,15 @@ Future<void> enterFullscreen(BuildContext context) {
 Future<void> exitFullscreen(BuildContext context) {
   return lock.synchronized(() async {
     if (isFullscreen(context)) {
+      bool playerWasPlaying = player(context).state.playing;
+
       if (context.mounted) {
         await Navigator.of(context).maybePop();
         // It is known that this [context] will have a [FullscreenInheritedWidget] above it.
         if (context.mounted) {
-          FullscreenInheritedWidget.of(context).parent.refreshView();
+          FullscreenInheritedWidget.of(context)
+              .parent
+              .refreshView(playerWasPlaying: playerWasPlaying);
         }
       }
       // [exitNativeFullscreen] is moved to [WillPopScope] in [FullscreenInheritedWidget].

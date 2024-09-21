@@ -1,3 +1,6 @@
+## 1.0.3
+- start with buffering set to true
+
 ## 1.0.2
 - loosen dart sdk required version
 

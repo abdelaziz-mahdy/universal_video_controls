@@ -1,3 +1,14 @@
+## 1.0.20
+- Update to web 1.0.0
+
+## 1.0.19
+- Improved check for listener
+
+## 1.0.18
+- fixed streams not being listened to when updating controller 
+
+## 1.0.17
+- update deps (window_manager)
 ## 1.0.16
 - update method gets called internally when any of the params are changed.
 - fix wakelock disabled when playing 
