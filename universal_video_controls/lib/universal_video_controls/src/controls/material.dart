@@ -565,6 +565,7 @@ class _MaterialVideoControlsState extends State<_MaterialVideoControls> {
     });
     if (_player != player(context)) {
       cancelSubscriptions();
+      _player = player(context);
     }
     if (subscriptions.isEmpty) {
       subscriptions.addAll(
@@ -1533,6 +1534,7 @@ class MaterialSeekBarState extends State<MaterialSeekBar> {
     super.didChangeDependencies();
     if (_player != player(context)) {
       cancelSubscriptions();
+      _player = player(context);
     }
     if (subscriptions.isEmpty && widget.delta == null) {
       subscriptions.addAll(
@@ -1982,6 +1984,7 @@ class MaterialPositionIndicatorState extends State<MaterialPositionIndicator> {
     super.didChangeDependencies();
     if (_player != player(context)) {
       cancelSubscriptions();
+      _player = player(context);
     }
     if (subscriptions.isEmpty) {
       subscriptions.addAll(

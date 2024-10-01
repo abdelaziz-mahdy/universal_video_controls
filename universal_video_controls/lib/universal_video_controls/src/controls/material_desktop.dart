@@ -392,6 +392,7 @@ class _MaterialDesktopVideoControlsState
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+
     state(context).setShowControlsLogic(({bool autoHide = false}) {
       _timer?.cancel();
       _controlsForcedShown = true;
@@ -410,6 +411,7 @@ class _MaterialDesktopVideoControlsState
     });
     if (_player != player(context)) {
       cancelSubscriptions();
+      _player = player(context);
     }
     if (subscriptions.isEmpty) {
       subscriptions.addAll(
@@ -426,15 +428,22 @@ class _MaterialDesktopVideoControlsState
               setState(() {
                 buffering = event;
               });
+              print(
+                  "buffering is $event, current buffering is $buffering fullscreen ${isFullscreen(context)}");
             },
           ),
         ],
       );
+      // setState(() {
+      //   buffering = player(context).state.buffering;
+      // });
 
       if (_theme(context).visibleOnMount) {
         hideControlsTimer();
       }
     }
+    print(
+        " current buffering is $buffering fullscreen ${isFullscreen(context)}");
   }
 
   @override
@@ -903,6 +912,7 @@ class MaterialDesktopSeekBarState extends State<MaterialDesktopSeekBar> {
     super.didChangeDependencies();
     if (_player != player(context)) {
       cancelSubscriptions();
+      _player = player(context);
     }
     if (subscriptions.isEmpty) {
       subscriptions.addAll(
@@ -1554,6 +1564,7 @@ class MaterialDesktopPositionIndicatorState
     super.didChangeDependencies();
     if (_player != player(context)) {
       cancelSubscriptions();
+      _player = player(context);
     }
     if (subscriptions.isEmpty) {
       subscriptions.addAll(

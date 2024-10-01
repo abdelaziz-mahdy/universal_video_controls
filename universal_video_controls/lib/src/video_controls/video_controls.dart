@@ -282,6 +282,7 @@ class VideoControlsState extends State<VideoControls>
     if (newParams != currentParams) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         _videoViewParametersNotifier.value = newParams;
+        
       });
       if (widget.player != oldWidget.player) {
         cancelSubscriptions();
