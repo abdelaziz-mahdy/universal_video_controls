@@ -428,8 +428,6 @@ class _MaterialDesktopVideoControlsState
               setState(() {
                 buffering = event;
               });
-              print(
-                  "buffering is $event, current buffering is $buffering fullscreen ${isFullscreen(context)}");
             },
           ),
         ],
