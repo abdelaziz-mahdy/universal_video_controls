@@ -1,3 +1,6 @@
+## 1.0.21
+- fix fullScreen not resubscribing after player changes
+
 ## 1.0.20
 - Update to web 1.0.0
 
