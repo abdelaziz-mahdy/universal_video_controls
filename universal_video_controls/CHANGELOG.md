@@ -1,6 +1,6 @@
 ## 1.0.21
-- fix fullScreen not resubscribing after player changes
-
+- fixed fullScreen not resubscribing after player changes
+- fixed web fullScreen playback where it pauses when going to fullScreen
 ## 1.0.20
 - Update to web 1.0.0
 
