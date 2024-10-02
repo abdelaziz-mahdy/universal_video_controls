@@ -442,8 +442,6 @@ class _MaterialDesktopVideoControlsState
         hideControlsTimer();
       }
     }
-    print(
-        " current buffering is $buffering fullscreen ${isFullscreen(context)}");
   }
 
   @override
