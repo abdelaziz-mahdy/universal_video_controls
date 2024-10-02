@@ -392,6 +392,7 @@ class _MaterialDesktopVideoControlsState
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+
     state(context).setShowControlsLogic(({bool autoHide = false}) {
       _timer?.cancel();
       _controlsForcedShown = true;
@@ -410,6 +411,7 @@ class _MaterialDesktopVideoControlsState
     });
     if (_player != player(context)) {
       cancelSubscriptions();
+      _player = player(context);
     }
     if (subscriptions.isEmpty) {
       subscriptions.addAll(
@@ -430,6 +432,9 @@ class _MaterialDesktopVideoControlsState
           ),
         ],
       );
+      // setState(() {
+      //   buffering = player(context).state.buffering;
+      // });
 
       if (_theme(context).visibleOnMount) {
         hideControlsTimer();
@@ -903,6 +908,7 @@ class MaterialDesktopSeekBarState extends State<MaterialDesktopSeekBar> {
     super.didChangeDependencies();
     if (_player != player(context)) {
       cancelSubscriptions();
+      _player = player(context);
     }
     if (subscriptions.isEmpty) {
       subscriptions.addAll(
@@ -1554,6 +1560,7 @@ class MaterialDesktopPositionIndicatorState
     super.didChangeDependencies();
     if (_player != player(context)) {
       cancelSubscriptions();
+      _player = player(context);
     }
     if (subscriptions.isEmpty) {
       subscriptions.addAll(

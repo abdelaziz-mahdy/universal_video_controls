@@ -29,6 +29,7 @@ dependencies:
   video_player: any
 
 
+  web: any
 dev_dependencies:
   integration_test:
     sdk: flutter
