@@ -11,4 +11,4 @@ scripts:
       melos exec -- flutter pub upgrade --major-versions
   publish:
     run: |
-      melos exec --no-private -- dart pub publish --force
+      melos publish --no-dry-run
