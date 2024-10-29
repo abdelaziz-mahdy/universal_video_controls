@@ -6,3 +6,9 @@ packages:
 scripts:
   analyze:
     exec: dart analyze .
+  upgrade_major_versions:
+    run: |
+      melos exec -- flutter pub upgrade --major-versions
+  publish:
+    run: |
+      melos exec --no-private -- dart pub publish --force
