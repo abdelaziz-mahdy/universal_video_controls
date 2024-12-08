@@ -1,6 +1,6 @@
 name: universal_video_controls_video_player
 description: Interface for video_player to work with universal_video_controls
-version: 1.0.3
+version: 1.0.4
 homepage: https://github.com/abdelaziz-mahdy/universal_video_controls
 
 environment:

@@ -161,4 +161,12 @@ class VideoPlayerControlsWrapper extends AbstractPlayer {
     }
     return VideoPlayer(controller);
   }
+  
+  @override
+  void setSubtitle(String subtitle) {
+    if (disposed) {
+      throw AssertionError('[VideoPlayerController] has been disposed');
+    }
+    return subtitleController.add([subtitle]);
+  }
 }

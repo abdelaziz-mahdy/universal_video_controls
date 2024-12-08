@@ -1,5 +1,11 @@
+## 1.0.23
+
+- Added setSubtitle method to allow using your own subtitle parser
+
 ## 1.0.22
+
 - Update screen_brightness to 2.0.0
+
 ## 1.0.21
 
 - fixed fullScreen not resubscribing after player changes

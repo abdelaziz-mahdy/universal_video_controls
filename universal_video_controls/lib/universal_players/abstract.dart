@@ -89,7 +89,10 @@ abstract class AbstractPlayer {
   Future<void> setVolume(double volume) {
     throw UnimplementedError('[AbstractPlayer.setVolume] is not implemented');
   }
-
+  @mustBeOverridden
+  void setSubtitle(String subtitle) {
+    throw UnimplementedError('[AbstractPlayer.setSubtitle] is not implemented');
+  }
   // Future<void> next() {
   //   throw UnimplementedError('[AbstractPlayer.next] is not implemented');
   // }

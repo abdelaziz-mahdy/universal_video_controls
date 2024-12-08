@@ -6,6 +6,8 @@ packages:
 scripts:
   analyze:
     exec: dart analyze .
+  pub_get:
+    run: melos exec -- flutter pub get
   upgrade_major_versions:
     run: |
       melos exec -- flutter pub upgrade --major-versions
