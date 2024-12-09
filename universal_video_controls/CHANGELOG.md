@@ -1,3 +1,7 @@
+## 1.0.24
+
+- Update readme to fix credit link
+
 ## 1.0.23
 
 - Added setSubtitle method to allow using your own subtitle parser
