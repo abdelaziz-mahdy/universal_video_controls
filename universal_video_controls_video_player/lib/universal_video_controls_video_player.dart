@@ -6,7 +6,10 @@ import 'package:video_player/video_player.dart';
 import 'package:universal_video_controls/universal_players/abstract.dart';
 
 class VideoPlayerControlsWrapper extends AbstractPlayer {
+  /// The video player controller
   final VideoPlayerController controller;
+
+  /// true if the controller has been disposed
   bool disposed = false;
 
   VideoPlayerControlsWrapper(this.controller) {
@@ -23,7 +26,11 @@ class VideoPlayerControlsWrapper extends AbstractPlayer {
         width: controller.value.size.width.toInt(),
         height: controller.value.size.height.toInt(),
         volume: controller.value.volume * 100,
-        subtitle: [controller.value.caption.text],
+
+        /// there is no captions loaded, ignore [VideoPlayerController] captions
+        subtitle: controller.closedCaptionFile == null
+            ? null
+            : [controller.value.caption.text],
         buffer: controller.value.buffered.lastOrNull?.end);
     controller.addListener(_listener);
   }
@@ -78,7 +85,8 @@ class VideoPlayerControlsWrapper extends AbstractPlayer {
       volumeController.add(controller.value.volume * 100);
     }
 
-    if (!subtitleController.isClosed) {
+    /// there is no captions loaded, ignore [VideoPlayerController] captions
+    if (!subtitleController.isClosed && controller.closedCaptionFile != null) {
       subtitleController.add([controller.value.caption.text]);
     }
     if (!bufferController.isClosed) {
@@ -161,8 +169,10 @@ class VideoPlayerControlsWrapper extends AbstractPlayer {
     }
     return VideoPlayer(controller);
   }
-  
+
   @override
+
+  /// Set subtitle (this can be used to set subtitles based on a custom parser)
   void setSubtitle(String subtitle) {
     if (disposed) {
       throw AssertionError('[VideoPlayerController] has been disposed');

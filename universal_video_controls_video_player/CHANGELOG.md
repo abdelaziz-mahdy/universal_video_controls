@@ -1,3 +1,7 @@
+## 1.0.5
+
+- If there is no caption loaded from video_player ignore all of its outputs
+
 ## 1.0.4
 
 - Added setSubtitle method to allow using your own subtitle parser
