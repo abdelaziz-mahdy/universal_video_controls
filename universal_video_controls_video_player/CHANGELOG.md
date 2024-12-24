@@ -1,3 +1,7 @@
+## 1.0.6
+
+- Added missing condition related to 1.0.5
+
 ## 1.0.5
 
 - If there is no caption loaded from video_player ignore all of its outputs
