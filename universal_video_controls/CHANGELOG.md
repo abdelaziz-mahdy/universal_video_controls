@@ -1,3 +1,7 @@
+## 1.0.25
+
+- Fix subtitle view not listening after changing the player
+
 ## 1.0.24
 
 - Update readme to fix credit link

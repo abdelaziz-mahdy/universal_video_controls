@@ -8,6 +8,7 @@ library;
 import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:universal_video_controls/universal_video_controls/src/controls/methods/video_state.dart';
 
 import '../../universal_players/abstract.dart';
 
@@ -41,6 +42,7 @@ class SubtitleViewState extends State<SubtitleView> {
   late TextAlign textAlign = widget.configuration.textAlign;
   late EdgeInsets padding = widget.configuration.padding;
   late Duration duration = const Duration(milliseconds: 100);
+  late AbstractPlayer _player = player(context);
 
   // The [StreamSubscription] to listen to the subtitle changes.
   StreamSubscription<List<String>>? subscription;
@@ -51,13 +53,18 @@ class SubtitleViewState extends State<SubtitleView> {
   static const kTextScaleFactorReferenceHeight = 1080.0;
 
   @override
-  void initState() {
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_player != player(context)) {
+      subscription?.cancel();
+
+      _player = player(context);
+    }
     subscription = widget.player.stream.subtitle.listen((value) {
       setState(() {
         subtitle = value;
       });
     });
-    super.initState();
   }
 
   @override
