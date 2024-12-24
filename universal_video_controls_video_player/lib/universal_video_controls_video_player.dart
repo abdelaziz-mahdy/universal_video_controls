@@ -50,7 +50,9 @@ class VideoPlayerControlsWrapper extends AbstractPlayer {
         width: controller.value.size.width.toInt(),
         height: controller.value.size.height.toInt(),
         volume: controller.value.volume * 100,
-        subtitle: [controller.value.caption.text],
+        subtitle: controller.closedCaptionFile == null
+            ? null
+            : [controller.value.caption.text],
         buffer: controller.value.buffered.lastOrNull?.end);
 
     if (!playingController.isClosed) {
