@@ -1,6 +1,6 @@
 ## 1.0.26
 
--Fix: improve responsiveness of showing controls on mobile
+- Fix: improve responsiveness of showing controls on mobile
 
 ## 1.0.25
 
