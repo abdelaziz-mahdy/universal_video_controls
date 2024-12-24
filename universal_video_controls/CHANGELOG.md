@@ -1,3 +1,7 @@
+## 1.0.26
+
+-Fix: improve responsiveness of showing controls on mobile
+
 ## 1.0.25
 
 - Fix subtitle view not listening after changing the player
