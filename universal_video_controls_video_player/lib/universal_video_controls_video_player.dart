@@ -12,11 +12,64 @@ class VideoPlayerControlsWrapper extends AbstractPlayer {
   /// true if the controller has been disposed
   bool disposed = false;
 
+  /// position updater forcer timer
+  Timer? _positionUpdaterForcerTimer;
   VideoPlayerControlsWrapper(this.controller) {
     _initialize();
   }
 
+  void startPositionUpdaterForcer() {
+    _positionUpdaterForcerTimer?.cancel();
+    _positionUpdaterForcerTimer =
+        Timer.periodic(Duration(milliseconds: 100), (timer) {
+      _positionUpdaterForcer();
+    });
+  }
+
+  void stopPositionUpdaterForcer() {
+    _positionUpdaterForcerTimer?.cancel();
+  }
+  /// These parts exists in the video_player package but slightly edited to be called from outside of the class
+  Future<void> _positionUpdaterForcer() async {
+    Duration? position = await controller.position;
+    if (position == null) {
+      return;
+    }
+    VideoPlayerValue value = controller.value;
+    if (position > value.duration) {
+      position = value.duration;
+    }
+    value = value.copyWith(
+      position: position,
+      caption: await _getCaptionAt(position),
+      isCompleted: position == value.duration,
+    );
+  }
+
+  Future<Caption> _getCaptionAt(Duration position) async {
+    /// the internal [ClosedCaptionFile]
+    ClosedCaptionFile? closedCaptionFile;
+    closedCaptionFile = await controller.closedCaptionFile;
+    if (closedCaptionFile == null) {
+      return Caption.none;
+    }
+
+    VideoPlayerValue value = controller.value;
+    final Duration delayedPosition = position + value.captionOffset;
+    // TODO(johnsonmh): This would be more efficient as a binary search.
+    for (final Caption caption in (closedCaptionFile).captions) {
+      if (caption.start <= delayedPosition && caption.end >= delayedPosition) {
+        return caption;
+      }
+    }
+
+    return Caption.none;
+  }
+
   void _initialize() {
+    if (isPlaying) {
+      startPositionUpdaterForcer();
+    }
     state = state.copyWith(
         playing: isPlaying,
         completed: isCompleted,
@@ -41,6 +94,17 @@ class VideoPlayerControlsWrapper extends AbstractPlayer {
         : controller.value.duration.inMilliseconds == 0
             ? true
             : false;
+
+    /// if the playing state has changed to paused, stop the position updater forcer
+    /// this is paused
+    if (state.playing == true && controller.value.isPlaying == false) {
+      stopPositionUpdaterForcer();
+    }
+
+    /// this is playing
+    if (state.playing == false && controller.value.isPlaying == true) {
+      startPositionUpdaterForcer();
+    }
     state = state.copyWith(
         playing: isPlaying,
         completed: isCompleted,
@@ -108,6 +172,7 @@ class VideoPlayerControlsWrapper extends AbstractPlayer {
     if (disposed) return;
     disposed = true;
     controller.removeListener(_listener);
+    _positionUpdaterForcerTimer?.cancel();
     await super.dispose();
   }
 

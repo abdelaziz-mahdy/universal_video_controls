@@ -1,3 +1,7 @@
+## 1.0.27
+
+- Fix: subtitle call only setstate if mounted
+
 ## 1.0.26
 
 - Fix: improve responsiveness of showing controls on mobile

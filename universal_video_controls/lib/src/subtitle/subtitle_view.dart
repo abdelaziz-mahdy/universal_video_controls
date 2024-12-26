@@ -61,9 +61,11 @@ class SubtitleViewState extends State<SubtitleView> {
       _player = player(context);
     }
     subscription = widget.player.stream.subtitle.listen((value) {
-      setState(() {
-        subtitle = value;
-      });
+      if (mounted) {
+        setState(() {
+          subtitle = value;
+        });
+      }
     });
   }
 

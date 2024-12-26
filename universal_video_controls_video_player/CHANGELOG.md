@@ -1,3 +1,7 @@
+## 1.0.7
+
+- Implement update position forcer to make subtitles show on time (instead of video_player 500 milliseconds delay) it now has a delay of 100 milliseconds
+
 ## 1.0.6
 
 - Added missing condition related to 1.0.5
