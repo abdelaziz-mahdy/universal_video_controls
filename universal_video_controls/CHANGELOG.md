@@ -1,3 +1,7 @@
+## 1.1.0
+
+- chore: upgrade volume_controller and screen_brightness dependencies and refactor related code
+
 ## 1.0.27
 
 - Fix: subtitle call only setstate if mounted

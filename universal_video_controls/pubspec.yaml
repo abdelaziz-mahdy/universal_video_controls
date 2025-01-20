@@ -1,6 +1,6 @@
 name: universal_video_controls
 description: "Video player controls for all platforms based on media_kit controls but with abstraction to allow any other player to work using it (video_player is supported)"
-version: 1.0.27
+version: 1.1.0
 homepage: https://github.com/abdelaziz-mahdy/universal_video_controls
 
 environment:
@@ -13,7 +13,7 @@ dependencies:
   synchronized: ^3.1.0
   wakelock_plus: ^1.1.6
   screen_brightness: ^2.0.0
-  volume_controller: ^2.0.7
+  volume_controller: ^3.0.2
   universal_platform: ^1.0.0+1
   plugin_platform_interface: ^2.0.2
   collection: ^1.0.0

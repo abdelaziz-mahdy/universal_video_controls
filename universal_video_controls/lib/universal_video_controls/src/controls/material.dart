@@ -497,6 +497,7 @@ class _MaterialVideoControlsState extends State<_MaterialVideoControls> {
   late bool buffering = player(context).state.buffering;
 
   late AbstractPlayer _player = player(context);
+  final VolumeController _volumeController = VolumeController.instance;
   bool _mountSeekBackwardButton = false;
   bool _mountSeekForwardButton = false;
   bool _hideSeekBackwardButton = false;
@@ -600,7 +601,7 @@ class _MaterialVideoControlsState extends State<_MaterialVideoControls> {
     // package:screen_brightness
     Future.microtask(() async {
       try {
-        await ScreenBrightness().resetScreenBrightness();
+        await ScreenBrightness().resetApplicationScreenBrightness();
       } catch (_) {}
     });
     // --------------------------------------------------
@@ -754,9 +755,9 @@ class _MaterialVideoControlsState extends State<_MaterialVideoControls> {
     return _isInSegment(localX, 2);
   }
 
-  bool _isInCenterSegment(double localX) {
-    return _isInSegment(localX, 1);
-  }
+  // bool _isInCenterSegment(double localX) {
+  //   return _isInSegment(localX, 1);
+  // }
 
   bool _isInLeftSegment(double localX) {
     return _isInSegment(localX, 0);
@@ -770,13 +771,13 @@ class _MaterialVideoControlsState extends State<_MaterialVideoControls> {
     onTap();
   }
 
-  void _handleTapDown(TapDownDetails details) {
-    // if ((_isInCenterSegment(details.localPosition.dx))) {
-    //   return;
-    // }
+  // void _handleTapDown(TapDownDetails details) {
+  //   // if ((_isInCenterSegment(details.localPosition.dx))) {
+  //   //   return;
+  //   // }
 
-    onTap();
-  }
+  //   onTap();
+  // }
 
   @override
   void initState() {
@@ -785,9 +786,9 @@ class _MaterialVideoControlsState extends State<_MaterialVideoControls> {
     // package:volume_controller
     Future.microtask(() async {
       try {
-        VolumeController().showSystemUI = false;
-        _volumeValue = await VolumeController().getVolume();
-        VolumeController().listener((value) {
+        _volumeController.showSystemUI = false;
+        _volumeValue = await _volumeController.getVolume();
+        _volumeController.addListener((value) {
           if (mounted && !_volumeInterceptEventStream) {
             setState(() {
               _volumeValue = value;
@@ -801,8 +802,8 @@ class _MaterialVideoControlsState extends State<_MaterialVideoControls> {
     // package:screen_brightness
     Future.microtask(() async {
       try {
-        _brightnessValue = await ScreenBrightness().current;
-        ScreenBrightness().onCurrentBrightnessChanged.listen((value) {
+        _brightnessValue = await ScreenBrightness().application;
+        ScreenBrightness().onApplicationScreenBrightnessChanged.listen((value) {
           if (mounted) {
             setState(() {
               _brightnessValue = value;
@@ -818,7 +819,7 @@ class _MaterialVideoControlsState extends State<_MaterialVideoControls> {
     // --------------------------------------------------
     // package:volume_controller
     try {
-      VolumeController().setVolume(value);
+      _volumeController.setVolume(value);
     } catch (_) {}
     setState(() {
       _volumeValue = value;
@@ -841,7 +842,7 @@ class _MaterialVideoControlsState extends State<_MaterialVideoControls> {
     // --------------------------------------------------
     // package:screen_brightness
     try {
-      await ScreenBrightness().setScreenBrightness(value);
+      await ScreenBrightness().setApplicationScreenBrightness(value);
     } catch (_) {}
     setState(() {
       _brightnessIndicator = true;
@@ -930,8 +931,7 @@ class _MaterialVideoControlsState extends State<_MaterialVideoControls> {
                               return;
                             }
                             if (_isInRightSegment(_tapPosition!.dx)) {
-                              if ((!mount &&
-                                      _theme(context).seekOnDoubleTap) ||
+                              if ((!mount && _theme(context).seekOnDoubleTap) ||
                                   seekOnDoubleTapEnabledWhileControlsAreVisible) {
                                 onDoubleTapSeekForward();
                               }
@@ -959,7 +959,7 @@ class _MaterialVideoControlsState extends State<_MaterialVideoControls> {
                           onVerticalDragUpdate: (e) async {
                             final delta = e.delta.dy;
                             final Offset position = e.localPosition;
-                      
+
                             if (position.dx <= widgetWidth(context) / 2) {
                               // Left side of screen swiped
                               if ((!mount &&
@@ -976,7 +976,7 @@ class _MaterialVideoControlsState extends State<_MaterialVideoControls> {
                               }
                             } else {
                               // Right side of screen swiped
-                      
+
                               if ((!mount && _theme(context).volumeGesture) ||
                                   (_theme(context).volumeGesture &&
                                       _theme(context)
