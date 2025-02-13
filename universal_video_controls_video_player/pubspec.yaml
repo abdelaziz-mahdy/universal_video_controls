@@ -11,7 +11,7 @@ dependencies:
   flutter:
     sdk: flutter
   universal_video_controls: ^1.0.10
-  video_player: ^2.4.5
+  video_player: ^2.7.2
 
 dev_dependencies:
   flutter_test:

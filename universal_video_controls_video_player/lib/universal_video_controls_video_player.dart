@@ -1,4 +1,4 @@
-library universal_video_controls_video_player;
+library;
 
 import 'dart:async';
 import 'package:flutter/material.dart';
@@ -29,6 +29,7 @@ class VideoPlayerControlsWrapper extends AbstractPlayer {
   void stopPositionUpdaterForcer() {
     _positionUpdaterForcerTimer?.cancel();
   }
+
   /// These parts exists in the video_player package but slightly edited to be called from outside of the class
   Future<void> _positionUpdaterForcer() async {
     Duration? position = await controller.position;

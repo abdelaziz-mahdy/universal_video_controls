@@ -31,7 +31,7 @@ jobs:
 
       # Step to build Flutter Web
       - name: Build Flutter Web
-        run: flutter build web --release --base-href "/universal_video_controls/" --web-renderer canvaskit
+        run: flutter build web --release --base-href "/universal_video_controls/"
 
       # Step to move the Flutter Web build to a temporary directory
       - name: Move Web Build to Temporary Directory
