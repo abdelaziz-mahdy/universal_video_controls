@@ -89,7 +89,9 @@ abstract class AbstractPlayer {
   Future<void> setVolume(double volume) {
     throw UnimplementedError('[AbstractPlayer.setVolume] is not implemented');
   }
+
   @mustBeOverridden
+
   /// Set subtitle (this can be used to set subtitles based on a custom parser)
   void setSubtitle(String subtitle) {
     throw UnimplementedError('[AbstractPlayer.setSubtitle] is not implemented');
