@@ -73,14 +73,16 @@ class _StressTestScreenState extends State<StressTestScreen> {
       appBar: AppBar(
         title: const Text('Video Player'),
       ),
-      body: GridView.extent(
-        maxCrossAxisExtent: 480.0,
-        padding: const EdgeInsets.all(16.0),
-        mainAxisSpacing: 16.0,
-        crossAxisSpacing: 16.0,
-        childAspectRatio: 16.0 / 9.0,
-        children: children,
-      ),
+      body: !_isInitialized
+          ? const Center(child: CircularProgressIndicator())
+          : GridView.extent(
+              maxCrossAxisExtent: 480.0,
+              padding: const EdgeInsets.all(16.0),
+              mainAxisSpacing: 16.0,
+              crossAxisSpacing: 16.0,
+              childAspectRatio: 16.0 / 9.0,
+              children: children,
+            ),
     );
   }
 }

@@ -89,6 +89,11 @@ class TabViewState extends State<TabView> {
 
   @override
   Widget build(BuildContext context) {
+    if (!_isInitialized) {
+      return const Center(
+        child: CircularProgressIndicator(),
+      );
+    }
     return VideoControls(
       player: VideoPlayerControlsWrapper(_controller),
       controls: NoVideoControls,
