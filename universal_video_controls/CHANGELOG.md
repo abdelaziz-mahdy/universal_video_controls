@@ -1,3 +1,7 @@
+## 1.1.1
+
+- chore: updated window_mananger from ^0.4.0 to ^0.5.1  
+
 ## 1.1.0
 
 - chore: upgrade volume_controller and screen_brightness dependencies and refactor related code
