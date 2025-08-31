@@ -5,6 +5,7 @@
 list(APPEND FLUTTER_PLUGIN_LIST
   screen_retriever_linux
   universal_video_controls
+  volume_controller
   window_manager
 )
 
