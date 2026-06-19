@@ -22,7 +22,9 @@ Widget CupertinoVideoControls(VideoControlsState state) {
   );
 }
 
-/// [MaterialDesktopVideoControlsThemeData] available in this [context].
+/// [CupertinoVideoControlsThemeData] available in this [context].
+// Kept for parity with the Material controls; not currently referenced.
+// ignore: unused_element
 CupertinoVideoControlsThemeData _theme(BuildContext context) =>
     FullscreenInheritedWidget.maybeOf(context) == null
         ? CupertinoVideoControlsTheme.maybeOf(context)?.normal ??
