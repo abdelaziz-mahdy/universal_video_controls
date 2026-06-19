@@ -1,3 +1,9 @@
+## 2.0.0
+
+- feat: add Swift Package Manager support for iOS and macOS (CocoaPods still supported).
+- **BREAKING**: raise minimum Flutter to `>=3.41.0` and Dart SDK to `^3.11.0`, required by the Swift Package Manager `FlutterFramework` integration.
+- **BREAKING**: raise iOS deployment target from 12.0 to 13.0 (Flutter no longer supports iOS 12).
+
 ## 1.1.1
 
 - chore: updated window_mananger from ^0.4.0 to ^0.5.1  
