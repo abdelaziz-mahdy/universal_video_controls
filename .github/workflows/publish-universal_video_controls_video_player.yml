@@ -1,0 +1,22 @@
+name: Publish universal_video_controls_video_player to pub.dev
+
+# Publishes the universal_video_controls_video_player package when a tag like
+# `universal_video_controls_video_player-v1.0.8` is pushed. Uses pub.dev's
+# official reusable workflow (OIDC, no PUB_TOKEN secret needed).
+#
+# pub.dev setup (Admin -> automated publishing):
+#   Repository:  abdelaziz-mahdy/universal_video_controls
+#   Tag pattern: universal_video_controls_video_player-v{{version}}
+
+on:
+  push:
+    tags:
+      - "universal_video_controls_video_player-v[0-9]+.[0-9]+.[0-9]+*"
+
+jobs:
+  publish:
+    permissions:
+      id-token: write # Required for authentication using OIDC
+    uses: dart-lang/setup-dart/.github/workflows/publish.yml@v1
+    with:
+      working-directory: universal_video_controls_video_player

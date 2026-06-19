@@ -1,0 +1,24 @@
+name: Publish universal_video_controls to pub.dev
+
+# Publishes the universal_video_controls package when a tag like
+# `universal_video_controls-v2.0.0` is pushed. Uses pub.dev's official
+# reusable workflow, which provisions the OIDC token and sets up both the Dart
+# and Flutter SDKs so it can publish Flutter packages. No PUB_TOKEN secret is
+# needed — only the `id-token: write` permission.
+#
+# pub.dev setup (Admin -> automated publishing):
+#   Repository:  abdelaziz-mahdy/universal_video_controls
+#   Tag pattern: universal_video_controls-v{{version}}
+
+on:
+  push:
+    tags:
+      - "universal_video_controls-v[0-9]+.[0-9]+.[0-9]+*"
+
+jobs:
+  publish:
+    permissions:
+      id-token: write # Required for authentication using OIDC
+    uses: dart-lang/setup-dart/.github/workflows/publish.yml@v1
+    with:
+      working-directory: universal_video_controls
