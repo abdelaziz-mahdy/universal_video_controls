@@ -1,0 +1,75 @@
+name: Publish to pub.dev
+
+# Publishes a monorepo package to pub.dev when its release tag is pushed.
+#
+# Each package has its own, package-prefixed tag so releases are unambiguous and
+# the two packages can be versioned independently:
+#   - universal_video_controls-v2.0.0              -> publishes universal_video_controls
+#   - universal_video_controls_video_player-v1.0.8 -> publishes universal_video_controls_video_player
+#
+# Publishing uses pub.dev's OIDC automated publishing — no PUB_TOKEN secret is
+# required, only the `id-token: write` permission below.
+#
+# One-time setup on pub.dev for EACH package (Admin tab -> automated publishing):
+#   "Enable publishing from GitHub Actions"
+#     Repository:  abdelaziz-mahdy/universal_video_controls
+#     Tag pattern: universal_video_controls-v{{version}}
+#                  (and universal_video_controls_video_player-v{{version}} for the other)
+#
+# A custom job (rather than dart-lang/setup-dart's reusable publish.yml) is used
+# because these are Flutter packages: `dart pub publish` cannot resolve the
+# `flutter` SDK dependency without the Flutter SDK installed.
+
+on:
+  push:
+    tags:
+      - "universal_video_controls-v[0-9]+.[0-9]+.[0-9]+*"
+      - "universal_video_controls_video_player-v[0-9]+.[0-9]+.[0-9]+*"
+
+jobs:
+  publish:
+    name: Publish tagged package to pub.dev
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write # required for OIDC authentication with pub.dev
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: "stable"
+          cache: true
+
+      - name: Resolve package and version from tag
+        id: target
+        run: |
+          set -euo pipefail
+          tag="$GITHUB_REF_NAME"
+          package="${tag%-v*}"   # strip "-v<version>" suffix -> package directory
+          version="${tag##*-v}"  # strip everything up to "-v"  -> version
+          echo "Tag '$tag' -> package '$package', version '$version'"
+          if [ ! -f "$package/pubspec.yaml" ]; then
+            echo "::error::No package directory '$package' for tag '$tag'." >&2
+            exit 1
+          fi
+          pubspec_version="$(grep -m1 '^version:' "$package/pubspec.yaml" | awk '{print $2}' | tr -d '\r')"
+          if [ "$pubspec_version" != "$version" ]; then
+            echo "::error::Tag version '$version' != $package pubspec version '$pubspec_version'." >&2
+            exit 1
+          fi
+          echo "package=$package" >> "$GITHUB_OUTPUT"
+
+      - name: Install dependencies
+        working-directory: ${{ steps.target.outputs.package }}
+        run: flutter pub get
+
+      - name: Validate package (dry run)
+        working-directory: ${{ steps.target.outputs.package }}
+        run: flutter pub publish --dry-run
+
+      - name: Publish to pub.dev
+        working-directory: ${{ steps.target.outputs.package }}
+        run: flutter pub publish --force
