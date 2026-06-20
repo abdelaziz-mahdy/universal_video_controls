@@ -123,54 +123,57 @@ class _CustomMobileControlsState extends State<CustomMobileControls> {
             ),
           ],
         ),
-        body: SizedBox.expand(
-          child: horizontal
-              ? Row(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Expanded(
-                      flex: 3,
-                      child: Container(
-                        alignment: Alignment.center,
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Expanded(
-                              child: Card(
-                                elevation: 8.0,
-                                clipBehavior: Clip.antiAlias,
-                                margin: const EdgeInsets.all(32.0),
-                                child: VideoControls(
-                                  player:
-                                      VideoPlayerControlsWrapper(_controller),
-                                ),
+        body: !_isInitialized
+            ? Center(child: CircularProgressIndicator())
+            : SizedBox.expand(
+                child: horizontal
+                    ? Row(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Expanded(
+                            flex: 3,
+                            child: Container(
+                              alignment: Alignment.center,
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Expanded(
+                                    child: Card(
+                                      elevation: 8.0,
+                                      clipBehavior: Clip.antiAlias,
+                                      margin: const EdgeInsets.all(32.0),
+                                      child: VideoControls(
+                                        player: VideoPlayerControlsWrapper(
+                                            _controller),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 32.0),
+                                ],
                               ),
                             ),
-                            const SizedBox(height: 32.0),
-                          ],
-                        ),
+                          ),
+                          const VerticalDivider(width: 1.0, thickness: 1.0),
+                          Expanded(
+                            flex: 1,
+                            child: ListView(
+                              children: items,
+                            ),
+                          ),
+                        ],
+                      )
+                    : ListView(
+                        children: [
+                          VideoControls(
+                            player: VideoPlayerControlsWrapper(_controller),
+                            width: MediaQuery.of(context).size.width,
+                            height:
+                                MediaQuery.of(context).size.width * 9.0 / 16.0,
+                          ),
+                          ...items,
+                        ],
                       ),
-                    ),
-                    const VerticalDivider(width: 1.0, thickness: 1.0),
-                    Expanded(
-                      flex: 1,
-                      child: ListView(
-                        children: items,
-                      ),
-                    ),
-                  ],
-                )
-              : ListView(
-                  children: [
-                    VideoControls(
-                      player: VideoPlayerControlsWrapper(_controller),
-                      width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.width * 9.0 / 16.0,
-                    ),
-                    ...items,
-                  ],
-                ),
-        ),
+              ),
       ),
     );
   }

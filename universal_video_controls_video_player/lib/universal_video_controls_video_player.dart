@@ -1,4 +1,4 @@
-library universal_video_controls_video_player;
+library;
 
 import 'dart:async';
 import 'package:flutter/material.dart';
