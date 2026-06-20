@@ -8,6 +8,8 @@ scripts:
     exec: dart analyze .
   pub_get:
     run: melos exec -- flutter pub get
+  format:
+    run: melos exec -- dart format . && dart fix --apply .
   upgrade_major_versions:
     run: |
       melos exec -- flutter pub upgrade --major-versions

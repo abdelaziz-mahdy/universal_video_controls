@@ -68,6 +68,12 @@ class _CustomDesktopSettingsButtonState
 
   @override
   Widget build(BuildContext context) {
+    if (!_isInitialized) {
+      return const Center(
+        child: CircularProgressIndicator(),
+      );
+    }
+
     final horizontal =
         MediaQuery.of(context).size.width > MediaQuery.of(context).size.height;
     return MaterialVideoControlsTheme(

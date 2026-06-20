@@ -50,6 +50,11 @@ class _FullScreenPlayerState extends State<FullScreenPlayer> {
 
   @override
   Widget build(BuildContext context) {
+    if (!_isInitialized) {
+      return const Center(
+        child: CircularProgressIndicator(),
+      );
+    }
     return // Wrap [Video] widget with [MaterialVideoControlsTheme].
         MaterialVideoControlsTheme(
             normal: MaterialVideoControlsThemeData(
