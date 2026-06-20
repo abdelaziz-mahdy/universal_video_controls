@@ -1,3 +1,8 @@
+## 2.0.1
+
+- chore: guard example screens with an initialization check (fixes analyzer `unused_field` warnings; avoids rendering uninitialized controllers).
+- chore: add a `format` melos script.
+
 ## 2.0.0
 
 - feat: add Swift Package Manager support for iOS and macOS (CocoaPods still supported).

@@ -1,3 +1,8 @@
+## 1.0.8
+
+- chore: remove unnecessary library name (`library;`) to fix the `unnecessary_library_name` lint.
+- chore: bump `video_player` constraint to `^2.7.2`.
+
 ## 1.0.7
 
 - Implement update position forcer to make subtitles show on time (instead of video_player 500 milliseconds delay) it now has a delay of 100 milliseconds
