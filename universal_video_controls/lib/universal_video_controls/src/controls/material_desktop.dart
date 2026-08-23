@@ -373,6 +373,10 @@ class _MaterialDesktopVideoControlsState
 
   DateTime last = DateTime.now();
 
+  /// Global position of the press that [onTap] will act on; see the
+  /// play/pause [GestureDetector] for why the work is deferred to [onTap].
+  Offset? _playPauseTapPosition;
+
   final List<StreamSubscription> subscriptions = [];
 
   double get subtitleVerticalShiftOffset =>
@@ -605,13 +609,28 @@ class _MaterialDesktopVideoControlsState
                     }
                   : null,
               child: GestureDetector(
+                // Record the press position only. The actual play/pause runs
+                // from [onTap], which fires only once this recognizer has WON
+                // the gesture arena. [onTapDown] is not safe for side effects
+                // here: Flutter fires it on the 100ms deadline even when a
+                // descendant (any button in the control bars — this detector
+                // is their ancestor) goes on to win the arena, so a slightly
+                // slow click on "next episode" used to also toggle playback.
                 onTapDown: !_theme(context).playAndPauseOnTap
                     ? null
                     : (TapDownDetails details) {
+                        _playPauseTapPosition = details.globalPosition;
+                      },
+                onTap: !_theme(context).playAndPauseOnTap
+                    ? null
+                    : () {
+                        final Offset? globalPosition = _playPauseTapPosition;
+                        _playPauseTapPosition = null;
+                        if (globalPosition == null) return;
                         final RenderBox box =
                             context.findRenderObject() as RenderBox;
                         final Offset localPosition =
-                            box.globalToLocal(details.globalPosition);
+                            box.globalToLocal(globalPosition);
                         const double tapPadding = 10.0;
                         if (!mount ||
                             localPosition.dy <

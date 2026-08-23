@@ -1,3 +1,7 @@
+## 2.0.2
+
+- fix(desktop): play/pause on click now runs from `onTap` (arena win) instead of `onTapDown`. `onTapDown` fired on the 100ms tap deadline even when a control-bar button went on to win the gesture, so a slow click on any button also toggled playback.
+
 ## 2.0.1
 
 - chore: guard example screens with an initialization check (fixes analyzer `unused_field` warnings; avoids rendering uninitialized controllers).
