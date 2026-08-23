@@ -1,5 +1,6 @@
 ## 2.0.2
 
+- fix: play/pause and volume buttons now follow a player swapped in place via `VideoControlsState.update(player:)` (they stayed subscribed to the first player's closed streams, so the icon froze after "next episode"), and resolve the player at press time rather than at build time.
 - fix(desktop): play/pause on click now runs from `onTap` (arena win) instead of `onTapDown`. `onTapDown` fired on the 100ms tap deadline even when a control-bar button went on to win the gesture, so a slow click on any button also toggled playback.
 
 ## 2.0.1

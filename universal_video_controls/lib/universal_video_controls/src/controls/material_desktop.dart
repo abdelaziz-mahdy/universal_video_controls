@@ -1163,6 +1163,11 @@ class MaterialDesktopPlayOrPauseButtonState
 
   StreamSubscription<bool>? subscription;
 
+  /// The player the current [subscription] listens to. Apps swap the player in
+  /// place (next episode) via [VideoControlsState.update]; the old stream is
+  /// closed and this button must follow the new one or its icon freezes.
+  AbstractPlayer? _player;
+
   @override
   void setState(VoidCallback fn) {
     if (mounted) {
@@ -1173,13 +1178,19 @@ class MaterialDesktopPlayOrPauseButtonState
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    subscription ??= player(context).stream.playing.listen((event) {
-      if (event) {
-        animation.forward();
-      } else {
-        animation.reverse();
-      }
-    });
+    final current = player(context);
+    if (!identical(_player, current)) {
+      subscription?.cancel();
+      _player = current;
+      animation.value = current.state.playing ? 1 : 0;
+      subscription = current.stream.playing.listen((event) {
+        if (event) {
+          animation.forward();
+        } else {
+          animation.reverse();
+        }
+      });
+    }
   }
 
   @override
@@ -1192,7 +1203,7 @@ class MaterialDesktopPlayOrPauseButtonState
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      onPressed: player(context).playOrPause,
+      onPressed: () => player(context).playOrPause(),
       iconSize: widget.iconSize ?? _theme(context).buttonBarButtonSize,
       color: widget.iconColor ?? _theme(context).buttonBarButtonColor,
       icon: AnimatedIcon(
@@ -1402,14 +1413,23 @@ class MaterialDesktopVolumeButtonState
     }
   }
 
+  /// See [MaterialDesktopPlayOrPauseButtonState._player].
+  AbstractPlayer? _player;
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    subscription ??= player(context).stream.volume.listen((event) {
-      setState(() {
-        volume = event;
+    final current = player(context);
+    if (!identical(_player, current)) {
+      subscription?.cancel();
+      _player = current;
+      volume = current.state.volume;
+      subscription = current.stream.volume.listen((event) {
+        setState(() {
+          volume = event;
+        });
       });
-    });
+    }
   }
 
   @override
