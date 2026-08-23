@@ -1,3 +1,7 @@
+## 1.0.9
+
+- chore: allow `universal_video_controls` 2.x (`>=1.0.10 <3.0.0`); 2.0.0 only raised the SDK floor.
+
 ## 1.0.8
 
 - chore: remove unnecessary library name (`library;`) to fix the `unnecessary_library_name` lint.

@@ -373,6 +373,10 @@ class _MaterialDesktopVideoControlsState
 
   DateTime last = DateTime.now();
 
+  /// Global position of the press that [onTap] will act on; see the
+  /// play/pause [GestureDetector] for why the work is deferred to [onTap].
+  Offset? _playPauseTapPosition;
+
   final List<StreamSubscription> subscriptions = [];
 
   double get subtitleVerticalShiftOffset =>
@@ -605,13 +609,28 @@ class _MaterialDesktopVideoControlsState
                     }
                   : null,
               child: GestureDetector(
+                // Record the press position only. The actual play/pause runs
+                // from [onTap], which fires only once this recognizer has WON
+                // the gesture arena. [onTapDown] is not safe for side effects
+                // here: Flutter fires it on the 100ms deadline even when a
+                // descendant (any button in the control bars — this detector
+                // is their ancestor) goes on to win the arena, so a slightly
+                // slow click on "next episode" used to also toggle playback.
                 onTapDown: !_theme(context).playAndPauseOnTap
                     ? null
                     : (TapDownDetails details) {
+                        _playPauseTapPosition = details.globalPosition;
+                      },
+                onTap: !_theme(context).playAndPauseOnTap
+                    ? null
+                    : () {
+                        final Offset? globalPosition = _playPauseTapPosition;
+                        _playPauseTapPosition = null;
+                        if (globalPosition == null) return;
                         final RenderBox box =
                             context.findRenderObject() as RenderBox;
                         final Offset localPosition =
-                            box.globalToLocal(details.globalPosition);
+                            box.globalToLocal(globalPosition);
                         const double tapPadding = 10.0;
                         if (!mount ||
                             localPosition.dy <
@@ -1144,6 +1163,11 @@ class MaterialDesktopPlayOrPauseButtonState
 
   StreamSubscription<bool>? subscription;
 
+  /// The player the current [subscription] listens to. Apps swap the player in
+  /// place (next episode) via [VideoControlsState.update]; the old stream is
+  /// closed and this button must follow the new one or its icon freezes.
+  AbstractPlayer? _player;
+
   @override
   void setState(VoidCallback fn) {
     if (mounted) {
@@ -1154,13 +1178,19 @@ class MaterialDesktopPlayOrPauseButtonState
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    subscription ??= player(context).stream.playing.listen((event) {
-      if (event) {
-        animation.forward();
-      } else {
-        animation.reverse();
-      }
-    });
+    final current = player(context);
+    if (!identical(_player, current)) {
+      subscription?.cancel();
+      _player = current;
+      animation.value = current.state.playing ? 1 : 0;
+      subscription = current.stream.playing.listen((event) {
+        if (event) {
+          animation.forward();
+        } else {
+          animation.reverse();
+        }
+      });
+    }
   }
 
   @override
@@ -1173,7 +1203,7 @@ class MaterialDesktopPlayOrPauseButtonState
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      onPressed: player(context).playOrPause,
+      onPressed: () => player(context).playOrPause(),
       iconSize: widget.iconSize ?? _theme(context).buttonBarButtonSize,
       color: widget.iconColor ?? _theme(context).buttonBarButtonColor,
       icon: AnimatedIcon(
@@ -1383,14 +1413,23 @@ class MaterialDesktopVolumeButtonState
     }
   }
 
+  /// See [MaterialDesktopPlayOrPauseButtonState._player].
+  AbstractPlayer? _player;
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    subscription ??= player(context).stream.volume.listen((event) {
-      setState(() {
-        volume = event;
+    final current = player(context);
+    if (!identical(_player, current)) {
+      subscription?.cancel();
+      _player = current;
+      volume = current.state.volume;
+      subscription = current.stream.volume.listen((event) {
+        setState(() {
+          volume = event;
+        });
       });
-    });
+    }
   }
 
   @override
