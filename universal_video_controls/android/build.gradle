@@ -29,7 +29,7 @@ android {
         namespace = "com.example.universal_video_controls"
     }
 
-    compileSdk = 34
+    compileSdk = Math.max(flutter.compileSdkVersion, 34)
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
