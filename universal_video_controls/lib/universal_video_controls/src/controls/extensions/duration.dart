@@ -14,6 +14,12 @@ extension DurationExtension on Duration {
     return this;
   }
 
+  /// Whether this [Duration] marks a live stream.
+  ///
+  /// Players report live streams with an unbounded duration (fvp uses the
+  /// largest 64-bit microsecond value), so anything past 100 years is live.
+  bool get isLive => this >= const Duration(days: 36500);
+
   /// Returns a [String] representation of [Duration].
   String label({Duration? reference}) {
     reference ??= this;
