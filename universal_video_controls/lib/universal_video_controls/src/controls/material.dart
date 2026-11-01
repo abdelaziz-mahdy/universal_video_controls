@@ -1659,6 +1659,8 @@ class MaterialSeekBarState extends State<MaterialSeekBar> {
 
   @override
   Widget build(BuildContext context) {
+    // A live stream has no timeline to seek on.
+    if (duration.isLive) return const SizedBox.shrink();
     return Container(
       clipBehavior: Clip.none,
       margin: _theme(context).seekBarMargin,
@@ -2032,7 +2034,9 @@ class MaterialPositionIndicatorState extends State<MaterialPositionIndicator> {
   @override
   Widget build(BuildContext context) {
     return Text(
-      '${position.label(reference: duration)} / ${duration.label(reference: duration)}',
+      duration.isLive
+          ? 'LIVE • ${position.label()}'
+          : '${position.label(reference: duration)} / ${duration.label(reference: duration)}',
       style: widget.style ??
           TextStyle(
             height: 1.0,
