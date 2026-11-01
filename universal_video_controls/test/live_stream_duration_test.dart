@@ -95,8 +95,9 @@ Future<void> _tearDown(WidgetTester tester, _FakePlayer player) async {
 
 void main() {
   group('mobile controls', () {
-    testWidgets('live stream shows LIVE and elapsed time, no seek bar',
-        (tester) async {
+    testWidgets('live stream shows LIVE and elapsed time, no seek bar', (
+      tester,
+    ) async {
       final player = await _pumpMobile(tester, _fvpLiveDuration);
 
       expect(find.text('LIVE • 00:18'), findsOneWidget);
@@ -111,8 +112,9 @@ void main() {
       await _tearDown(tester, player);
     });
 
-    testWidgets('regular video keeps position / duration and seek bar',
-        (tester) async {
+    testWidgets('regular video keeps position / duration and seek bar', (
+      tester,
+    ) async {
       final player = await _pumpMobile(tester, const Duration(minutes: 1));
 
       expect(find.text('00:18 / 01:00'), findsOneWidget);
@@ -123,8 +125,9 @@ void main() {
   });
 
   group('desktop controls', () {
-    testWidgets('live stream shows LIVE and elapsed time, no seek bar',
-        (tester) async {
+    testWidgets('live stream shows LIVE and elapsed time, no seek bar', (
+      tester,
+    ) async {
       final player = await _pumpDesktop(tester, _fvpLiveDuration);
 
       expect(find.text('LIVE • 00:18'), findsOneWidget);
@@ -138,8 +141,9 @@ void main() {
       await _tearDown(tester, player);
     });
 
-    testWidgets('regular video keeps position / duration and seek bar',
-        (tester) async {
+    testWidgets('regular video keeps position / duration and seek bar', (
+      tester,
+    ) async {
       final player = await _pumpDesktop(tester, const Duration(minutes: 1));
 
       expect(find.text('00:18 / 01:00'), findsOneWidget);
